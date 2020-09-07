@@ -1,11 +1,12 @@
 "codes"
 {
-	20: "OK"
-	30: "Redirect to another port"
-	40: "Unsupportable operation"
-	41: "Incorrect payload scheme"
-	42: "Name already exists"
-	43: "Can't sub to non-exist module name"
+	20: "OK",
+	30: "Redirect to another port",
+	40: "Unsupportable operation",
+	41: "Incorrect payload scheme",
+	42: "Name already exists",
+	43: "Can't sub to non-exist module name",
+	44: "Can't selfsub"
 }
 
 "-----------------------------------------"
@@ -72,7 +73,7 @@
 	"operation": "subscribe",
 	"payload":
 		{
-			"names": ["sec", "auth"]
+			"names": ["sec", "auth", "BD"]
 		}
 }
 
@@ -90,8 +91,17 @@
 	"operation": "subscribe",
 	"payload": 
 		{
-			"code": 43
+			"code": 43,
 			"names": ["sec"]
+		}
+}
+
+"broker-module"
+{
+	"operation": "subscribe",
+	"payload": 
+		{
+			"code": 44
 		}
 }
 

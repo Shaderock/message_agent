@@ -1,0 +1,129 @@
+"codes"
+{
+	20: "OK"
+	30: "Redirect to another port"
+	40: "Unsupportable operation"
+	41: "Incorrect payload scheme"
+	42: "Name already exists"
+	43: "Can't sub to non-exist module name"
+}
+
+"-----------------------------------------"
+"-----------------------------------------"
+
+"module-broker"
+{
+	"operation": "handshake",
+	"payload": 
+		{
+			"name": "BD"
+		}
+}
+
+"broker-module"
+{
+	"operation": "handshake",
+	"payload":
+		{
+			"code": 20
+		}
+}
+
+"broker-module"
+{
+	"operation": "handshake",
+	"payload": 
+		{
+			"code": 30,
+			"port": 17002
+		}
+}
+
+"broker-module"
+{
+	"operation": "handshake",
+	"payload": 
+		{
+			"code": 42
+		}
+}
+
+"-----------------------------------------"
+
+"module-broker"
+{
+	"operation": "get-modules"
+}
+
+"broker-module"
+{
+	"operation": "get-modules",
+	"payload":
+		{
+			"code": 20,
+			"names": ["one", "sec", "auth"]
+		}
+}
+
+"-----------------------------------------"
+
+"module-broker"
+{
+	"operation": "subscribe",
+	"payload":
+		{
+			"names": ["sec", "auth"]
+		}
+}
+
+"broker-module"
+{
+	"operation": "subscribe",
+	"payload": 
+		{
+			"code": 20
+		}
+}
+
+"broker-module"
+{
+	"operation": "subscribe",
+	"payload": 
+		{
+			"code": 43
+			"names": ["sec"]
+		}
+}
+
+"-----------------------------------------"
+
+"module-broker"
+{
+	"operation": "notify",
+	"payload":
+		{
+			"message": "Wow, i have subscribers! ¯\_(ツ)_/¯"
+		}
+}
+
+"broker-module"
+{
+	"operation": "notify",
+	"payload": 
+		{
+			"name": "BD",
+			"message": "Wow, i have subscribers! ¯\_(ツ)_/¯"
+		}
+}
+
+"-----------------------------------------"
+
+"module-broker"
+{
+	"operation": "close"
+}
+
+"broker-module"
+{
+	"operation": "close"
+}

@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ff4dd18a-ea11-48b5-989d-9ae2d1e91ee7" name="Default Changelist" comment="" />
+    <list default="true" id="ff4dd18a-ea11-48b5-989d-9ae2d1e91ee7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1hBj6s0ZFtZozcWv5S9jHReO0Ko" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -15,6 +21,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="project.structure.last.edited" value="Project" />
@@ -31,17 +38,49 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1599491206778</updated>
-      <workItem from="1599491207976" duration="9000" />
+      <workItem from="1599491207976" duration="521000" />
     </task>
+    <task id="LOCAL-00001" summary="finish initialization">
+      <created>1599491511390</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1599491511390</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="finish initialization" />
+    <option name="LAST_COMMIT_MESSAGE" value="finish initialization" />
   </component>
   <component name="WindowStateProjectService">
     <state x="312" y="35" key="#Project_Structure" timestamp="1599491215788">
       <screen x="0" y="0" width="1920" height="1132" />
     </state>
     <state x="312" y="35" key="#Project_Structure/0.0.1920.1132@0.0.1920.1132" timestamp="1599491215788" />
+    <state x="669" y="345" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1599491464108">
+      <screen x="0" y="0" width="1920" height="1132" />
+    </state>
+    <state x="669" y="345" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1132@0.0.1920.1132" timestamp="1599491464108" />
+    <state x="239" y="75" key="CommitChangelistDialog2" timestamp="1599491510639">
+      <screen x="0" y="0" width="1920" height="1132" />
+    </state>
+    <state x="239" y="75" key="CommitChangelistDialog2/0.0.1920.1132@0.0.1920.1132" timestamp="1599491510639" />
+    <state x="784" y="438" key="Github.ShareDialog" timestamp="1599491349361">
+      <screen x="0" y="0" width="1920" height="1132" />
+    </state>
+    <state x="784" y="438" key="Github.ShareDialog/0.0.1920.1132@0.0.1920.1132" timestamp="1599491349361" />
+    <state x="442" y="198" key="Github.UntrackedFilesDialog" timestamp="1599491356594">
+      <screen x="0" y="0" width="1920" height="1132" />
+    </state>
+    <state x="442" y="198" key="Github.UntrackedFilesDialog/0.0.1920.1132@0.0.1920.1132" timestamp="1599491356594" />
+    <state x="452" y="233" key="Vcs.Push.Dialog.v2" timestamp="1599491516242">
+      <screen x="0" y="0" width="1920" height="1132" />
+    </state>
+    <state x="452" y="233" key="Vcs.Push.Dialog.v2/0.0.1920.1132@0.0.1920.1132" timestamp="1599491516242" />
   </component>
 </project>

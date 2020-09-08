@@ -19,14 +19,15 @@ namespace module
                 if (ip.Equals("localhost"))
                     ip = "127.0.0.1";
 
-                IPHostEntry host = Dns.GetHostEntry(ip);
-                IPAddress ipAddress = host.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
+                //IPHostEntry host = Dns.GetHostEntry(ip);
+                //IPAddress ipAddress = host.AddressList[0];
+                //IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
-                socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                //socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
-                //socket.Connect(ip, port);
-                socket.Connect(remoteEP);
+                socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+                socket.Connect(ip, port);
+                //socket.Connect(remoteEP);
 
                 byte[] msg = Encoding.UTF8.GetBytes(Parser.RequestSerialize("handshake", new { name }));
 
@@ -35,7 +36,7 @@ namespace module
                 socket.Shutdown(SocketShutdown.Both);
                 socket.Close();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 socket = null;
                 return false;

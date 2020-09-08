@@ -21,9 +21,20 @@ namespace module.UserControls
             InitializeComponent();
         }
 
-        private void buttonConnect_Click(object sender, EventArgs e)
+        private async void buttonConnect_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Молодец!", "Умница", MessageBoxButtons.OK);
+            bool result = false;
+            await Task.Run(() => result = Request.Connect(textBoxIP.Text, int.Parse(textBoxPort.Text),
+                textBoxModuleName.Text));
+            
+            if (result)
+            {
+                MessageBox.Show("Всё ок");
+            }
+            else
+            {
+                MessageBox.Show("У тебя проблемы");
+            }
         }
 
         private void labelSwitch_Click(object sender, EventArgs e)

@@ -6,6 +6,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class PayloadProtocol extends Protocol{
+public class PayloadProtocol extends Protocol{
     private Payload payload;
 }

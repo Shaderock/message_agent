@@ -1,4 +1,5 @@
-﻿using System;
+﻿using module.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,8 @@ namespace module
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            MainForm.AddUserControl(new ConnectUserControl());
+            Application.Run(MainForm.GetMainForm());
         }
     }
 }

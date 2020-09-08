@@ -3,7 +3,6 @@ C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\
 C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\bin\Debug\module.pdb
 C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\bin\Debug\Newtonsoft.Json.dll
 C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\bin\Debug\Newtonsoft.Json.xml
-C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\obj\Debug\module.csprojAssemblyReference.cache
 C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\obj\Debug\module.MainForm.resources
 C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\obj\Debug\module.Properties.Resources.resources
 C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\obj\Debug\module.csproj.GenerateResource.cache

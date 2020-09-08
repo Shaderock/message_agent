@@ -82,7 +82,7 @@ namespace module
             UserControl topUserControl = mainForm.getTopStack();
             if (topUserControl != null)
             {
-                topUserControl.Size = mainForm.Size;
+                topUserControl.Size = mainForm.ClientSize;
             }
         }
 

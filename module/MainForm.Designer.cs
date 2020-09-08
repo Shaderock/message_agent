@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(671, 467);
             this.MinimumSize = new System.Drawing.Size(555, 455);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Module";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);

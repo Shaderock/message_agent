@@ -39,7 +39,7 @@
             this.textBoxPort = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.labelModule = new System.Windows.Forms.Label();
-            this.textBoxModule = new System.Windows.Forms.TextBox();
+            this.textBoxModuleName = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.labelIP = new System.Windows.Forms.Label();
             this.textBoxIP = new System.Windows.Forms.TextBox();
@@ -178,6 +178,7 @@
             this.textBoxPort.TabIndex = 1;
             this.textBoxPort.Text = "17001";
             this.textBoxPort.Visible = false;
+            this.textBoxPort.TextChanged += new System.EventHandler(this.textBoxPort_TextChanged);
             // 
             // tableLayoutPanel5
             // 
@@ -185,7 +186,7 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.Controls.Add(this.labelModule, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.textBoxModule, 1, 0);
+            this.tableLayoutPanel5.Controls.Add(this.textBoxModuleName, 1, 0);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -204,13 +205,15 @@
             this.labelModule.TabIndex = 0;
             this.labelModule.Text = "Имя модуля";
             // 
-            // textBoxModule
+            // textBoxModuleName
             // 
-            this.textBoxModule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxModule.Location = new System.Drawing.Point(105, 7);
-            this.textBoxModule.Name = "textBoxModule";
-            this.textBoxModule.Size = new System.Drawing.Size(96, 20);
-            this.textBoxModule.TabIndex = 1;
+            this.textBoxModuleName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxModuleName.Location = new System.Drawing.Point(105, 7);
+            this.textBoxModuleName.MaxLength = 30;
+            this.textBoxModuleName.Name = "textBoxModuleName";
+            this.textBoxModuleName.Size = new System.Drawing.Size(96, 20);
+            this.textBoxModuleName.TabIndex = 1;
+            this.textBoxModuleName.TextChanged += new System.EventHandler(this.textBoxModule_TextChanged);
             // 
             // tableLayoutPanel6
             // 
@@ -233,9 +236,9 @@
             this.labelIP.AutoSize = true;
             this.labelIP.Location = new System.Drawing.Point(3, 11);
             this.labelIP.Name = "labelIP";
-            this.labelIP.Size = new System.Drawing.Size(17, 13);
+            this.labelIP.Size = new System.Drawing.Size(29, 13);
             this.labelIP.TabIndex = 0;
-            this.labelIP.Text = "IP";
+            this.labelIP.Text = "IPv4";
             this.labelIP.Visible = false;
             // 
             // textBoxIP
@@ -247,6 +250,7 @@
             this.textBoxIP.TabIndex = 1;
             this.textBoxIP.Text = "89.28.116.199";
             this.textBoxIP.Visible = false;
+            this.textBoxIP.TextChanged += new System.EventHandler(this.textBoxIP_TextChanged);
             // 
             // labelSwitch
             // 
@@ -293,7 +297,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Label labelModule;
-        private System.Windows.Forms.TextBox textBoxModule;
+        private System.Windows.Forms.TextBox textBoxModuleName;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.Label labelPort;
         private System.Windows.Forms.TextBox textBoxPort;

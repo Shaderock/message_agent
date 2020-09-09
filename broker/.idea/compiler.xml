@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="broker" target="1.5" />
+      <module name="broker" target="7" />
       <module name="maven" target="1.5" />
     </bytecodeTargetLevel>
   </component>

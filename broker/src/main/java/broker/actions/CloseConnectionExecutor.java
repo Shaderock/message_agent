@@ -1,9 +1,18 @@
 package broker.actions;
 
-import java.io.PrintWriter;
+import broker.models.payload.Payload;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-public class CloseConnectionExecutor implements ProtocolTaskExecutor{
-    public void execute(PrintWriter moduleSocketOutput) {
+import java.io.PrintWriter;
+import java.net.Socket;
+
+public class CloseConnectionExecutor extends ProtocolTaskExecutor {
+    public CloseConnectionExecutor(Payload payload) {
+        super(payload);
+    }
+
+    public void execute(Socket moduleSocket, PrintWriter moduleOutput) {
         // todo
     }
 }

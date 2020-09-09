@@ -1,7 +1,16 @@
 package broker.actions;
 
-import java.io.PrintWriter;
+import broker.models.payload.Payload;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-public interface ProtocolTaskExecutor {
-    void execute(PrintWriter moduleSocketOutput);
+import java.io.PrintWriter;
+import java.net.Socket;
+
+@Data
+@AllArgsConstructor
+public abstract class ProtocolTaskExecutor {
+    private Payload payload;
+
+    abstract void execute(Socket moduleSocket, PrintWriter moduleOutput);
 }

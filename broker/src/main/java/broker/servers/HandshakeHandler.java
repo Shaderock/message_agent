@@ -3,11 +3,12 @@ package broker.servers;
 import broker.actions.HandshakeExecutor;
 import broker.actions.ProtocolTaskExecutorFactory;
 import broker.exceptions.WrongProtocolSyntaxException;
-import broker.models.protocols.PayloadProtocol;
-import broker.models.protocols.Protocol;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import broker.models.payload.Code;
+import broker.models.payload.CodePayload;
+import broker.models.protocols.Operation;
+import broker.utils.ResponseGenerator;
 
+import javax.naming.OperationNotSupportedException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,6 +17,7 @@ import java.net.Socket;
 
 public class HandshakeHandler extends Thread {
     private final Socket moduleSocket;
+    private final ResponseGenerator responseGenerator = new ResponseGenerator();
 
     public HandshakeHandler(Socket moduleSocket) {
         this.moduleSocket = moduleSocket;
@@ -35,29 +37,25 @@ public class HandshakeHandler extends Thread {
         PrintWriter out = new PrintWriter(acceptedSocket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(acceptedSocket.getInputStream()));
 
-        StringBuilder request = new StringBuilder();
+        String request = in.readLine();
 
-        String line;
-        while ((line = in.readLine()) != null) {
-            request.append(line);
-        }
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerSubtypes(Protocol.class, PayloadProtocol.class);
+        ProtocolTaskExecutorFactory protocolTaskExecutorFactory = new ProtocolTaskExecutorFactory();
+        HandshakeExecutor handshakeExecutor;
         try {
-            Protocol protocol = objectMapper.readValue(request.toString(), Protocol.class);
-//            Protocol protocol = objectMapper.readValue(request.toString(),
-//                    objectMapper.getTypeFactory().constructCollectionType(Protocol.class, PayloadProtocol.class));
-            ProtocolTaskExecutorFactory protocolTaskExecutorFactory = new ProtocolTaskExecutorFactory();
-            HandshakeExecutor handshakeExecutor =
-                    (HandshakeExecutor) protocolTaskExecutorFactory.createProtocolTaskExecutor(protocol);
-            handshakeExecutor.execute(out);
-        }
-        catch (JsonMappingException e) {
-            System.out.println("Could not deserialize JSON");
+            handshakeExecutor = (HandshakeExecutor) protocolTaskExecutorFactory
+                    .createProtocolTaskExecutor(request);
+            handshakeExecutor.execute(moduleSocket, out);
         }
         catch (WrongProtocolSyntaxException e) {
-            System.out.println("Wrong protocol syntax");
+            e.printStackTrace();
+            responseGenerator.sendResponse(Operation.HANDSHAKE,
+                    new CodePayload(Code.INCORRECT_PAYLOAD_SCHEME), out);
         }
+        catch (OperationNotSupportedException e) {
+            e.printStackTrace();
+            responseGenerator.sendResponse(Operation.HANDSHAKE,
+                    new CodePayload(Code.UNSUPPORTABLE_OPERATION), out);
+        }
+
     }
 }

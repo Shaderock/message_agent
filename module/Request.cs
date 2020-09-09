@@ -24,14 +24,18 @@ namespace module
                 //IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
                 //socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                //socket.Connect(remoteEP);
 
                 socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
                 socket.Connect(ip, port);
-                //socket.Connect(remoteEP);
 
                 byte[] msg = Encoding.UTF8.GetBytes(Parser.RequestSerialize("handshake", new { name }));
 
                 socket.Send(msg);
+
+                socket.Receive(msg);
+
+                string msgString = Encoding.UTF8.GetString(msg);
 
                 socket.Shutdown(SocketShutdown.Both);
                 socket.Close();

@@ -23,7 +23,7 @@ namespace module
             return JsonConvert.SerializeObject(new
             {
                 operation,
-                payload
+                payload = JsonConvert.SerializeObject(payload)
             });
         }
     }

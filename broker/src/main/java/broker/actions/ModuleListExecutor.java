@@ -1,9 +1,16 @@
 package broker.actions;
 
-import java.io.PrintWriter;
+import broker.models.payload.Payload;
 
-public class ModuleListExecutor implements ProtocolTaskExecutor {
-    public void execute(PrintWriter moduleSocketOutput) {
+import java.io.PrintWriter;
+import java.net.Socket;
+
+public class ModuleListExecutor extends ProtocolTaskExecutor {
+    public ModuleListExecutor(Payload payload) {
+        super(payload);
+    }
+
+    public void execute(Socket moduleSocket, PrintWriter moduleOutput) {
         // todo
     }
 }

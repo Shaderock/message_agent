@@ -1,10 +1,13 @@
 package broker.models.payload;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class RedirectPayload implements Payload{
+@Getter
+@Setter
+@AllArgsConstructor
+public class RedirectPayload implements Payload {
     private Code code;
     private int port;
 }

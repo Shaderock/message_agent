@@ -1,18 +1,15 @@
 package broker.servers;
 
-import broker.Context;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 
 public class HandshakeServer extends Thread {
     private boolean isRunning = true;
-    Context context = Context.getInstance();
 
-    public void work() {
+    public void work(int port) {
         this.start();
         try {
-            ServerSocket handshakeServerSocket = new ServerSocket(context.HANDSHAKE_PORT);
+            ServerSocket handshakeServerSocket = new ServerSocket(port);
             while (isRunning) {
                 new HandshakeHandler(handshakeServerSocket.accept()).start();
             }

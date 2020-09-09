@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace module
@@ -27,15 +28,34 @@ namespace module
                 //socket.Connect(remoteEP);
 
                 socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+                //socket.NoDelay = true;
                 socket.Connect(ip, port);
 
-                byte[] msg = Encoding.UTF8.GetBytes(Parser.RequestSerialize("handshake", new { name }));
+                byte[] msg = Encoding.UTF8.GetBytes(string.Concat(Parser.RequestSerialize("handshake", new { name }),
+                    "\n"));
 
-                socket.Send(msg);
+                int a = socket.Send(msg);
+                //socket.Shutdown(SocketShutdown.Send);
 
-                socket.Receive(msg);
+                //Action<object, Socket, byte[]> method = socketRecieve;
+                //object monitorSync = new object();
+                //bool timedOut;
+                //lock (monitorSync)
+                //{
+                //    msg = new byte[1024];
+                //    method.BeginInvoke(monitorSync, socket, msg, null, null);
+                //    timedOut = !Monitor.Wait(monitorSync, TimeSpan.FromSeconds(5));
+                //}
+                //if (timedOut)
+                //{
+                //    method.EndInvoke(null);
+                //    throw new Exception("Response not recieved");
+                //}
 
-                string msgString = Encoding.UTF8.GetString(msg);
+                var msgin = new byte[1024];
+                socket.Receive(msgin);
+
+                string msgString = Encoding.UTF8.GetString(msgin);
 
                 socket.Shutdown(SocketShutdown.Both);
                 socket.Close();
@@ -48,6 +68,16 @@ namespace module
                 
 
             return true;
+        }
+
+        private static void socketRecieve(object monitorSync, Socket socket, byte[] msg)
+        {
+            socket.Receive(msg);
+
+            lock(monitorSync)
+            {
+                Monitor.Pulse(monitorSync);
+            }
         }
     }
 }

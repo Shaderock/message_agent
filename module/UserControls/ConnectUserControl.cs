@@ -24,8 +24,10 @@ namespace module.UserControls
         private async void buttonConnect_Click(object sender, EventArgs e)
         {
             bool result = false;
+            buttonConnect.Enabled = false;
             await Task.Run(() => result = Request.Connect(textBoxIP.Text, int.Parse(textBoxPort.Text),
                 textBoxModuleName.Text));
+            buttonConnect.Enabled = true;
             
             if (result)
             {

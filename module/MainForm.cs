@@ -93,7 +93,12 @@ namespace module
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //throw new NotImplementedException();
+            // TODO when closing connection will be ready
+        }
+
+        public void SetNewModuleName(string newName)
+        {
+            Text = string.Concat($"Module{((newName == null || newName == "") ? "" : " - ")}", newName);
         }
     }
 }

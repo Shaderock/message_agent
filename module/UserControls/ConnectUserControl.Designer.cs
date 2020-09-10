@@ -256,6 +256,7 @@
             // 
             this.labelSwitch.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelSwitch.AutoSize = true;
+            this.labelSwitch.Cursor = System.Windows.Forms.Cursors.Hand;
             this.labelSwitch.Location = new System.Drawing.Point(6, 55);
             this.labelSwitch.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this.labelSwitch.Name = "labelSwitch";

@@ -63,6 +63,16 @@ namespace module.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap back_arrow_icon {
+            get {
+                object obj = ResourceManager.GetObject("back_arrow_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap bell_active_icon {
             get {
                 object obj = ResourceManager.GetObject("bell_active_icon", resourceCulture);

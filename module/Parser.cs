@@ -26,5 +26,10 @@ namespace module
                 payload = JsonConvert.SerializeObject(payload)
             });
         }
+
+        internal static string RequestSerialize(string operation)
+        {
+            return JsonConvert.SerializeObject(new { operation });
+        }
     }
 }

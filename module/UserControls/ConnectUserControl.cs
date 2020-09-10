@@ -27,16 +27,18 @@ namespace module.UserControls
             buttonConnect.Enabled = false;
             await Task.Run(() => result = Request.Connect(textBoxIP.Text, int.Parse(textBoxPort.Text),
                 textBoxModuleName.Text));
-            buttonConnect.Enabled = true;
             
             if (result == null)
             {
-                MessageBox.Show("Всё ок");
+                MainForm.SetNewModuleName(textBoxIP.Text);
+                MainForm.AddUserControl(new MainUserControl());
             }
             else
             {
                 MessageBox.Show(result);
             }
+
+            buttonConnect.Enabled = true;
         }
 
         private void labelSwitch_Click(object sender, EventArgs e)

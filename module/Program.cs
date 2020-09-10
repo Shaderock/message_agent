@@ -17,8 +17,8 @@ namespace module
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            MainForm0.AddUserControl(new ConnectUserControl());
-            Application.Run(MainForm0.GetMainForm());
+            MainForm.AddUserControl(new ConnectUserControl());
+            Application.Run(MainForm.instance);
         }
     }
 }

@@ -88,7 +88,7 @@ namespace module
 
                 byte[] msg = Encoding.UTF8.GetBytes(prepareRequest(Parser.RequestSerialize("handshake", new { name })));
 
-                int a = socket.Send(msg);
+                socket.Send(msg);
 
                 return true;
             }
@@ -97,6 +97,22 @@ namespace module
                 Console.WriteLine(e);
                 return false;
             }
+        }
+
+        public static void Disconnect()
+        {
+            byte[] msg = Encoding.UTF8.GetBytes(prepareRequest(Parser.RequestSerialize("close")));
+
+            socket.Send(msg);
+
+            Close();
+        }
+
+        public static void Close()
+        {
+            socket.Shutdown(SocketShutdown.Both);
+            socket.Close();
+            socket = null;
         }
 
         private static string readResponseTimeout(int millisecondsTimeout)

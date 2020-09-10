@@ -13,7 +13,7 @@ namespace module
 {
     public partial class MainForm : Form
     {
-        private static readonly MainForm mainForm = new MainForm();
+        public static MainForm instance { get; } = new MainForm();
 
         private readonly List<UserControl> stackUserControls = new List<UserControl>();
 
@@ -32,21 +32,16 @@ namespace module
             return null;
         }
 
-        public static MainForm GetMainForm()
-        {
-            return mainForm;
-        }
-
         public static void AddUserControl(UserControl newUserControl)
         {
-            UserControl topUserControl = mainForm.getTopStack();
+            UserControl topUserControl = instance.getTopStack();
             if (topUserControl != null)
             {
                 topUserControl.Visible = false;
             }
 
-            mainForm.stackUserControls.Add(newUserControl);
-            mainForm.Controls.Add(newUserControl);
+            instance.stackUserControls.Add(newUserControl);
+            instance.Controls.Add(newUserControl);
 
             newUserControl.Visible = true;
             newUserControl.Location = new Point(0, 0);
@@ -55,17 +50,17 @@ namespace module
 
         public static void RemoveTopUserControl()
         {
-            if (mainForm.getTopStack() != null)
+            if (instance.getTopStack() != null)
             {
-                UserControl topUserControl = mainForm.getTopStack();
+                UserControl topUserControl = instance.getTopStack();
                 topUserControl.Visible = false;
 
-                mainForm.stackUserControls.Remove(topUserControl);
-                mainForm.Controls.Remove(topUserControl);
+                instance.stackUserControls.Remove(topUserControl);
+                instance.Controls.Remove(topUserControl);
 
-                if (mainForm.getTopStack() != null)
+                if (instance.getTopStack() != null)
                 {
-                    mainForm.getTopStack().Visible = true;
+                    instance.getTopStack().Visible = true;
                     FixTopUserControlSize();
                 }
             }
@@ -79,10 +74,10 @@ namespace module
 
         private static void FixTopUserControlSize()
         {
-            UserControl topUserControl = mainForm.getTopStack();
+            UserControl topUserControl = instance.getTopStack();
             if (topUserControl != null)
             {
-                topUserControl.Size = mainForm.ClientSize;
+                topUserControl.Size = instance.ClientSize;
             }
         }
 
@@ -96,9 +91,24 @@ namespace module
             // TODO when closing connection will be ready
         }
 
-        public void SetNewModuleName(string newName)
+        public static void SetNewModuleName(string newName)
         {
-            Text = string.Concat($"Module{((newName == null || newName == "") ? "" : " - ")}", newName);
+            instance.Text = string.Concat($"Module{((newName == null || newName == "") ? "" : " - ")}", newName);
+        }
+
+        public static void ResetModuleName()
+        {
+            SetNewModuleName(null);
+        }
+
+        public static void ShowLoad()
+        {
+            // TODO
+        }
+
+        public static void HideLoad()
+        {            
+            // TODO
         }
     }
 }

@@ -77,6 +77,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="UserControls\ConnectUserControl.resx">
       <DependentUpon>ConnectUserControl.cs</DependentUpon>
@@ -94,6 +95,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exit_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bell_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bell_active_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

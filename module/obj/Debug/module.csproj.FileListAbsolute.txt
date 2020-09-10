@@ -11,4 +11,3 @@ C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\
 C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\obj\Debug\module.exe
 C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\obj\Debug\module.pdb
 C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\obj\Debug\module.UserControls.ConnectUserControl.resources
-C:\Users\User\Desktop\4 курс\1 семестр\PAD\Lab1\message_agent\module\obj\Debug\module.csprojAssemblyReference.cache

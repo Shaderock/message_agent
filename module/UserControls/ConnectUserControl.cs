@@ -23,19 +23,19 @@ namespace module.UserControls
 
         private async void buttonConnect_Click(object sender, EventArgs e)
         {
-            bool result = false;
+            string result = null;
             buttonConnect.Enabled = false;
             await Task.Run(() => result = Request.Connect(textBoxIP.Text, int.Parse(textBoxPort.Text),
                 textBoxModuleName.Text));
             buttonConnect.Enabled = true;
             
-            if (result)
+            if (result == null)
             {
                 MessageBox.Show("Всё ок");
             }
             else
             {
-                MessageBox.Show("У тебя проблемы");
+                MessageBox.Show(result);
             }
         }
 

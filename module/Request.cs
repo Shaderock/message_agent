@@ -31,13 +31,39 @@ namespace module
 
                 if (handshakeResponse.Equals(""))
                 {
+                    Listener.ResetSocket();
                     return "Сервер так и не прислал ответ";
                 }
 
+                if (!Parser.FieldDeserialize<int>(handshakeResponse, "operation").Equals("handshake"))
+                {
+                    Listener.ResetSocket();
+                    return $"Сервер прислал не тот ответ, что ожидался: {Parser.FieldDeserialize<int>(handshakeResponse, "operation")}";
+                }
 
+                int codeResponse = Parser.FieldDeserialize<int>(handshakeResponse, "payload.code");
+
+                if (codeResponse >= 40)
+                {
+                    Listener.ResetSocket();
+                    switch (codeResponse)
+                    {
+                        case 40: return "Сервер не принял операцию handshake";
+                        case 41: return "Сервер не принял соединение по причине его не распознавания (проверь payload)";
+                        case 42: return "Такое имя уже зарегистрировано в системе, попробуйте другое";
+                        default: return "Сервер не принял запрос, возможно, нет свободных мест";
+                    }
+                }
+                if (codeResponse.Equals(30))
+                {
+                    Listener.ResetSocket();
+                    port = Parser.FieldDeserialize<int>(handshakeResponse, "payload.port");
+                }
+                else if(codeResponse.Equals(20))
+                {
+                    readyToExit = true;
+                }
             }
-
-            
 
             return null;
         }

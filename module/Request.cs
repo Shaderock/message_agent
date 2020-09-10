@@ -13,7 +13,36 @@ namespace module
     {
         private static Socket socket;
         
-        public static bool Connect(string ip, int port, string name)
+        public static string Connect(string ip, int port, string name)
+        {
+            bool readyToExit = false;
+
+            while (!readyToExit)
+            {
+                bool result = ConnectSend(ip, port, name);
+                if (!result)
+                {
+                    return "Проблема с подключением";
+                }
+
+                Listener.SetSocket(socket);
+
+                string handshakeResponse = readResponseTimeout(5000);
+
+                if (handshakeResponse.Equals(""))
+                {
+                    return "Сервер так и не прислал ответ";
+                }
+
+
+            }
+
+            
+
+            return null;
+        }
+
+        private static bool ConnectSend(string ip, int port, string name)
         {
             try
             {
@@ -31,53 +60,39 @@ namespace module
                 //socket.NoDelay = true;
                 socket.Connect(ip, port);
 
-                byte[] msg = Encoding.UTF8.GetBytes(string.Concat(Parser.RequestSerialize("handshake", new { name }),
-                    "\n"));
+                byte[] msg = Encoding.UTF8.GetBytes(prepareRequest(Parser.RequestSerialize("handshake", new { name })));
 
                 int a = socket.Send(msg);
-                //socket.Shutdown(SocketShutdown.Send);
 
-                //Action<object, Socket, byte[]> method = socketRecieve;
-                //object monitorSync = new object();
-                //bool timedOut;
-                //lock (monitorSync)
-                //{
-                //    msg = new byte[1024];
-                //    method.BeginInvoke(monitorSync, socket, msg, null, null);
-                //    timedOut = !Monitor.Wait(monitorSync, TimeSpan.FromSeconds(5));
-                //}
-                //if (timedOut)
-                //{
-                //    method.EndInvoke(null);
-                //    throw new Exception("Response not recieved");
-                //}
-
-                var msgin = new byte[1024];
-                socket.Receive(msgin);
-
-                string msgString = Encoding.UTF8.GetString(msgin);
-
-                socket.Shutdown(SocketShutdown.Both);
-                socket.Close();
+                return true;
             }
             catch (Exception e)
             {
-                socket = null;
+                Console.WriteLine(e);
                 return false;
             }
-                
-
-            return true;
         }
 
-        private static void socketRecieve(object monitorSync, Socket socket, byte[] msg)
+        private static string readResponseTimeout(int millisecondsTimeout)
         {
-            socket.Receive(msg);
+            int start = DateTime.Now.Millisecond;
 
-            lock(monitorSync)
+            do
             {
-                Monitor.Pulse(monitorSync);
-            }
+                if (Listener.HasNewMessageToRead)
+                {
+                    return Listener.ReadTheOldestMessage();
+                }
+
+                Thread.Sleep(50);
+            } while ((DateTime.Now.Millisecond - start) < millisecondsTimeout);
+
+            return null;
+        }
+
+        private static string prepareRequest(string request)
+        {
+            return string.Concat(request, '\n');
         }
     }
 }

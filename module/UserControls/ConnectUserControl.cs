@@ -30,7 +30,7 @@ namespace module.UserControls
             
             if (result == null)
             {
-                MainForm.SetNewModuleName(textBoxIP.Text);
+                MainForm.SetNewModuleName(textBoxModuleName.Text);
                 MainForm.AddUserControl(new MainUserControl());
             }
             else

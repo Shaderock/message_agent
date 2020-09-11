@@ -22,7 +22,7 @@ namespace module
                 bool result = ConnectSend(ip, port, name);
                 if (!result)
                 {
-                    return "Проблема с подключением";
+                    return "Проблема с подключением (возможно нет интернета или сервер недоступен)";
                 }
 
                 Listener.SetSocket(socket);
@@ -35,13 +35,14 @@ namespace module
                     return "Сервер так и не прислал ответ";
                 }
 
-                if (!Parser.FieldDeserialize<int>(handshakeResponse, "operation").Equals("handshake"))
+                if (!Parser.FieldDeserialize<string>(handshakeResponse, "operation").Equals("handshake"))
                 {
                     Listener.ResetSocket();
                     return $"Сервер прислал не тот ответ, что ожидался: {Parser.FieldDeserialize<int>(handshakeResponse, "operation")}";
                 }
 
-                int codeResponse = Parser.FieldDeserialize<int>(handshakeResponse, "payload.code");
+                string payload = Parser.FieldDeserialize<string>(handshakeResponse, "payload");
+                int codeResponse = Parser.FieldDeserialize<int>(payload, "code");
 
                 if (codeResponse >= 40)
                 {
@@ -57,7 +58,7 @@ namespace module
                 if (codeResponse.Equals(30))
                 {
                     Listener.ResetSocket();
-                    port = Parser.FieldDeserialize<int>(handshakeResponse, "payload.port");
+                    port = Parser.FieldDeserialize<int>(payload, "port");
                 }
                 else if(codeResponse.Equals(20))
                 {
@@ -117,7 +118,7 @@ namespace module
 
         private static string readResponseTimeout(int millisecondsTimeout)
         {
-            int start = DateTime.Now.Millisecond;
+            double start = (DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
 
             do
             {
@@ -127,9 +128,9 @@ namespace module
                 }
 
                 Thread.Sleep(50);
-            } while ((DateTime.Now.Millisecond - start) < millisecondsTimeout);
+            } while (((DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds - start) < millisecondsTimeout);
 
-            return null;
+            return "";
         }
 
         private static string prepareRequest(string request)

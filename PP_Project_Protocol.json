@@ -82,7 +82,6 @@
 					"id":"1"
 				}
 			]
-				
 		}
 }
 
@@ -127,22 +126,36 @@
 
 "-----------------------------------------"
 
+
 "module-broker"
 {
 	"operation": "notify",
 	"payload":
 		{
-			"message": "Wow, i have subscribers! ¯\_(ツ)_/¯"
+			"id-receiver":"0",
+			"command":"complete-task",
+			"info-block":
+				"{
+					"id":"0",
+					"nonsence":"some...new...nonsence",
+					"hash":"some...new...hash"
+				}"
 		}
 }
 
 "broker-module"
 {
 	"operation": "notify",
-	"payload": 
+	"payload":
 		{
-			"id": "2",
-			"message": "Stop"
+			"id-sender":"0",
+			"command":"complete-task",
+			"info-block":
+				"{
+					"id":"0",
+					"nonsence":"some...new...nonsence",
+					"hash":"some...new...hash"
+				}"
 		}
 }
 
@@ -153,8 +166,8 @@
 	"operation": "direct-message",
 	"payload":
 		{
-			"id":"0",
-			"command":"stop"
+			"id-receiver":"0",
+			"command":"stop",
 			"info-block":""
 		}
 }
@@ -180,7 +193,7 @@
 	"operation": "direct-message",
 	"payload":
 		{
-			"id":"0",
+			"id-receiver":"0",
 			"command":"new-task",
 			"info-block":
 				"{
@@ -190,33 +203,6 @@
 		}
 }
 
-"module-broker"
-{
-	"operation": "direct-message",
-	"payload":
-		{
-			"id":"0",
-			"command":"complete-task",
-			"info-block":
-				"{
-					"id":"0",
-					"nonsence":"some...new...nonsence",
-					"hash":"some...new...hash"
-				}"
-		}
-}
-
-
-"module-broker"
-{
-	"operation": "direct-message",
-	"payload":
-		{
-			"id":"0",
-			"command":"stop"
-			"info-block":""
-		}
-}
 
 "-----------------------------------------"
 
@@ -228,7 +214,6 @@
 		"type":"CR",
 		"id":"1"
 	}
-	
 }
 
 "broker-module"
@@ -239,7 +224,6 @@
 		"type":"CR",
 		"id":"1"
 	}
-	
 }
 
 "-----------------------------------------"

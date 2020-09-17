@@ -74,12 +74,12 @@
 			"modules": 
 			[
 				{
-					"type":"CR",
-					"id":"0"
+					"type": "CR",
+					"id": 0
 				}, 
 				{
-					"type":"CR",
-					"id":"1"
+					"type": "CR",
+					"id": 1
 				}
 			]
 		}
@@ -92,7 +92,7 @@
 	"operation": "subscribe",
 	"payload":
 		{
-			"ids": ["sec", "auth", "BD"]
+			"ids": [0, 1, 2]
 		}
 }
 
@@ -111,7 +111,7 @@
 	"payload": 
 		{
 			"code": 43,
-			"ids": ["sec"]
+			"ids": [1]
 		}
 }
 
@@ -132,13 +132,13 @@
 	"operation": "notify",
 	"payload":
 		{
-			"id-receiver":"0",
-			"command":"complete-task",
+			"id-receiver": 0,
+			"command": "complete-task",
 			"info-block":
 				"{
-					"id":"0",
-					"nonsence":"some...new...nonsence",
-					"hash":"some...new...hash"
+					"id-block": 0,
+					"nonce": "some...new...nonsence",
+					"hash": "some...new...hash"
 				}"
 		}
 }
@@ -148,13 +148,13 @@
 	"operation": "notify",
 	"payload":
 		{
-			"id-sender":"0",
-			"command":"complete-task",
+			"id-sender": 0,
+			"command": "complete-task",
 			"info-block":
 				"{
-					"id":"0",
-					"nonsence":"some...new...nonsence",
-					"hash":"some...new...hash"
+					"id-block": 0,
+					"nonce": "some...new...nonsence",
+					"hash": "some...new...hash"
 				}"
 		}
 }
@@ -166,9 +166,9 @@
 	"operation": "direct-message",
 	"payload":
 		{
-			"id-receiver":"0",
-			"command":"stop",
-			"info-block":""
+			"id-receiver": 0,
+			"command": "stop",
+			"info-block": ""
 		}
 }
 
@@ -177,13 +177,13 @@
 	"operation": "direct-message",
 	"payload":
 		"{
-			"id-receiver":"0",
-			"command":"new-task",
+			"id-receiver": 0,
+			"command": "new-task",
 			"info-block":
 				"{
-					"prev-hash":"some...old...hash",
-					"id-info-block":"1",
-					"content":"some...new...content"
+					"prev-hash": "some...old...hash",
+					"id-block": 1,
+					"content": "some...new...content"
 				}"
 		}"
 }
@@ -193,12 +193,12 @@
 	"operation": "direct-message",
 	"payload":
 		{
-			"id-receiver":"0",
-			"command":"new-task",
+			"id-receiver": 0,
+			"command": "new-task",
 			"info-block":
 				"{
-					"id":"0",
-					"content":"some..new...content"
+					"id-block": 0,
+					"content": "some..new...content"
 				}"
 		}
 }
@@ -211,8 +211,8 @@
 	"operation": "welcome",
 	"payload":
 	{
-		"type":"CR",
-		"id":"1"
+		"type": "CR",
+		"id": 1
 	}
 }
 
@@ -221,8 +221,8 @@
 	"operation": "good-bye",
 	"payload":
 	{
-		"type":"CR",
-		"id":"1"
+		"type": "CR",
+		"id": 1
 	}
 }
 

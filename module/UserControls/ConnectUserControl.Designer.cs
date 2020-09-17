@@ -100,7 +100,6 @@
             // 
             this.buttonConnect.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.buttonConnect.AutoSize = true;
-            this.buttonConnect.Enabled = false;
             this.buttonConnect.Location = new System.Drawing.Point(65, 338);
             this.buttonConnect.Name = "buttonConnect";
             this.buttonConnect.Size = new System.Drawing.Size(91, 23);
@@ -213,6 +212,7 @@
             this.textBoxModuleName.Name = "textBoxModuleName";
             this.textBoxModuleName.Size = new System.Drawing.Size(96, 20);
             this.textBoxModuleName.TabIndex = 1;
+            this.textBoxModuleName.Text = "Yes";
             this.textBoxModuleName.TextChanged += new System.EventHandler(this.textBoxModule_TextChanged);
             // 
             // tableLayoutPanel6
@@ -256,6 +256,7 @@
             // 
             this.labelSwitch.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelSwitch.AutoSize = true;
+            this.labelSwitch.Cursor = System.Windows.Forms.Cursors.Hand;
             this.labelSwitch.Location = new System.Drawing.Point(6, 55);
             this.labelSwitch.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this.labelSwitch.Name = "labelSwitch";

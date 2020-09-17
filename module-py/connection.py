@@ -26,24 +26,24 @@ class Connection:
 
             payload = \
                 {
-                    "type": self.module_type
+                    'type': self.module_type
                 }
             handshake = \
                 {
-                    "operation": "handshake",
-                    "payload": json.dumps(payload)
+                    'operation': 'handshake',
+                    'payload': json.dumps(payload)
                 }
 
             self.socket.sendall((json.dumps(handshake) + '\n').encode('utf8'))
 
             response = json.loads(self.socket.recv(4096).decode('utf8'))
 
-            if response["payload"]["code"] >= 40:
-                print("Caught an error")
+            if response['payload']['code'] >= 40:
+                print('Caught an error')
                 raise Exception()
-            elif response["payload"]["code"] == 30:
-                self.server_port = response["payload"]["port"]
-            elif response["payload"]["code"] == 20:
+            elif response['payload']['code'] == 30:
+                self.server_port = response['payload']['port']
+            elif response['payload']['code'] == 20:
                 ready_to_go = True
 
     def reset_socket(self):
@@ -60,7 +60,12 @@ class Connection:
             while True:
                 descriptors = select.select([self.socket], [], [])
                 if self.socket in descriptors[0]:
-                    recv += self.socket.recv(4096).decode('utf8')
+                    buff = self.socket.recv(4096).decode('utf8')
+                    if buff == '':
+                        self.socket.close()
+                        self.socket = None
+                        return
+                    recv += buff
                 else:
                     break
             if recv != '':

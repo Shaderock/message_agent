@@ -16,46 +16,46 @@
 {
 	"operation": "handshake",
 	"payload": 
-		{
+		"{
 			"type": "CR"
-		}
+		}"
 }
 
 "module-broker"
 {
 	"operation": "handshake",
 	"payload": 
-		{
+		"{
 			"type": "MNG"
-		}
+		}"
 }
 
 "broker-module"
 {
 	"operation": "handshake",
 	"payload":
-		{
+		"{
 			"code": 20
-		}
+		}"
 }
 
 "broker-module"
 {
 	"operation": "handshake",
 	"payload": 
-		{
+		"{
 			"code": 30,
 			"port": 17002
-		}
+		}"
 }
 
 "broker-module"
 {
 	"operation": "handshake",
 	"payload": 
-		{
+		"{
 			"code": 42
-		}
+		}"
 }
 
 "-----------------------------------------"
@@ -69,7 +69,7 @@
 {
 	"operation": "get-modules",
 	"payload":
-		{
+		"{
 			"code": 20,
 			"modules": 
 			[
@@ -82,7 +82,7 @@
 					"id": 1
 				}
 			]
-		}
+		}"
 }
 
 "-----------------------------------------"
@@ -91,37 +91,37 @@
 {
 	"operation": "subscribe",
 	"payload":
-		{
+		"{
 			"ids": [0, 1, 2]
-		}
+		}"
 }
 
 "broker-module"
 {
 	"operation": "subscribe",
 	"payload": 
-		{
+		"{
 			"code": 20
-		}
+		}"
 }
 
 "broker-module"
 {
 	"operation": "subscribe",
 	"payload": 
-		{
+		"{
 			"code": 43,
 			"ids": [1]
-		}
+		}"
 }
 
 "broker-module"
 {
 	"operation": "subscribe",
 	"payload": 
-		{
+		"{
 			"code": 44
-		}
+		}"
 }
 
 "-----------------------------------------"
@@ -131,7 +131,7 @@
 {
 	"operation": "notify",
 	"payload":
-		{
+		"{
 			"id-receiver": 0,
 			"command": "complete-task",
 			"info-block":
@@ -140,14 +140,14 @@
 					"nonce": "some...new...nonsence",
 					"hash": "some...new...hash"
 				}"
-		}
+		}"
 }
 
 "broker-module"
 {
 	"operation": "notify",
 	"payload":
-		{
+		"{
 			"id-sender": 0,
 			"command": "complete-task",
 			"info-block":
@@ -156,7 +156,7 @@
 					"nonce": "some...new...nonsence",
 					"hash": "some...new...hash"
 				}"
-		}
+		}"
 }
 
 "-----------------------------------------"
@@ -165,11 +165,11 @@
 {
 	"operation": "direct-message",
 	"payload":
-		{
+		"{
 			"id-receiver": 0,
 			"command": "stop",
 			"info-block": ""
-		}
+		}"
 }
 
 "module-broker"
@@ -181,8 +181,8 @@
 			"command": "new-task",
 			"info-block":
 				"{
-					"prev-hash": "some...old...hash",
 					"id-block": 1,
+					"prev-hash": "some...old...hash",
 					"content": "some...new...content"
 				}"
 		}"
@@ -192,15 +192,16 @@
 {
 	"operation": "direct-message",
 	"payload":
-		{
+		"{
 			"id-receiver": 0,
 			"command": "new-task",
 			"info-block":
 				"{
 					"id-block": 0,
+					"prev-hash": "",
 					"content": "some..new...content"
 				}"
-		}
+		}"
 }
 
 
@@ -210,20 +211,20 @@
 {
 	"operation": "welcome",
 	"payload":
-	{
-		"type": "CR",
-		"id": 1
-	}
+		"{
+			"type": "CR",
+			"id": 1
+		}"
 }
 
 "broker-module"
 {
 	"operation": "good-bye",
 	"payload":
-	{
-		"type": "CR",
-		"id": 1
-	}
+		"{
+			"type": "CR",
+			"id": 1
+		}"
 }
 
 "-----------------------------------------"

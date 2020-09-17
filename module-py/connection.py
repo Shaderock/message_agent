@@ -4,6 +4,7 @@ import json
 import threading
 
 server_ip = 'localhost'
+# server_ip = '89.28.116.199'
 server_port = 17001
 
 
@@ -65,3 +66,16 @@ class Connection:
             if recv != '':
                 self.messages.append(json.loads(recv))
             self.work.release()
+
+    def has_messages(self) -> bool:
+        self.work.acquire()
+        has = len(self.messages) != 0
+        self.work.release()
+        return has
+
+    def send(self, send_string: str):
+        self.work.acquire()
+        if self.socket is None:
+            raise Exception()
+        self.socket.sendall((send_string + '\n').encode('utf8'))
+        self.work.release()

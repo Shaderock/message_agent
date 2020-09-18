@@ -78,17 +78,17 @@ def wait_task():
                 pass
 
             elif message['operation'] == 'direct-message':
-                if message['payload']['command'] == 'stop':
+                if json.loads(message['payload'])['command'] == 'stop':
                     print('DM\'ed to stop')
                     block = {}
                     has_task = False
 
-                elif message['payload']['command'] == 'new-task':
+                elif json.loads(message['payload'])['command'] == 'new-task':
                     print('DM\'ed to start new task')
                     block = {
-                        'id-block': message['payload']['id-block'],
-                        'prev-hash': message['payload']['prev-hash'],
-                        'content': message['payload']['content'],
+                        'id-block': json.loads(message['payload'])['id-block'],
+                        'prev-hash': json.loads(message['payload'])['prev-hash'],
+                        'content': json.loads(message['payload'])['content'],
                         'nonce': ''
                     }
                     has_task = True

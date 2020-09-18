@@ -86,8 +86,8 @@ def save_block(message):
     global has_task
     global prev_hash
     send_all_stop()
-    blockchain[len(blockchain) - 1]['nonce'] = message['payload']['info-block']['nonce']
-    prev_hash = message['payload']['info-block']['hash']
+    blockchain[len(blockchain) - 1]['nonce'] = json.loads(json.loads(message['payload'])['info-block'])['nonce']
+    prev_hash = json.loads(json.loads(message['payload'])['info-block'])['hash']
     has_task = True
     print('Block has been saved')
 
@@ -137,7 +137,7 @@ def manage_task():
             if message['operation'] == 'get-modules':
                 print('Got all modules')
                 if need_sub:
-                    for module in message['payload']['modules']:
+                    for module in json.loads(message['payload'])['modules']:
                         if module['type'] == 'CR':
                             cr_list.append(module['id'])
                     print(f'There is/are {len(cr_list)} CR-module(s)')
@@ -153,12 +153,12 @@ def manage_task():
                         need_sub = False
 
             elif message['operation'] == 'subscribe':
-                if message['payload']['code'] == 20:
+                if json.loads(message['payload'])['code'] == 20:
                     print(f'Subbed successful ({str(cr_list)})')
                     if need_sub:
                         has_task = True
                         need_sub = False
-                elif message['payload']['code'] in [43, 44]:
+                elif json.loads(message['payload'])['code'] in [43, 44]:
                     print(f'Some sub has failed - {str(message["payload"]["ids"])}')
                     if need_sub:
                         cr_list.clear()
@@ -168,14 +168,14 @@ def manage_task():
                             cr_list.remove(cr_id)
 
             elif message['operation'] == 'notify':
-                if message['payload']['command'] == 'complete-task':
+                if json.loads(message['payload'])['command'] == 'complete-task':
                     print('Someone attempted to complete task')
-                    if message['payload']['info-block']['id-block'] != (len(blockchain)-1):
+                    if json.loads(json.loads(message['payload'])['info-block'])['id-block'] != (len(blockchain)-1):
                         break
-                    if not hash.check_hash_rule(message['payload']['info-block']['hash']):
+                    if not hash.check_hash_rule(json.loads(json.loads(message['payload'])['info-block'])['hash']):
                         break
-                    if message['payload']['info-block']['hash'] == get_last_block_hash(message['payload']['info-block']
-                                                                                       ['nonce']):
+                    if json.loads(json.loads(message['payload'])['info-block'])['hash'] == \
+                            get_last_block_hash(json.loads(json.loads(message['payload'])['info-block'])['nonce']):
                         print(f'Block #{message["payload"]["info-block"]["id-block"]} has been finished\n\t'
                               f'by: {message["payload"]["id-sender"]}\n\t'
                               f'nonce: {message["payload"]["info-block"]["nonce"]}\n\t'
@@ -187,17 +187,17 @@ def manage_task():
                 pass
 
             elif message['operation'] == 'welcome':
-                if message['payload']['type'] == 'CR':
+                if json.loads(message['payload'])['type'] == 'CR':
                     print('New cr in system')
-                    sub_to_cr(message['payload']['id'])
-                    cr_list.append(message['payload']['id'])
+                    sub_to_cr(json.loads(message['payload'])['id'])
+                    cr_list.append(json.loads(message['payload'])['id'])
                     if not has_task:
-                        send_task_to_cr(message['payload']['id'])
+                        send_task_to_cr(json.loads(message['payload'])['id'])
 
             elif message['operation'] == 'good-bye':
-                if message['payload']['type'] == 'CR':
+                if json.loads(message['payload'])['type'] == 'CR':
                     print('One cr left')
-                    cr_list.remove(message['payload']['id'])
+                    cr_list.remove(json.loads(message['payload'])['id'])
                     if len(cr_list) == 0:
                         blockchain.pop()
                         has_task = True

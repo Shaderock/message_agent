@@ -25,7 +25,7 @@ def close_connection():
         pass
 
 
-def sub_to_all():
+def get_modules_for_sub():
     get_modules = {
         'operation': 'get-modules'
     }
@@ -111,6 +111,15 @@ def send_task_to_cr(cr):
     print('Individual task has been sent')
 
 
+def sub_to_cr(cr):
+    subscribe = {
+        'operation': 'subscribe',
+        'payload': json.dumps({'ids': [cr]})
+    }
+    conn.send(json.dumps(subscribe))
+    print(f'Requested individual sub to {str(cr)}')
+
+
 def manage_task():
     global has_task
     global cr_list
@@ -139,7 +148,6 @@ def manage_task():
                         }
                         conn.send(json.dumps(subscribe))
                         print('Requested for sub')
-
                     else:
                         has_task = True
                         need_sub = False
@@ -147,12 +155,17 @@ def manage_task():
             elif message['operation'] == 'subscribe':
                 if message['payload']['code'] == 20:
                     print(f'Subbed successful ({str(cr_list)})')
-                    has_task = True
-                    need_sub = False
+                    if need_sub:
+                        has_task = True
+                        need_sub = False
                 elif message['payload']['code'] in [43, 44]:
-                    cr_list.clear()
                     print(f'Some sub has failed - {str(message["payload"]["ids"])}')
-                    sub_to_all()
+                    if need_sub:
+                        cr_list.clear()
+                        get_modules_for_sub()
+                    else:
+                        for cr_id in message["payload"]["ids"]:
+                            cr_list.remove(cr_id)
 
             elif message['operation'] == 'notify':
                 if message['payload']['command'] == 'complete-task':
@@ -176,6 +189,7 @@ def manage_task():
             elif message['operation'] == 'welcome':
                 if message['payload']['type'] == 'CR':
                     print('New cr in system')
+                    sub_to_cr(message['payload']['id'])
                     cr_list.append(message['payload']['id'])
                     if not has_task:
                         send_task_to_cr(message['payload']['id'])
@@ -205,5 +219,5 @@ if __name__ == '__main__':
 
     atexit.register(close_connection)
 
-    sub_to_all()
+    get_modules_for_sub()
     manage_task()

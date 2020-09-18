@@ -1,3 +1,4 @@
+import atexit
 import random
 import string
 import json
@@ -9,6 +10,16 @@ blockchain = []
 cr_list = []
 has_task = True
 prev_hash = ''
+
+
+def close_connection():
+    try:
+        close = {
+            'operation': 'close'
+        }
+        conn.send(json.dumps(close))
+    except:
+        pass
 
 
 def sub_to_all():
@@ -148,12 +159,19 @@ def manage_task():
                         blockchain.pop()
                         has_task = True
 
+            elif message['operation'] == 'close':
+                if not has_task:
+                    send_all_stop()
+                break
+
             else:
                 pass
 
 
 if __name__ == '__main__':
     conn = connection.Connection('MNG')
+
+    atexit.register(close_connection)
 
     sub_to_all()
     manage_task()

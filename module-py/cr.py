@@ -1,6 +1,7 @@
 import json
 import random
 import string
+import atexit
 
 import hash
 import connection
@@ -8,6 +9,16 @@ import connection
 has_task = False
 block = {}
 nonce_max_len = 20
+
+
+def close_connection():
+    try:
+        close = {
+            'operation': 'close'
+        }
+        conn.send(json.dumps(close))
+    except:
+        pass
 
 
 def get_new_nonce() -> str:
@@ -58,12 +69,12 @@ def wait_task():
             if message['operation'] == 'notify':
                 pass
 
-            if message['operation'] == 'direct-message':
+            elif message['operation'] == 'direct-message':
                 if message['payload']['command'] == 'stop':
                     block = {}
                     has_task = False
 
-                if message['payload']['command'] == 'new-task':
+                elif message['payload']['command'] == 'new-task':
                     block = {
                         'id-block': message['payload']['id-block'],
                         'prev-hash': message['payload']['prev-hash'],
@@ -72,8 +83,16 @@ def wait_task():
                     }
                     has_task = True
 
+            elif message['operation'] == 'close':
+                break
+
+            else:
+                break
+
 
 if __name__ == '__main__':
     conn = connection.Connection("CR")
+
+    atexit.register(close_connection)
 
     wait_task()

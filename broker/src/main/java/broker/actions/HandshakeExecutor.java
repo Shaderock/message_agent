@@ -1,72 +1,97 @@
 package broker.actions;
 
 import broker.Context;
-import broker.exceptions.AllPortsFullException;
-import broker.exceptions.ModuleAlreadyExistsException;
+import broker.exceptions.TooManyConnectionsException;
 import broker.models.Module;
 import broker.models.PortData;
-import broker.models.payload.Code;
-import broker.models.payload.CodePayload;
-import broker.models.payload.NamePayload;
-import broker.models.payload.RedirectPayload;
+import broker.models.payload.*;
 import broker.models.protocols.Operation;
 import broker.servers.HandshakeServer;
 import broker.utils.ResponseGenerator;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public class HandshakeExecutor extends ProtocolTaskExecutor {
-    public HandshakeExecutor(NamePayload namePayload) {
-        super(namePayload);
+    private final ResponseGenerator responseGenerator;
+
+    public HandshakeExecutor(TypePayload typePayload) {
+        super(typePayload);
+        responseGenerator = new ResponseGenerator();
     }
 
     public void execute(Socket moduleSocket, PrintWriter moduleOutput) {
-        String moduleName = ((NamePayload) getPayload()).getName();
-        ResponseGenerator responseGenerator = new ResponseGenerator();
+        Type moduleType = ((TypePayload) getPayload()).getType();
+
         try {
-            connectModuleToTheSystem(moduleSocket, moduleName);
+            if (connectModuleToTheSystem(moduleSocket, moduleType, moduleOutput, responseGenerator)) {
+                responseGenerator.sendResponse(Operation.HANDSHAKE, new CodePayload(Code.OK), moduleOutput);
+            }
         }
-        catch (ModuleAlreadyExistsException e) {
-            responseGenerator.sendResponse(Operation.HANDSHAKE,
-                    new CodePayload(Code.NAME_ALREADY_EXISTS), moduleOutput);
-        }
-        catch (AllPortsFullException e) {
-            int port = startHandshakeServer();
-            responseGenerator.sendResponse(Operation.HANDSHAKE,
-                    new RedirectPayload(Code.REDIRECT, port), moduleOutput);
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private static synchronized void connectModuleToTheSystem(Socket moduleSocket, String moduleName)
-            throws ModuleAlreadyExistsException, AllPortsFullException {
+    private static synchronized boolean connectModuleToTheSystem(Socket moduleSocket,
+                                                                 Type moduleType,
+                                                                 PrintWriter moduleOutput,
+                                                                 ResponseGenerator responseGenerator)
+            throws IOException {
 
         Context context = Context.getInstance();
+
+        int amountModulesConnected = 0;
         for (PortData portsDatum : context.getPortsData()) {
             for (Module module : portsDatum.getModules()) {
-                if (module.getModuleName().equals(moduleName)) {
-                    throw new ModuleAlreadyExistsException("Module with name " + moduleName + " already exists");
+                if (module.getModuleType() == moduleType) {
+                    amountModulesConnected++;
                 }
             }
+        }
+
+        if (amountModulesConnected >= moduleType.getMaxConnections()) {
+            responseGenerator.sendResponse(Operation.HANDSHAKE,
+                    new CodePayload(Code.NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION), moduleOutput);
+            moduleSocket.close();
+            return false;
         }
 
         boolean isFoundFreeSlot = false;
         for (PortData portsDatum : context.getPortsData()) {
             if (portsDatum.getModules().size() < context.MAX_SOCKETS_PER_PORT) {
                 isFoundFreeSlot = true;
-                portsDatum.getModules().add(new Module(moduleSocket, moduleName));
+
+
+
+                portsDatum.getModules().add(new Module(moduleSocket,
+                        moduleType, context.getNextModuleId()));
+                context.setNextModuleId(context.getNextModuleId());
                 break;
             }
         }
 
         if (!isFoundFreeSlot) {
-            throw new AllPortsFullException("Not enough place to accept module");
+            try {
+                int port = startHandshakeServer();
+                responseGenerator.sendResponse(Operation.HANDSHAKE,
+                        new RedirectPayload(Code.REDIRECT, port), moduleOutput);
+                return true;
+            }
+            catch (TooManyConnectionsException e) {
+                responseGenerator.sendResponse(Operation.HANDSHAKE,
+                        new CodePayload(Code.NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION), moduleOutput);
+                moduleSocket.close();
+                return false;
+            }
+        } else {
+            return true;
         }
     }
 
-    private static synchronized int startHandshakeServer() {
+    private static synchronized int startHandshakeServer() throws TooManyConnectionsException {
         Context context = Context.getInstance();
-        // todo добавить обработку перехода за границы ограничений
         for (int freePort = context.COMMUNICATION_PORT;
              freePort < context.COMMUNICATION_PORT + context.MAX_COMMUNICATION_PORTS; freePort++) {
 
@@ -82,6 +107,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                 final HandshakeServer handshakeServer = new HandshakeServer();
 
                 final int finalFreePort = freePort;
+                context.getPortsData().add(new PortData(freePort));
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
@@ -95,6 +121,6 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
             }
         }
 
-        return 17102;
+        throw new TooManyConnectionsException("Can not accept any other connection");
     }
 }

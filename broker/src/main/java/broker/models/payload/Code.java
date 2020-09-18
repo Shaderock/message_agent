@@ -12,9 +12,9 @@ public enum Code {
     @JsonProperty("41")
     INCORRECT_PAYLOAD_SCHEME,
     @JsonProperty("42")
-    NAME_ALREADY_EXISTS,
+    NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION,
     @JsonProperty("43")
-    NOME_DOES_NOT_EXIST,
+    MODULE_DOES_NOT_EXIST,
     @JsonProperty("44")
     SELF_SUBSCRIBE
 }

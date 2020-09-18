@@ -3,6 +3,7 @@ package broker;
 
 import broker.models.PortData;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 
@@ -14,16 +15,16 @@ public class Context {
     public final int MAX_COMMUNICATION_PORTS = 3;
 
     @Getter
+    @Setter
+    private int nextModuleId = 0;
+
+    @Getter
     private final ArrayList<PortData> portsData;
 
-    public final int MAX_SOCKETS_PER_PORT = 10;
+    public final int MAX_SOCKETS_PER_PORT = 3;
 
     private Context() {
         portsData = new ArrayList<>();
-        for (int i = COMMUNICATION_PORT; i < COMMUNICATION_PORT + MAX_COMMUNICATION_PORTS; i++){
-            portsData.add(new PortData(i, null));
-            // todo проверять на наличие модуля внутри или по-другому
-        }
     }
 
     public static Context getInstance() {

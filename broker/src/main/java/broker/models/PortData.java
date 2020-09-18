@@ -1,13 +1,17 @@
 package broker.models;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
 
 @Data
-@AllArgsConstructor
+@Builder
 public class PortData {
     private int port;
-    private ArrayList<Module> modules;
+    private final ArrayList<Module> modules = new ArrayList<>();
+
+    public PortData(int port) {
+        this.port = port;
+    }
 }

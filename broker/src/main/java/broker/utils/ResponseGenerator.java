@@ -24,7 +24,7 @@ public class ResponseGenerator {
             moduleSocketOutput.print(responseAsStr);
             moduleSocketOutput.flush();
 
-            System.out.println("response sent");
+            System.out.println("response sent, response: " + responseAsStr);
         }
         catch (JsonProcessingException e) {
             System.out.println("Could not serialize payload");

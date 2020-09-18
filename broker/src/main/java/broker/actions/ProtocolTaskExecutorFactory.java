@@ -1,7 +1,7 @@
 package broker.actions;
 
 import broker.exceptions.WrongProtocolSyntaxException;
-import broker.models.payload.NamePayload;
+import broker.models.payload.TypePayload;
 import broker.models.payload.Payload;
 import broker.models.protocols.CommunicationMessageDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,8 +29,8 @@ public class ProtocolTaskExecutorFactory {
             Payload payload;
             switch (communicationMessageDTO.getOperation()) {
                 case HANDSHAKE:
-                    payload = objectMapper.readValue(communicationMessageDTO.getPayload(), NamePayload.class);
-                    return new HandshakeExecutor((NamePayload) payload);
+                    payload = objectMapper.readValue(communicationMessageDTO.getPayload(), TypePayload.class);
+                    return new HandshakeExecutor((TypePayload) payload);
                 case GET_MODULES:
                     return new ModuleListExecutor(null);
                 case CLOSE:

@@ -1,5 +1,6 @@
 package broker.models;
 
+import broker.models.payload.Type;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,5 +10,6 @@ import java.net.Socket;
 @AllArgsConstructor
 public class Module {
     private Socket socket;
-    private String moduleName;
+    private Type moduleType;
+    private int id;
 }

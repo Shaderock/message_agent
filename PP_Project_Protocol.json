@@ -132,7 +132,6 @@
 	"operation": "notify",
 	"payload":
 		"{
-			"id-receiver": 0,
 			"command": "complete-task",
 			"info-block":
 				"{

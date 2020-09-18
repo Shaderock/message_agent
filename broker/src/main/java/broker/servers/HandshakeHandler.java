@@ -18,9 +18,11 @@ import java.nio.charset.StandardCharsets;
 public class HandshakeHandler extends Thread {
     private final Socket moduleSocket;
     private final ResponseGenerator responseGenerator = new ResponseGenerator();
+    private final int connectedToPort;
 
-    public HandshakeHandler(Socket moduleSocket) {
+    public HandshakeHandler(Socket moduleSocket, int connectedToPort) {
         this.moduleSocket = moduleSocket;
+        this.connectedToPort = connectedToPort;
     }
 
     @Override
@@ -37,6 +39,9 @@ public class HandshakeHandler extends Thread {
         PrintWriter out = new PrintWriter(acceptedSocket.getOutputStream(), true);
         DataInputStream in = new DataInputStream(acceptedSocket.getInputStream());
 
+        while (in.available() == 0) {
+        }
+
         byte[] requestAsBytes = new byte[in.available()];
         int i = 0;
         while (in.available() != 0) {
@@ -44,13 +49,14 @@ public class HandshakeHandler extends Thread {
         }
 
         String request = new String(requestAsBytes, StandardCharsets.UTF_8);
-        System.out.println("Message Received: " + request);
+        System.out.print("Message Received: " + request);
 
         ProtocolTaskExecutorFactory protocolTaskExecutorFactory = new ProtocolTaskExecutorFactory();
         HandshakeExecutor handshakeExecutor;
         try {
             handshakeExecutor = (HandshakeExecutor) protocolTaskExecutorFactory
                     .createProtocolTaskExecutor(request);
+            handshakeExecutor.setConnectedPort(connectedToPort);
             handshakeExecutor.execute(moduleSocket, out);
         }
         catch (WrongProtocolSyntaxException e) {

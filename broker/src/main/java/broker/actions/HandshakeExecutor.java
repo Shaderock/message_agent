@@ -8,6 +8,7 @@ import broker.models.payload.*;
 import broker.models.protocols.Operation;
 import broker.servers.HandshakeServer;
 import broker.utils.ResponseGenerator;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +16,9 @@ import java.net.Socket;
 
 public class HandshakeExecutor extends ProtocolTaskExecutor {
     private final ResponseGenerator responseGenerator;
+
+    @Setter
+    private int connectedPort;
 
     public HandshakeExecutor(TypePayload typePayload) {
         super(typePayload);
@@ -25,7 +29,8 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
         Type moduleType = ((TypePayload) getPayload()).getType();
 
         try {
-            if (connectModuleToTheSystem(moduleSocket, moduleType, moduleOutput, responseGenerator)) {
+            if (connectModuleToTheSystem(moduleSocket, moduleType,
+                    moduleOutput, responseGenerator, connectedPort)) {
                 responseGenerator.sendResponse(Operation.HANDSHAKE, new CodePayload(Code.OK), moduleOutput);
             }
         }
@@ -37,7 +42,8 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
     private static synchronized boolean connectModuleToTheSystem(Socket moduleSocket,
                                                                  Type moduleType,
                                                                  PrintWriter moduleOutput,
-                                                                 ResponseGenerator responseGenerator)
+                                                                 ResponseGenerator responseGenerator,
+                                                                 int connectedPort)
             throws IOException {
 
         Context context = Context.getInstance();
@@ -58,26 +64,39 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
             return false;
         }
 
-        boolean isFoundFreeSlot = false;
         for (PortData portsDatum : context.getPortsData()) {
-            if (portsDatum.getModules().size() < context.MAX_SOCKETS_PER_PORT) {
-                isFoundFreeSlot = true;
-
-
-
+            if (connectedPort != context.HANDSHAKE_PORT &&
+                    portsDatum.getPort() == connectedPort &&
+                    portsDatum.getModules().size() < context.MAX_SOCKETS_PER_PORT) {
                 portsDatum.getModules().add(new Module(moduleSocket,
                         moduleType, context.getNextModuleId()));
                 context.setNextModuleId(context.getNextModuleId());
+                System.out.println("connected to port " + connectedPort);
+                return true;
+            }
+        }
+
+        boolean isFoundFreeSlot = false;
+        int portWithFreeSlot = 0;
+        for (PortData portsDatum : context.getPortsData()) {
+            if (portsDatum.getModules().size() < context.MAX_SOCKETS_PER_PORT) {
+                isFoundFreeSlot = true;
+                portWithFreeSlot = portsDatum.getPort();
                 break;
             }
         }
 
-        if (!isFoundFreeSlot) {
+        if (isFoundFreeSlot) {
+            responseGenerator.sendResponse(Operation.HANDSHAKE,
+                    new RedirectPayload(Code.REDIRECT, portWithFreeSlot), moduleOutput);
+            return false;
+        } else {
             try {
                 int port = startHandshakeServer();
                 responseGenerator.sendResponse(Operation.HANDSHAKE,
                         new RedirectPayload(Code.REDIRECT, port), moduleOutput);
-                return true;
+                moduleSocket.close();
+                return false;
             }
             catch (TooManyConnectionsException e) {
                 responseGenerator.sendResponse(Operation.HANDSHAKE,
@@ -85,8 +104,6 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                 moduleSocket.close();
                 return false;
             }
-        } else {
-            return true;
         }
     }
 

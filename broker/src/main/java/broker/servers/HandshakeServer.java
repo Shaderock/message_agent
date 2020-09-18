@@ -11,7 +11,7 @@ public class HandshakeServer extends Thread {
         try {
             ServerSocket handshakeServerSocket = new ServerSocket(port);
             while (isRunning) {
-                new HandshakeHandler(handshakeServerSocket.accept()).start();
+                new HandshakeHandler(handshakeServerSocket.accept(), port).start();
             }
         }
         catch (IOException e) {

@@ -1,20 +1,24 @@
 package broker.models.payload;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Code {
-    @JsonProperty("20")
-    OK,
-    @JsonProperty("30")
-    REDIRECT,
-    @JsonProperty("40")
-    UNSUPPORTABLE_OPERATION,
-    @JsonProperty("41")
-    INCORRECT_PAYLOAD_SCHEME,
-    @JsonProperty("42")
-    NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION,
-    @JsonProperty("43")
-    MODULE_DOES_NOT_EXIST,
-    @JsonProperty("44")
-    SELF_SUBSCRIBE
+    OK(20),
+    REDIRECT(30),
+    UNSUPPORTABLE_OPERATION(40),
+    INCORRECT_PAYLOAD_SCHEME(41),
+    NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION(42),
+    MODULE_DOES_NOT_EXIST(43),
+    SELF_SUBSCRIBE(44);
+
+    @Getter
+    @JsonValue
+    private final int code;
+
+    Code(int code) {
+        this.code = code;
+    }
 }

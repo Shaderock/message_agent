@@ -16,46 +16,46 @@
 {
 	"operation": "handshake",
 	"payload": 
-		{
+		"{
 			"type": "CR"
-		}
+		}"
 }
 
 "module-broker"
 {
 	"operation": "handshake",
 	"payload": 
-		{
+		"{
 			"type": "MNG"
-		}
+		}"
 }
 
 "broker-module"
 {
 	"operation": "handshake",
 	"payload":
-		{
+		"{
 			"code": 20
-		}
+		}"
 }
 
 "broker-module"
 {
 	"operation": "handshake",
 	"payload": 
-		{
+		"{
 			"code": 30,
 			"port": 17002
-		}
+		}"
 }
 
 "broker-module"
 {
 	"operation": "handshake",
 	"payload": 
-		{
+		"{
 			"code": 42
-		}
+		}"
 }
 
 "-----------------------------------------"
@@ -69,21 +69,20 @@
 {
 	"operation": "get-modules",
 	"payload":
-		{
+		"{
 			"code": 20,
 			"modules": 
 			[
 				{
-					"type":"CR",
-					"id":"0"
+					"type": "CR",
+					"id": 0
 				}, 
 				{
-					"type":"CR",
-					"id":"1"
+					"type": "CR",
+					"id": 1
 				}
 			]
-				
-		}
+		}"
 }
 
 "-----------------------------------------"
@@ -92,58 +91,71 @@
 {
 	"operation": "subscribe",
 	"payload":
-		{
-			"ids": ["sec", "auth", "BD"]
-		}
+		"{
+			"ids": [0, 1, 2]
+		}"
 }
 
 "broker-module"
 {
 	"operation": "subscribe",
 	"payload": 
-		{
+		"{
 			"code": 20
-		}
+		}"
 }
 
 "broker-module"
 {
 	"operation": "subscribe",
 	"payload": 
-		{
+		"{
 			"code": 43,
-			"ids": ["sec"]
-		}
+			"ids": [1]
+		}"
 }
 
 "broker-module"
 {
 	"operation": "subscribe",
 	"payload": 
-		{
+		"{
 			"code": 44
-		}
+		}"
 }
 
 "-----------------------------------------"
+
 
 "module-broker"
 {
 	"operation": "notify",
 	"payload":
-		{
-			"message": "Wow, i have subscribers! ¯\_(ツ)_/¯"
-		}
+		"{
+			"command": "complete-task",
+			"info-block":
+				"{
+					"id-block": 0,
+					"nonce": "some...new...nonsence",
+					"hash": "some...new...hash"
+				}"
+		}"
 }
 
 "broker-module"
 {
 	"operation": "notify",
-	"payload": 
-		{
-			"id": "2",
-			"message": "Stop"
-		}
+	"payload":
+		"{
+			"id-sender": 0,
+			"command": "complete-task",
+			"info-block":
+				"{
+					"id-block": 0,
+					"nonce": "some...new...nonsence",
+					"hash": "some...new...hash"
+				}"
+		}"
 }
 
 "-----------------------------------------"
@@ -152,11 +164,11 @@
 {
 	"operation": "direct-message",
 	"payload":
-		{
-			"id":"0",
-			"command":"stop"
-			"info-block":""
-		}
+		"{
+			"id-receiver": 0,
+			"command": "stop",
+			"info-block": ""
+		}"
 }
 
 "module-broker"
@@ -164,13 +176,13 @@
 	"operation": "direct-message",
 	"payload":
 		"{
-			"id-receiver":"0",
-			"command":"new-task",
+			"id-receiver": 0,
+			"command": "new-task",
 			"info-block":
 				"{
-					"prev-hash":"some...old...hash",
-					"id-info-block":"1",
-					"content":"some...new...content"
+					"id-block": 1,
+					"prev-hash": "some...old...hash",
+					"content": "some...new...content"
 				}"
 		}"
 }
@@ -179,44 +191,18 @@
 {
 	"operation": "direct-message",
 	"payload":
-		{
-			"id":"0",
-			"command":"new-task",
+		"{
+			"id-receiver": 0,
+			"command": "new-task",
 			"info-block":
 				"{
-					"id":"0",
-					"content":"some..new...content"
+					"id-block": 0,
+					"prev-hash": "",
+					"content": "some..new...content"
 				}"
-		}
+		}"
 }
 
-"module-broker"
-{
-	"operation": "direct-message",
-	"payload":
-		{
-			"id":"0",
-			"command":"complete-task",
-			"info-block":
-				"{
-					"id":"0",
-					"nonsence":"some...new...nonsence",
-					"hash":"some...new...hash"
-				}"
-		}
-}
-
-
-"module-broker"
-{
-	"operation": "direct-message",
-	"payload":
-		{
-			"id":"0",
-			"command":"stop"
-			"info-block":""
-		}
-}
 
 "-----------------------------------------"
 
@@ -224,22 +210,20 @@
 {
 	"operation": "welcome",
 	"payload":
-	{
-		"type":"CR",
-		"id":"1"
-	}
-	
+		"{
+			"type": "CR",
+			"id": 1
+		}"
 }
 
 "broker-module"
 {
 	"operation": "good-bye",
 	"payload":
-	{
-		"type":"CR",
-		"id":"1"
-	}
-	
+		"{
+			"type": "CR",
+			"id": 1
+		}"
 }
 
 "-----------------------------------------"

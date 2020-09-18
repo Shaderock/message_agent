@@ -37,11 +37,11 @@
             this.pictureBoxIconNotification = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanelHeader = new System.Windows.Forms.TableLayoutPanel();
             this.labelHeader = new System.Windows.Forms.Label();
-            this.timerCheckListener = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanelNavigation = new System.Windows.Forms.TableLayoutPanel();
             this.labelTabMessage = new System.Windows.Forms.Label();
             this.labelTabSubscribe = new System.Windows.Forms.Label();
             this.tableLayoutPanelContent = new System.Windows.Forms.TableLayoutPanel();
+            this.timerCheckListener = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelIcons.SuspendLayout();
             this.tableLayoutPanelIconExit.SuspendLayout();
@@ -167,14 +167,9 @@
             this.labelHeader.TabIndex = 0;
             this.labelHeader.Text = "Отправка сообщения";
             // 
-            // timerCheckListener
-            // 
-            this.timerCheckListener.Enabled = true;
-            this.timerCheckListener.Interval = 1000;
-            this.timerCheckListener.Tick += new System.EventHandler(this.timerCheckListener_Tick);
-            // 
             // tableLayoutPanelNavigation
             // 
+            this.tableLayoutPanelNavigation.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanelNavigation.ColumnCount = 2;
             this.tableLayoutPanelNavigation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelNavigation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -205,7 +200,7 @@
             this.labelTabSubscribe.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelTabSubscribe.AutoSize = true;
             this.labelTabSubscribe.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.labelTabSubscribe.Location = new System.Drawing.Point(466, 24);
+            this.labelTabSubscribe.Location = new System.Drawing.Point(465, 24);
             this.labelTabSubscribe.Name = "labelTabSubscribe";
             this.labelTabSubscribe.Size = new System.Drawing.Size(112, 13);
             this.labelTabSubscribe.TabIndex = 1;
@@ -227,6 +222,12 @@
             this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9F));
             this.tableLayoutPanelContent.Size = new System.Drawing.Size(696, 353);
             this.tableLayoutPanelContent.TabIndex = 2;
+            // 
+            // timerCheckListener
+            // 
+            this.timerCheckListener.Enabled = true;
+            this.timerCheckListener.Interval = 1000;
+            this.timerCheckListener.Tick += new System.EventHandler(this.timerCheckListener_Tick);
             // 
             // MainUserControl
             // 

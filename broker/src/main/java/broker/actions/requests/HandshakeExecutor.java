@@ -1,6 +1,7 @@
-package broker.actions;
+package broker.actions.requests;
 
 import broker.Context;
+import broker.actions.not_requests.OnConnectionEstablishedListener;
 import broker.exceptions.TooManyConnectionsException;
 import broker.models.Module;
 import broker.models.PortData;
@@ -10,12 +11,16 @@ import broker.servers.HandshakeServer;
 import broker.utils.ResponseGenerator;
 import lombok.Setter;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public class HandshakeExecutor extends ProtocolTaskExecutor {
     private final ResponseGenerator responseGenerator;
+
+    @Setter
+    private OnConnectionEstablishedListener onConnectionEstablishedListener;
 
     @Setter
     private int connectedPort;
@@ -25,13 +30,29 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
         responseGenerator = new ResponseGenerator();
     }
 
-    public void execute(Socket moduleSocket, PrintWriter moduleOutput) {
+    public void execute(Module module) {
         Type moduleType = ((TypePayload) getPayload()).getType();
+        Socket moduleSocket = module.getSocket();
+        DataInputStream moduleInput = module.getIn();
+        PrintWriter moduleOutput = module.getOut();
 
         try {
-            if (connectModuleToTheSystem(moduleSocket, moduleType,
-                    moduleOutput, responseGenerator, connectedPort)) {
+            if (connectModuleToTheSystem(moduleSocket, moduleInput, moduleOutput,
+                    moduleType, responseGenerator, connectedPort)) {
                 responseGenerator.sendResponse(Operation.HANDSHAKE, new CodePayload(Code.OK), moduleOutput);
+
+                for (PortData portsDatum : Context.getInstance().getPortsData()) {
+                    for (Module connectedModule : portsDatum.getModules()) {
+                        if (connectedModule.getSocket() == moduleSocket) {
+                            if (onConnectionEstablishedListener != null) {
+                                onConnectionEstablishedListener.onConnectionEstablished(connectedModule);
+                            } else {
+                                System.out.println("Should set OnConnectionEstablishedListener before calling");
+                            }
+                            break;
+                        }
+                    }
+                }
             }
         }
         catch (IOException e) {
@@ -40,8 +61,9 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
     }
 
     private static synchronized boolean connectModuleToTheSystem(Socket moduleSocket,
-                                                                 Type moduleType,
+                                                                 DataInputStream moduleInput,
                                                                  PrintWriter moduleOutput,
+                                                                 Type moduleType,
                                                                  ResponseGenerator responseGenerator,
                                                                  int connectedPort)
             throws IOException {
@@ -51,7 +73,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
         int amountModulesConnected = 0;
         for (PortData portsDatum : context.getPortsData()) {
             for (Module module : portsDatum.getModules()) {
-                if (module.getModuleType() == moduleType) {
+                if (module.getType() == moduleType) {
                     amountModulesConnected++;
                 }
             }
@@ -68,10 +90,12 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
             if (connectedPort != context.HANDSHAKE_PORT &&
                     portsDatum.getPort() == connectedPort &&
                     portsDatum.getModules().size() < context.MAX_SOCKETS_PER_PORT) {
-                portsDatum.getModules().add(new Module(moduleSocket,
-                        moduleType, context.getNextModuleId()));
+                Module moduleToConnect = new Module(moduleSocket, moduleInput, moduleOutput,
+                        moduleType, context.getNextModuleId());
+                portsDatum.getModules().add(moduleToConnect);
                 context.setNextModuleId(context.getNextModuleId());
-                System.out.println("connected to port " + connectedPort);
+                System.out.println("Connected to port " + connectedPort);
+
                 return true;
             }
         }

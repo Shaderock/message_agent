@@ -1,24 +1,32 @@
 package broker.servers;
 
-import broker.actions.HandshakeExecutor;
-import broker.actions.ProtocolTaskExecutorFactory;
+import broker.actions.requests.HandshakeExecutor;
+import broker.actions.not_requests.OnConnectionEstablishedListener;
+import broker.actions.requests.ProtocolTaskExecutorFactory;
 import broker.exceptions.WrongProtocolSyntaxException;
+import broker.models.Module;
 import broker.models.payload.Code;
 import broker.models.payload.CodePayload;
 import broker.models.protocols.Operation;
+import broker.utils.MessageListener;
 import broker.utils.ResponseGenerator;
+import lombok.Setter;
 
 import javax.naming.OperationNotSupportedException;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 
-public class HandshakeHandler extends Thread {
+public class HandshakeHandler
+        extends Thread
+        implements OnConnectionEstablishedListener {
     private final Socket moduleSocket;
     private final ResponseGenerator responseGenerator = new ResponseGenerator();
     private final int connectedToPort;
+
+    @Setter
+    private OnConnectionEstablishedListener onConnectionEstablishedListener;
 
     public HandshakeHandler(Socket moduleSocket, int connectedToPort) {
         this.moduleSocket = moduleSocket;
@@ -39,16 +47,9 @@ public class HandshakeHandler extends Thread {
         PrintWriter out = new PrintWriter(acceptedSocket.getOutputStream(), true);
         DataInputStream in = new DataInputStream(acceptedSocket.getInputStream());
 
-        while (in.available() == 0) {
-        }
+        MessageListener messageListener = new MessageListener();
+        String request = messageListener.listen(in);
 
-        byte[] requestAsBytes = new byte[in.available()];
-        int i = 0;
-        while (in.available() != 0) {
-            requestAsBytes[i++] = in.readByte();
-        }
-
-        String request = new String(requestAsBytes, StandardCharsets.UTF_8);
         System.out.print("Message Received: " + request);
 
         ProtocolTaskExecutorFactory protocolTaskExecutorFactory = new ProtocolTaskExecutorFactory();
@@ -57,7 +58,7 @@ public class HandshakeHandler extends Thread {
             handshakeExecutor = (HandshakeExecutor) protocolTaskExecutorFactory
                     .createProtocolTaskExecutor(request);
             handshakeExecutor.setConnectedPort(connectedToPort);
-            handshakeExecutor.execute(moduleSocket, out);
+            handshakeExecutor.execute(new Module(acceptedSocket, in, out, null, 0));
         }
         catch (WrongProtocolSyntaxException e) {
             responseGenerator.sendResponse(Operation.HANDSHAKE,
@@ -68,5 +69,11 @@ public class HandshakeHandler extends Thread {
                     new CodePayload(Code.UNSUPPORTABLE_OPERATION), out);
         }
 
+    }
+
+    @Override
+    public void onConnectionEstablished(Module module) {
+        CommunicationHandler communicationHandler = new CommunicationHandler(module);
+        communicationHandler.start();
     }
 }

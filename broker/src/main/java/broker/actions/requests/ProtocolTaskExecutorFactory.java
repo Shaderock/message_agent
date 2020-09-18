@@ -1,4 +1,4 @@
-package broker.actions;
+package broker.actions.requests;
 
 import broker.exceptions.WrongProtocolSyntaxException;
 import broker.models.payload.TypePayload;

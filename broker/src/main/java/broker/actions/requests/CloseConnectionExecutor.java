@@ -1,16 +1,14 @@
-package broker.actions;
+package broker.actions.requests;
 
+import broker.models.Module;
 import broker.models.payload.Payload;
-
-import java.io.PrintWriter;
-import java.net.Socket;
 
 public class CloseConnectionExecutor extends ProtocolTaskExecutor {
     public CloseConnectionExecutor(Payload payload) {
         super(payload);
     }
 
-    public void execute(Socket moduleSocket, PrintWriter moduleOutput) {
+    public void execute(Module module) {
         // todo
     }
 }

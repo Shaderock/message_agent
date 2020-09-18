@@ -38,12 +38,13 @@ class Connection:
 
             response = json.loads(self.socket.recv(4096).decode('utf8'))
 
-            if response['payload']['code'] >= 40:
+            if json.loads(response['payload'])['code'] >= 40:
                 print('Caught an error')
                 raise Exception()
-            elif response['payload']['code'] == 30:
-                self.server_port = response['payload']['port']
-            elif response['payload']['code'] == 20:
+            elif json.loads(response['payload'])['code'] == 30:
+                self.server_port = json.loads(response['payload'])['port']
+                self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            elif json.loads(response['payload'])['code'] == 20:
                 ready_to_go = True
 
     def reset_socket(self):

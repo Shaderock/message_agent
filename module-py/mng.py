@@ -8,8 +8,9 @@ import connection
 
 blockchain = []
 cr_list = []
-has_task = True
+has_task = False
 prev_hash = ''
+need_sub = True
 
 
 def close_connection():
@@ -28,30 +29,8 @@ def sub_to_all():
     get_modules = {
         'operation': 'get-modules'
     }
-    print('Getting all modules list')
     conn.send(json.dumps(get_modules))
-    response = json.loads(conn.wait_message())
-    print('Response got')
-    if response['operation'] == 'get-modules' and response['payload']['code'] == 20:
-        ids = []
-        for module in response['payload']['modules']:
-            if module['type'] == 'CR':
-                ids.append(module['id'])
-        print(f'There is/are {len(ids)} CR-module(s)')
-        if len(ids) != 0:
-            global cr_list
-            cr_list = ids
-            subscribe = {
-                'operation': 'subscribe',
-                'payload': json.dumps({'ids': ids})
-            }
-            conn.send(json.dumps(subscribe))
-            response = json.loads(conn.wait_message())
-            if response['operation'] == 'subscribe' and response['operation']['code'] == 20:
-                print(f'Subbed successful ({str(cr_list)})')
-                return
-            else:
-                raise Exception
+    print('Requested all modules')
 
 
 def generate_content():
@@ -134,6 +113,9 @@ def send_task_to_cr(cr):
 
 def manage_task():
     global has_task
+    global cr_list
+    global need_sub
+
     while True:
         if has_task:
             if len(cr_list) != 0:
@@ -143,7 +125,36 @@ def manage_task():
         if conn.has_messages():
             message = json.loads(conn.wait_message())
 
-            if message['operation'] == 'notify':
+            if message['operation'] == 'get-modules':
+                print('Got all modules')
+                if need_sub:
+                    for module in message['payload']['modules']:
+                        if module['type'] == 'CR':
+                            cr_list.append(module['id'])
+                    print(f'There is/are {len(cr_list)} CR-module(s)')
+                    if len(cr_list) != 0:
+                        subscribe = {
+                            'operation': 'subscribe',
+                            'payload': json.dumps({'ids': cr_list})
+                        }
+                        conn.send(json.dumps(subscribe))
+                        print('Requested for sub')
+
+                    else:
+                        has_task = True
+                        need_sub = False
+
+            elif message['operation'] == 'subscribe':
+                if message['payload']['code'] == 20:
+                    print(f'Subbed successful ({str(cr_list)})')
+                    has_task = True
+                    need_sub = False
+                elif message['payload']['code'] in [43, 44]:
+                    cr_list.clear()
+                    print(f'Some sub has failed - {str(message["payload"]["ids"])}')
+                    sub_to_all()
+
+            elif message['operation'] == 'notify':
                 if message['payload']['command'] == 'complete-task':
                     print('Someone attempted to complete task')
                     if message['payload']['info-block']['id-block'] != (len(blockchain)-1):
@@ -184,7 +195,7 @@ def manage_task():
                 break
 
             else:
-                print(f'Got untreated operation - {message["operation"]}')
+                print(f'Untreated operation - {message["operation"]}')
                 pass
 
 

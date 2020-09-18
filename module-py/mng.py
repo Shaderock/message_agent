@@ -141,16 +141,16 @@ def manage_task():
                         if module['type'] == 'CR':
                             cr_list.append(module['id'])
                     print(f'There is/are {len(cr_list)} CR-module(s)')
-                    if len(cr_list) != 0:
-                        subscribe = {
-                            'operation': 'subscribe',
-                            'payload': json.dumps({'ids': cr_list})
-                        }
-                        conn.send(json.dumps(subscribe))
-                        print('Requested for sub')
-                    else:
-                        has_task = True
-                        need_sub = False
+                    # if len(cr_list) != 0:
+                    #     subscribe = {
+                    #         'operation': 'subscribe',
+                    #         'payload': json.dumps({'ids': cr_list})
+                    #     }
+                    #     conn.send(json.dumps(subscribe))
+                    #     print('Requested for sub')
+                    # else:
+                    has_task = True
+                    need_sub = False
 
             elif message['operation'] == 'subscribe':
                 if json.loads(message['payload'])['code'] == 20:

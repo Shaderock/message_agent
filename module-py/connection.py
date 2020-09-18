@@ -18,6 +18,7 @@ class Connection:
 
         self.connect()
         self.listener = threading.Thread(target=self.listen)
+        self.listener.start()
 
     def connect(self):
         ready_to_go = False
@@ -59,7 +60,7 @@ class Connection:
                 break
             recv = ''
             while True:
-                descriptors = select.select([self.socket], [], [])
+                descriptors = select.select([self.socket], [], [], 0.01)
                 if self.socket in descriptors[0]:
                     buff = self.socket.recv(4096).decode('utf8')
                     if buff == '':
@@ -70,7 +71,7 @@ class Connection:
                 else:
                     break
             if recv != '':
-                self.messages.append(json.loads(recv))
+                self.messages.append(recv)
             self.work.release()
 
     def has_messages(self) -> bool:

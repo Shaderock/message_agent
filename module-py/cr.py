@@ -61,7 +61,7 @@ def wait_task():
     while True:
         if has_task:
             block['nonce'] = get_new_nonce()
-            print(f'Random new nonce - {block["nonce"]}')
+            # print(f'Random new nonce - {block["nonce"]}')
             if check_nonce():
                 print(f'Block nonce found - {block["nonce"]}\n\tHash: {get_block_hash()}')
                 send_task()
@@ -86,9 +86,9 @@ def wait_task():
                 elif json.loads(message['payload'])['command'] == 'new-task':
                     print('DM\'ed to start new task')
                     block = {
-                        'id-block': json.loads(message['payload'])['id-block'],
-                        'prev-hash': json.loads(message['payload'])['prev-hash'],
-                        'content': json.loads(message['payload'])['content'],
+                        'id-block': json.loads(json.loads(message['payload'])['info-block'])['id-block'],
+                        'prev-hash': json.loads(json.loads(message['payload'])['info-block'])['prev-hash'],
+                        'content': json.loads(json.loads(message['payload'])['info-block'])['content'],
                         'nonce': ''
                     }
                     has_task = True
@@ -99,7 +99,6 @@ def wait_task():
 
             else:
                 print(f'Untreated operation - {message["operation"]}')
-                break
 
 
 if __name__ == '__main__':

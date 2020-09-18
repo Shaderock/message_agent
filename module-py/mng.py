@@ -11,18 +11,12 @@ has_task = True
 prev_hash = ''
 
 
-def wait_message():
-    while True:
-        if conn.has_messages():
-            return conn.messages.pop(0)
-
-
 def sub_to_all():
     get_modules = {
         'operation': 'get-modules'
     }
     conn.send(json.dumps(get_modules))
-    response = json.loads(wait_message())
+    response = json.loads(conn.wait_message())
     if response['payload']['code'] == 20:
         ids = []
         for module in response['payload']['modules']:
@@ -36,7 +30,7 @@ def sub_to_all():
                 'payload': json.dumps({'ids': ids})
             }
             conn.send(json.dumps(subscribe))
-            response = json.loads(wait_message())
+            response = json.loads(conn.wait_message())
             if response['operation'] == 'subscribe' and response['operation']['code'] == 20:
                 return
             else:
@@ -126,7 +120,7 @@ def manage_task():
             else:
                 pass
         if conn.has_messages():
-            message = json.loads(wait_message())
+            message = json.loads(conn.wait_message())
 
             if message['operation'] == 'notify':
                 if message['payload']['command'] == 'complete-task':

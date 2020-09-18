@@ -84,3 +84,8 @@ class Connection:
             raise Exception()
         self.socket.sendall((send_string + '\n').encode('utf8'))
         self.work.release()
+
+    def wait_message(self) -> str:
+        while True:
+            if self.has_messages():
+                return self.messages.pop(0)

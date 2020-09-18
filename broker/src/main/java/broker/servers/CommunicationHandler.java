@@ -9,6 +9,7 @@ import broker.models.payload.CodePayload;
 import broker.models.protocols.Operation;
 import broker.utils.MessageListener;
 import broker.utils.ResponseGenerator;
+import lombok.Setter;
 
 import javax.naming.OperationNotSupportedException;
 import java.io.DataInputStream;
@@ -17,6 +18,7 @@ import java.io.PrintWriter;
 
 public class CommunicationHandler extends Thread {
     private final Module module;
+    @Setter
     private boolean isWorking = true;
 
     public CommunicationHandler(Module justConnectedModule) {

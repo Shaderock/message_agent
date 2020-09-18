@@ -11,6 +11,8 @@ public enum Operation {
     SUBSCRIBE,
     @JsonProperty("notify")
     NOTIFY,
+    @JsonProperty("direct-message")
+    DIRECT_MESSAGE,
     @JsonProperty("close")
     CLOSE
 }

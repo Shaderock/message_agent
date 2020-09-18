@@ -93,7 +93,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                 Module moduleToConnect = new Module(moduleSocket, moduleInput, moduleOutput,
                         moduleType, context.getNextModuleId());
                 portsDatum.getModules().add(moduleToConnect);
-                context.setNextModuleId(context.getNextModuleId());
+                context.setNextModuleId(context.getNextModuleId() + 1);
                 System.out.println("Connected to port " + connectedPort);
 
                 return true;

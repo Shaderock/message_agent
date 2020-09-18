@@ -39,16 +39,16 @@ public class CommunicationHandler extends Thread {
         MessageListener messageListener = new MessageListener();
         ProtocolTaskExecutorFactory protocolTaskExecutorFactory = new ProtocolTaskExecutorFactory();
         ResponseGenerator responseGenerator = new ResponseGenerator();
+        ProtocolTaskExecutor taskExecutor;
 
         while (isWorking) {
             try {
                 String request = messageListener.listen(in);
-                ProtocolTaskExecutor taskExecutor =
-                        protocolTaskExecutorFactory.createProtocolTaskExecutor(request);
+                taskExecutor = protocolTaskExecutorFactory.createProtocolTaskExecutor(request);
 
                 taskExecutor.execute(module);
             }
-            catch (WrongProtocolSyntaxException e) {
+            catch (WrongProtocolSyntaxException e) { // todo get the operation from the requests
                 responseGenerator.sendResponse(Operation.HANDSHAKE,
                         new CodePayload(Code.INCORRECT_PAYLOAD_SCHEME), out);
             }

@@ -3,8 +3,10 @@ package broker.actions.requests;
 import broker.exceptions.WrongProtocolSyntaxException;
 import broker.models.payload.DirectMessageRequestPayload;
 import broker.models.payload.Payload;
+import broker.models.payload.Type;
 import broker.models.payload.TypePayload;
 import broker.models.protocols.CommunicationMessageDTO;
+import broker.models.protocols.Operation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,7 +25,8 @@ public class ProtocolTaskExecutorFactory {
                 throw new WrongProtocolSyntaxException("Operation not present");
             }
 
-            if (communicationMessageDTO.getPayload() == null) {
+            if (communicationMessageDTO.getPayload() == null
+                    && communicationMessageDTO.getOperation() != Operation.GET_MODULES) {
                 throw new WrongProtocolSyntaxException("Payload not present");
             }
 

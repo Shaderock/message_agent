@@ -58,6 +58,7 @@ public class HandshakeHandler
             handshakeExecutor = (HandshakeExecutor) protocolTaskExecutorFactory
                     .createProtocolTaskExecutor(request);
             handshakeExecutor.setConnectedPort(connectedToPort);
+            handshakeExecutor.setOnConnectionEstablishedListener(this);
             handshakeExecutor.execute(new Module(acceptedSocket, in, out, null, 0));
         }
         catch (WrongProtocolSyntaxException e) {

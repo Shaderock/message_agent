@@ -1,7 +1,8 @@
-import hashlib
 import random
 import string
 import json
+
+import hash
 import connection
 
 blockchain = []
@@ -72,7 +73,7 @@ def send_task():
 
 
 def get_last_block_hash(nonce):
-    return hashlib.sha256(f"{blockchain[len(blockchain)-1]['content']};{prev_hash};{nonce}".encode('utf8')).hexdigest()
+    return hash.get_block_hash(blockchain[len(blockchain)-1]['content'], prev_hash, nonce)
 
 
 def send_all_stop():
@@ -130,6 +131,8 @@ def manage_task():
             if message['operation'] == 'notify':
                 if message['payload']['command'] == 'complete-task':
                     if message['payload']['info-block']['id-block'] != (len(blockchain)-1):
+                        break
+                    if not hash.check_hash_rule(message['payload']['info-block']['hash']):
                         break
                     if message['payload']['info-block']['hash'] == get_last_block_hash(message['payload']['info-block']
                                                                                        ['nonce']):

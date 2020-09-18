@@ -9,11 +9,11 @@ import broker.models.protocols.Operation;
 import broker.utils.ResponseGenerator;
 
 import javax.naming.OperationNotSupportedException;
-import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class HandshakeHandler extends Thread {
     private final Socket moduleSocket;
@@ -35,14 +35,15 @@ public class HandshakeHandler extends Thread {
 
     private void handshake(Socket acceptedSocket) throws IOException {
         PrintWriter out = new PrintWriter(acceptedSocket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(acceptedSocket.getInputStream()));
+        DataInputStream in = new DataInputStream(acceptedSocket.getInputStream());
 
-//        ObjectInputStream ois = new ObjectInputStream(moduleSocket.getInputStream());
-        //convert ObjectInputStream object to String
-//        String request = (String) ois.readObject();
-//        System.out.println("Message Received: " + request);
+        byte[] requestAsBytes = new byte[in.available()];
+        int i = 0;
+        while (in.available() != 0) {
+            requestAsBytes[i++] = in.readByte();
+        }
 
-        String request = in.readLine();
+        String request = new String(requestAsBytes, StandardCharsets.UTF_8);
         System.out.println("Message Received: " + request);
 
         ProtocolTaskExecutorFactory protocolTaskExecutorFactory = new ProtocolTaskExecutorFactory();

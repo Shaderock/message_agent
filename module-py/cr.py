@@ -17,6 +17,8 @@ def close_connection():
             'operation': 'close'
         }
         conn.send(json.dumps(close))
+        print('Connection closed (by self)')
+        input('Press enter to exit...')
     except:
         pass
 
@@ -59,22 +61,30 @@ def wait_task():
     while True:
         if has_task:
             block['nonce'] = get_new_nonce()
+            print(f'Random new nonce - {block["nonce"]}')
             if check_nonce():
+                print(f'Block nonce found - {block["nonce"]}\n\tHash: {get_block_hash()}')
                 send_task()
+                print('Hash has been sent')
+                block = {}
+                has_task = False
         else:
             pass
         if conn.has_messages():
             message = json.loads(conn.wait_message())
 
             if message['operation'] == 'notify':
+                print('Notified (but i\'ve never subscribed)')
                 pass
 
             elif message['operation'] == 'direct-message':
                 if message['payload']['command'] == 'stop':
+                    print('DM\'ed to stop')
                     block = {}
                     has_task = False
 
                 elif message['payload']['command'] == 'new-task':
+                    print('DM\'ed to start new task')
                     block = {
                         'id-block': message['payload']['id-block'],
                         'prev-hash': message['payload']['prev-hash'],
@@ -84,14 +94,17 @@ def wait_task():
                     has_task = True
 
             elif message['operation'] == 'close':
+                print('Close connection (by broker)')
                 break
 
             else:
+                print(f'Untreated operation - {message["operation"]}')
                 break
 
 
 if __name__ == '__main__':
     conn = connection.Connection("CR")
+    print('Connection established')
 
     atexit.register(close_connection)
 

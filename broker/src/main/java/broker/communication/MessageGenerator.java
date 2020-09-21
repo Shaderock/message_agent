@@ -8,8 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.PrintWriter;
 
-public class ResponseGenerator {
-    public void sendResponse(Operation operation, Payload payload, PrintWriter moduleSocketOutput) {
+public class MessageGenerator {
+    public void sendMessage(Operation operation, Payload payload, PrintWriter moduleSocketOutput) {
         CommunicationMessageDTO communicationMessageDTO = new CommunicationMessageDTO();
         communicationMessageDTO.setOperation(operation);
 

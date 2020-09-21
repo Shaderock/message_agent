@@ -1,9 +1,11 @@
 package broker.servers;
 
+import broker.actions.not_requests.ModuleRemover;
+import broker.actions.not_requests.ModulesConnectionNotifier;
 import broker.actions.requests.ProtocolTaskExecutor;
 import broker.actions.requests.ProtocolTaskExecutorFactory;
+import broker.communication.MessageGenerator;
 import broker.communication.MessageListener;
-import broker.communication.ResponseGenerator;
 import broker.exceptions.OperationNotPresentException;
 import broker.exceptions.UnsupportableOperationException;
 import broker.exceptions.WrongPayloadSchemeException;
@@ -16,10 +18,16 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class CommunicationHandler extends Thread {
+public class CommunicationHandler
+        extends Thread
+        implements Finishable {
     private final Module module;
     @Setter
     private boolean isWorking = true;
+
+    private final ModulesConnectionNotifier modulesConnectionNotifier =
+            new ModulesConnectionNotifier();
+    private final ModuleRemover moduleRemover = new ModuleRemover();
 
     public CommunicationHandler(Module justConnectedModule) {
         module = justConnectedModule;
@@ -28,8 +36,8 @@ public class CommunicationHandler extends Thread {
     @Override
     public void run() {
         super.run();
-        notifyAboutNewModuleConnected();
         acceptMessages();
+        modulesConnectionNotifier.notifyAboutNewModuleConnected(module);
     }
 
     private void acceptMessages() {
@@ -38,7 +46,7 @@ public class CommunicationHandler extends Thread {
 
         MessageListener messageListener = new MessageListener();
         ProtocolTaskExecutorFactory protocolTaskExecutorFactory = new ProtocolTaskExecutorFactory();
-        ResponseGenerator responseGenerator = new ResponseGenerator();
+        MessageGenerator messageGenerator = new MessageGenerator();
         ProtocolTaskExecutor taskExecutor;
 
         while (isWorking) {
@@ -48,20 +56,22 @@ public class CommunicationHandler extends Thread {
                 taskExecutor.execute(module);
             }
             catch (UnsupportableOperationException | OperationNotPresentException e) {
-                responseGenerator.sendResponse(e.getOperation(),
+                messageGenerator.sendMessage(e.getOperation(),
                         new CodePayload(Code.UNSUPPORTABLE_OPERATION), out);
             }
-            catch (WrongPayloadSchemeException e) { // todo get the operation from the requests
-                responseGenerator.sendResponse(e.getOperation(),
+            catch (WrongPayloadSchemeException e) {
+                messageGenerator.sendMessage(e.getOperation(),
                         new CodePayload(Code.INCORRECT_PAYLOAD_SCHEME), out);
             }
             catch (IOException e) {
-                // todo handle module disconnect exception
+                moduleRemover.removeModuleFromStorage(module);
+                modulesConnectionNotifier.notifyAboutModuleDisconnected(module);
             }
         }
     }
 
-    private void notifyAboutNewModuleConnected() {
-        // todo
+    @Override
+    public void finish() {
+        isWorking = false;
     }
 }

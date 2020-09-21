@@ -2,6 +2,7 @@
 package broker;
 
 import broker.models.PortData;
+import broker.servers.HandshakeServer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,10 +22,14 @@ public class Context {
     @Getter
     private final ArrayList<PortData> portsData;
 
+    @Getter
+    private final ArrayList<HandshakeServer> handshakeServers;
+
     public final int MAX_SOCKETS_PER_PORT = 50;
 
     private Context() {
         portsData = new ArrayList<>();
+        handshakeServers = new ArrayList<>();
     }
 
     public static Context getInstance() {

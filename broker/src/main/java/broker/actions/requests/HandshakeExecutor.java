@@ -2,13 +2,13 @@ package broker.actions.requests;
 
 import broker.Context;
 import broker.actions.not_requests.OnConnectionEstablishedListener;
+import broker.communication.MessageGenerator;
 import broker.exceptions.TooManyConnectionsException;
 import broker.models.Module;
 import broker.models.PortData;
 import broker.models.payload.*;
 import broker.models.protocols.Operation;
 import broker.servers.HandshakeServer;
-import broker.communication.ResponseGenerator;
 import lombok.Setter;
 
 import java.io.DataInputStream;
@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class HandshakeExecutor extends ProtocolTaskExecutor {
-    private final ResponseGenerator responseGenerator;
+    private final MessageGenerator messageGenerator;
 
     @Setter
     private OnConnectionEstablishedListener onConnectionEstablishedListener;
@@ -27,7 +27,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
 
     public HandshakeExecutor(TypePayload typePayload) {
         super(typePayload);
-        responseGenerator = new ResponseGenerator();
+        messageGenerator = new MessageGenerator();
     }
 
     public void execute(Module module) {
@@ -38,8 +38,8 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
 
         try {
             if (connectModuleToTheSystem(moduleSocket, moduleInput, moduleOutput,
-                    moduleType, responseGenerator, connectedPort)) {
-                responseGenerator.sendResponse(Operation.HANDSHAKE, new CodePayload(Code.OK), moduleOutput);
+                    moduleType, messageGenerator, connectedPort)) {
+                messageGenerator.sendMessage(Operation.HANDSHAKE, new CodePayload(Code.OK), moduleOutput);
 
                 for (PortData portsDatum : Context.getInstance().getPortsData()) {
                     for (Module connectedModule : portsDatum.getModules()) {
@@ -64,7 +64,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                                                                  DataInputStream moduleInput,
                                                                  PrintWriter moduleOutput,
                                                                  Type moduleType,
-                                                                 ResponseGenerator responseGenerator,
+                                                                 MessageGenerator messageGenerator,
                                                                  int connectedPort)
             throws IOException {
 
@@ -80,7 +80,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
         }
 
         if (amountModulesConnected >= moduleType.getMaxConnections()) {
-            responseGenerator.sendResponse(Operation.HANDSHAKE,
+            messageGenerator.sendMessage(Operation.HANDSHAKE,
                     new CodePayload(Code.NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION), moduleOutput);
             moduleSocket.close();
             return false;
@@ -111,19 +111,19 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
         }
 
         if (isFoundFreeSlot) {
-            responseGenerator.sendResponse(Operation.HANDSHAKE,
+            messageGenerator.sendMessage(Operation.HANDSHAKE,
                     new RedirectPayload(Code.REDIRECT, portWithFreeSlot), moduleOutput);
             return false;
         } else {
             try {
                 int port = startHandshakeServer();
-                responseGenerator.sendResponse(Operation.HANDSHAKE,
+                messageGenerator.sendMessage(Operation.HANDSHAKE,
                         new RedirectPayload(Code.REDIRECT, port), moduleOutput);
                 moduleSocket.close();
                 return false;
             }
             catch (TooManyConnectionsException e) {
-                responseGenerator.sendResponse(Operation.HANDSHAKE,
+                messageGenerator.sendMessage(Operation.HANDSHAKE,
                         new CodePayload(Code.NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION), moduleOutput);
                 moduleSocket.close();
                 return false;
@@ -132,7 +132,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
     }
 
     private static synchronized int startHandshakeServer() throws TooManyConnectionsException {
-        Context context = Context.getInstance();
+        final Context context = Context.getInstance();
         for (int freePort = context.COMMUNICATION_PORT;
              freePort < context.COMMUNICATION_PORT + context.MAX_COMMUNICATION_PORTS; freePort++) {
 
@@ -152,6 +152,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
+                        context.getHandshakeServers().add(handshakeServer);
                         handshakeServer.work(finalFreePort);
                     }
                 };

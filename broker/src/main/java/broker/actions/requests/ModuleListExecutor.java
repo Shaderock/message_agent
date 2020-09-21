@@ -7,7 +7,7 @@ import broker.models.payload.Code;
 import broker.models.payload.ModuleListPayload;
 import broker.models.payload.Payload;
 import broker.models.protocols.Operation;
-import broker.communication.ResponseGenerator;
+import broker.communication.MessageGenerator;
 
 public class ModuleListExecutor extends ProtocolTaskExecutor {
     public ModuleListExecutor(Payload payload) {
@@ -17,7 +17,7 @@ public class ModuleListExecutor extends ProtocolTaskExecutor {
     public void execute(Module module) {
         Context context = Context.getInstance();
         ModuleListPayload moduleListPayload = new ModuleListPayload();
-        ResponseGenerator responseGenerator = new ResponseGenerator();
+        MessageGenerator messageGenerator = new MessageGenerator();
 
         for (PortData portsDatum : context.getPortsData()) {
             for (Module portsDatumModule : portsDatum.getModules()) {
@@ -28,6 +28,6 @@ public class ModuleListExecutor extends ProtocolTaskExecutor {
         }
 
         moduleListPayload.setCode(Code.OK);
-        responseGenerator.sendResponse(Operation.GET_MODULES, moduleListPayload, module.getOut());
+        messageGenerator.sendMessage(Operation.GET_MODULES, moduleListPayload, module.getOut());
     }
 }

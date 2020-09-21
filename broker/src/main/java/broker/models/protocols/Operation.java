@@ -14,5 +14,9 @@ public enum Operation {
     @JsonProperty("direct-message")
     DIRECT_MESSAGE,
     @JsonProperty("close")
-    CLOSE
+    CLOSE,
+    @JsonProperty("welcome")
+    WELCOME,
+    @JsonProperty("good-bye")
+    GOOD_BYE
 }

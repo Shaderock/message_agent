@@ -6,7 +6,7 @@ import broker.models.PortData;
 import broker.models.payload.DirectMessageRequestPayload;
 import broker.models.payload.DirectMessageResponsePayload;
 import broker.models.protocols.Operation;
-import broker.communication.ResponseGenerator;
+import broker.communication.MessageGenerator;
 
 public class DirectMessageExecutor extends ProtocolTaskExecutor {
 
@@ -18,7 +18,7 @@ public class DirectMessageExecutor extends ProtocolTaskExecutor {
     public void execute(Module module) {
         Context context = Context.getInstance();
         DirectMessageRequestPayload directMessageRequestPayload = (DirectMessageRequestPayload) getPayload();
-        ResponseGenerator responseGenerator = new ResponseGenerator();
+        MessageGenerator messageGenerator = new MessageGenerator();
 
         Module receiver = null;
         for (PortData portsDatum : context.getPortsData()) {
@@ -36,7 +36,7 @@ public class DirectMessageExecutor extends ProtocolTaskExecutor {
         directMessageResponsePayload.setInfoBlock(directMessageRequestPayload.getInfoBlock());
 
         if (receiver != null) {
-            responseGenerator.sendResponse(Operation.DIRECT_MESSAGE, directMessageResponsePayload, receiver.getOut());
+            messageGenerator.sendMessage(Operation.DIRECT_MESSAGE, directMessageResponsePayload, receiver.getOut());
         }
 
         // todo what if wrong id...

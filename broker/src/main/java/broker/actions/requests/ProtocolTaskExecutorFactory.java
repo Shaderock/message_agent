@@ -51,6 +51,9 @@ public class ProtocolTaskExecutorFactory {
                     payload = objectMapper.readValue(communicationMessageDTO.getPayload(),
                             DirectMessageRequestPayload.class);
                     return new DirectMessageExecutor((DirectMessageRequestPayload) payload);
+                case SUBSCRIBE:
+                    //payload = objectMapper.readValue(communicationMessageDTO.getPayload(), TypePayload.class);
+                    //return new SubscribeExecutor((TypePayload) payload);
                 default:
                     throw new UnsupportableOperationException("Unknown operation type");
             }

@@ -7,7 +7,7 @@ import broker.models.payload.Code;
 import broker.models.payload.ModuleListPayload;
 import broker.models.payload.Payload;
 import broker.models.protocols.Operation;
-import broker.utils.ResponseGenerator;
+import broker.communication.ResponseGenerator;
 
 public class ModuleListExecutor extends ProtocolTaskExecutor {
     public ModuleListExecutor(Payload payload) {

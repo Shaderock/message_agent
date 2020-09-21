@@ -1,4 +1,4 @@
-package broker.utils;
+package broker.communication;
 
 import broker.models.payload.Payload;
 import broker.models.protocols.CommunicationMessageDTO;

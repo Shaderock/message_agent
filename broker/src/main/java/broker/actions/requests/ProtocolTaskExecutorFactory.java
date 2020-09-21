@@ -1,12 +1,12 @@
 package broker.actions.requests;
 
-import broker.exceptions.WrongProtocolSyntaxException;
+import broker.exceptions.OperationNotPresentException;
+import broker.exceptions.UnsupportableOperationException;
+import broker.exceptions.WrongPayloadSchemeException;
 import broker.models.payload.DirectMessageRequestPayload;
 import broker.models.payload.Payload;
-import broker.models.payload.Type;
 import broker.models.payload.TypePayload;
 import broker.models.protocols.CommunicationMessageDTO;
-import broker.models.protocols.Operation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -14,7 +14,7 @@ import javax.naming.OperationNotSupportedException;
 
 public class ProtocolTaskExecutorFactory {
     public ProtocolTaskExecutor createProtocolTaskExecutor(String request)
-            throws WrongProtocolSyntaxException, OperationNotSupportedException {
+            throws WrongPayloadSchemeException, OperationNotPresentException, UnsupportableOperationException {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -22,33 +22,42 @@ public class ProtocolTaskExecutorFactory {
                     objectMapper.readValue(request, CommunicationMessageDTO.class);
 
             if (communicationMessageDTO.getOperation() == null) {
-                throw new WrongProtocolSyntaxException("Operation not present");
-            }
-
-            if (communicationMessageDTO.getPayload() == null
-                    && communicationMessageDTO.getOperation() != Operation.GET_MODULES) {
-                throw new WrongProtocolSyntaxException("Payload not present");
+                throw new OperationNotPresentException("Operation not present", null);
             }
 
             Payload payload;
+
+            // check non-payload operations first
+
+            switch (communicationMessageDTO.getOperation()) {
+                case GET_MODULES:
+                    return new ModuleListExecutor(null);
+                case CLOSE:
+                    return new CloseConnectionExecutor(null);
+            }
+
+            // then check payload-require operations
+
+            if (communicationMessageDTO.getPayload() == null) {
+                throw new WrongPayloadSchemeException("Required payload not present",
+                        communicationMessageDTO.getOperation());
+            }
+
             switch (communicationMessageDTO.getOperation()) {
                 case HANDSHAKE:
                     payload = objectMapper.readValue(communicationMessageDTO.getPayload(), TypePayload.class);
                     return new HandshakeExecutor((TypePayload) payload);
                 case DIRECT_MESSAGE:
-                    payload = objectMapper.readValue(communicationMessageDTO.getPayload(), DirectMessageRequestPayload.class);
+                    payload = objectMapper.readValue(communicationMessageDTO.getPayload(),
+                            DirectMessageRequestPayload.class);
                     return new DirectMessageExecutor((DirectMessageRequestPayload) payload);
-                case GET_MODULES:
-                    return new ModuleListExecutor(null);
-                case CLOSE:
-                    return new CloseConnectionExecutor(null);
                 default:
-                    throw new OperationNotSupportedException("Unknown operation type");
+                    throw new UnsupportableOperationException("Unknown operation type");
             }
         }
         catch (JsonProcessingException e) {
             System.out.println("Could not deserialize JSON");
-            throw new WrongProtocolSyntaxException("Could not deserialize JSON");
+            throw new WrongPayloadSchemeException("Could not deserialize JSON");
         }
     }
 }

@@ -3,13 +3,15 @@ package broker.servers;
 import broker.actions.requests.HandshakeExecutor;
 import broker.actions.not_requests.OnConnectionEstablishedListener;
 import broker.actions.requests.ProtocolTaskExecutorFactory;
-import broker.exceptions.WrongProtocolSyntaxException;
+import broker.communication.MessageListener;
+import broker.exceptions.OperationNotPresentException;
+import broker.exceptions.UnsupportableOperationException;
+import broker.exceptions.WrongPayloadSchemeException;
 import broker.models.Module;
 import broker.models.payload.Code;
 import broker.models.payload.CodePayload;
 import broker.models.protocols.Operation;
-import broker.utils.MessageListener;
-import broker.utils.ResponseGenerator;
+import broker.communication.ResponseGenerator;
 import lombok.Setter;
 
 import javax.naming.OperationNotSupportedException;
@@ -61,11 +63,11 @@ public class HandshakeHandler
             handshakeExecutor.setOnConnectionEstablishedListener(this);
             handshakeExecutor.execute(new Module(acceptedSocket, in, out, null, 0));
         }
-        catch (WrongProtocolSyntaxException e) {
+        catch (WrongPayloadSchemeException e) {
             responseGenerator.sendResponse(Operation.HANDSHAKE,
                     new CodePayload(Code.INCORRECT_PAYLOAD_SCHEME), out);
         }
-        catch (OperationNotSupportedException e) {
+        catch (UnsupportableOperationException | OperationNotPresentException e) {
             responseGenerator.sendResponse(Operation.HANDSHAKE,
                     new CodePayload(Code.UNSUPPORTABLE_OPERATION), out);
         }

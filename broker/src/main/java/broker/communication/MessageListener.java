@@ -1,4 +1,4 @@
-package broker.utils;
+package broker.communication;
 
 import java.io.DataInputStream;
 import java.io.IOException;

@@ -8,7 +8,7 @@ import broker.models.PortData;
 import broker.models.payload.*;
 import broker.models.protocols.Operation;
 import broker.servers.HandshakeServer;
-import broker.utils.ResponseGenerator;
+import broker.communication.ResponseGenerator;
 import lombok.Setter;
 
 import java.io.DataInputStream;

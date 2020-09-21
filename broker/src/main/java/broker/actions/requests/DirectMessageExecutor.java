@@ -6,7 +6,7 @@ import broker.models.PortData;
 import broker.models.payload.DirectMessageRequestPayload;
 import broker.models.payload.DirectMessageResponsePayload;
 import broker.models.protocols.Operation;
-import broker.utils.ResponseGenerator;
+import broker.communication.ResponseGenerator;
 
 public class DirectMessageExecutor extends ProtocolTaskExecutor {
 

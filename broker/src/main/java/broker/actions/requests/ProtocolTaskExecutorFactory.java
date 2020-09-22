@@ -54,6 +54,9 @@ public class ProtocolTaskExecutorFactory {
                 case SUBSCRIBE:
                     //payload = objectMapper.readValue(communicationMessageDTO.getPayload(), TypePayload.class);
                     //return new SubscribeExecutor((TypePayload) payload);
+                case NOTIFY:
+                    //payload = objectMapper.readValue(communicationMessageDTO.getPayload(), TypePayload.class);
+                    //return new NotifyExecutor((TypePayload) payload);
                 default:
                     throw new UnsupportableOperationException("Unknown operation type");
             }

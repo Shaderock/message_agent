@@ -3,9 +3,7 @@ package broker.actions.requests;
 import broker.exceptions.OperationNotPresentException;
 import broker.exceptions.UnsupportableOperationException;
 import broker.exceptions.WrongPayloadSchemeException;
-import broker.models.payload.DirectMessageRequestPayload;
-import broker.models.payload.Payload;
-import broker.models.payload.TypePayload;
+import broker.models.payload.*;
 import broker.models.protocols.CommunicationMessageDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,11 +50,11 @@ public class ProtocolTaskExecutorFactory {
                             DirectMessageRequestPayload.class);
                     return new DirectMessageExecutor((DirectMessageRequestPayload) payload);
                 case SUBSCRIBE:
-                    //payload = objectMapper.readValue(communicationMessageDTO.getPayload(), TypePayload.class);
-                    //return new SubscribeExecutor((TypePayload) payload);
+                    payload = objectMapper.readValue(communicationMessageDTO.getPayload(), SubscribePayloadIDs.class);
+                    return new SubscribeExecutor((SubscribePayloadIDs) payload);
                 case NOTIFY:
-                    //payload = objectMapper.readValue(communicationMessageDTO.getPayload(), TypePayload.class);
-                    //return new NotifyExecutor((TypePayload) payload);
+                    payload = objectMapper.readValue(communicationMessageDTO.getPayload(), TypePayload.class);
+                    return new NotifyExecutor((NotifyPayload) payload);
                 default:
                     throw new UnsupportableOperationException("Unknown operation type");
             }

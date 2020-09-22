@@ -1,12 +1,11 @@
 package broker.actions.requests;
 
 import broker.models.Module;
-import broker.models.payload.DirectMessageRequestPayload;
+import broker.models.payload.SubscribePayloadIDs;
 
 public class SubscribeExecutor extends ProtocolTaskExecutor {
 
-    //todo: котя хочет это сделать и порадовать Димарика, но без понятия как....
-    public SubscribeExecutor(DirectMessageRequestPayload payload) {
+    public SubscribeExecutor(SubscribePayloadIDs payload) {
         super(payload);
     }
 

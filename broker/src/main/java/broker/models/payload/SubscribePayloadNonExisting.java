@@ -7,6 +7,6 @@ import lombok.Data;
 public class SubscribePayloadNonExisting implements Payload{
     private final Code code;
 
-    @JsonProperty("Non-Existing-Subscribers")
+    @JsonProperty("ids")
     private int[] ArrayNonExistingSubscribersID;
 }

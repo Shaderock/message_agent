@@ -8,6 +8,6 @@ import java.util.List;
 @Data
 public class SubscribePayloadIDs implements Payload{
 
-    @JsonProperty("Subscribers")
+    @JsonProperty("ids")
     private int[] ArraySubscribersID;
 }

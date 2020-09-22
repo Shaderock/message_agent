@@ -8,8 +8,6 @@ import broker.models.protocols.CommunicationMessageDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.naming.OperationNotSupportedException;
-
 public class ProtocolTaskExecutorFactory {
     public ProtocolTaskExecutor createProtocolTaskExecutor(String request)
             throws WrongPayloadSchemeException, OperationNotPresentException, UnsupportableOperationException {
@@ -53,8 +51,8 @@ public class ProtocolTaskExecutorFactory {
                     payload = objectMapper.readValue(communicationMessageDTO.getPayload(), SubscribePayloadIDs.class);
                     return new SubscribeExecutor((SubscribePayloadIDs) payload);
                 case NOTIFY:
-                    payload = objectMapper.readValue(communicationMessageDTO.getPayload(), TypePayload.class);
-                    return new NotifyExecutor((NotifyPayload) payload);
+                    payload = objectMapper.readValue(communicationMessageDTO.getPayload(), NotifyRequestPayload.class);
+                    return new NotifyExecutor((NotifyRequestPayload) payload);
                 default:
                     throw new UnsupportableOperationException("Unknown operation type");
             }

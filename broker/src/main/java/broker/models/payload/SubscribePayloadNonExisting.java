@@ -8,5 +8,5 @@ public class SubscribePayloadNonExisting implements Payload{
     private final Code code;
 
     @JsonProperty("ids")
-    private int[] ArrayNonExistingSubscribersID;
+    private int[] NonExistingModulesID;
 }

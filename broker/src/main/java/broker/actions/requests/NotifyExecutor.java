@@ -15,9 +15,9 @@ public class NotifyExecutor extends ProtocolTaskExecutor {
         NotifyRequestPayload notifyRequestPayload = (NotifyRequestPayload) getPayload();
 
         NotifyResponsePayload notifyResponsePayload = new NotifyResponsePayload();
-        NotifyResponsePayload.setIdSender(module.getId());
-        NotifyResponsePayload.setCommand(notifyResponsePayload.getCommand());
-        NotifyResponsePayload.setInfoBlock(notifyResponsePayload.getInfoBlock());
+        notifyResponsePayload.setIdSender(module.getId());
+        notifyResponsePayload.setCommand(notifyResponsePayload.getCommand());
+        notifyResponsePayload.setInfoBlock(notifyResponsePayload.getInfoBlock());
 
     }
 }

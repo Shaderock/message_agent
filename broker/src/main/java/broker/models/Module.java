@@ -21,4 +21,5 @@ public class Module {
 
     private Type type;
     private int id;
+    private int[] subscribersList;
 }

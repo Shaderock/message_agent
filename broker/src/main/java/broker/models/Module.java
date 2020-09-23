@@ -8,6 +8,7 @@ import lombok.Data;
 import java.io.DataInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
@@ -18,8 +19,9 @@ public class Module {
     private DataInputStream in;
     @JsonIgnore
     private PrintWriter out;
+    @JsonIgnore
+    private ArrayList<Integer> notifiersIds;
 
     private Type type;
     private int id;
-    private int[] subscribersList;
 }

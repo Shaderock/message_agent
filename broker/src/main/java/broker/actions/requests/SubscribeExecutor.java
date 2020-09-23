@@ -1,9 +1,17 @@
 package broker.actions.requests;
 
+import broker.Context;
+import broker.communication.MessageGenerator;
+import broker.exceptions.SelfSubscribeException;
 import broker.models.Module;
+import broker.models.PortData;
 import broker.models.payload.Code;
-import broker.models.payload.ModuleListPayload;
+import broker.models.payload.CodePayload;
 import broker.models.payload.SubscribePayloadIDs;
+import broker.models.payload.SubscribePayloadNonExisting;
+import broker.models.protocols.Operation;
+
+import java.util.ArrayList;
 
 public class SubscribeExecutor extends ProtocolTaskExecutor {
 
@@ -13,28 +21,45 @@ public class SubscribeExecutor extends ProtocolTaskExecutor {
 
     @Override
     public void execute(Module module) {
-        // todo: лапками клац клац и метод создастся.
+        SubscribePayloadIDs subscribePayloadIDs = (SubscribePayloadIDs) getPayload();
+        Context context = Context.getInstance();
+        MessageGenerator messageGenerator = new MessageGenerator();
 
-        ModuleListPayload moduleListPayload = new ModuleListPayload();
+        ArrayList<Integer> idsToCheck = new ArrayList<>();
+        for (int id : subscribePayloadIDs.getModulesIdsToSubscribeOn()) {
+            idsToCheck.add(id);
+        }
+        ArrayList<Integer> checkedIds = new ArrayList<>();
 
-        //проверка на селф-подписку
-        for (int i : module.getSubscribersList()){ //whole array
-            if () //ids are eqyal
-                moduleListPayload.setCode(Code.SELF_SUBSCRIBE);
+        try {
+            for (PortData portsDatum : context.getPortsData()) {
+                for (Module portsDatumModule : portsDatum.getModules()) {
+                    for (Integer id : idsToCheck) {
+                        if (id == module.getId()) {
+                            throw new SelfSubscribeException("selfSubscribeDetected");
+                        } else {
+                            if (portsDatumModule.getId() == id) {
+                                checkedIds.add(id);
+                                idsToCheck.remove(id);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch (SelfSubscribeException e) {
+            messageGenerator.sendMessage(Operation.SUBSCRIBE,
+                    new CodePayload(Code.SELF_SUBSCRIBE), module.getOut());
+            return;
         }
 
-        //проверка на существующих подписчиков
-        for () {
-            if ()
-                    moduleListPayload.setCode(Code.MODULE_DOES_NOT_EXIST);
+        if (idsToCheck.size() > 0) {
+            messageGenerator.sendMessage(Operation.SUBSCRIBE,
+                    new SubscribePayloadNonExisting(Code.MODULE_DOES_NOT_EXIST, idsToCheck),
+                    module.getOut());
+        } else {
+            module.setNotifiersIds(checkedIds);
+            messageGenerator.sendMessage(Operation.SUBSCRIBE, new CodePayload(Code.OK), module.getOut());
         }
-
-        //получение кода 20+получение списка ID
-
-        moduleListPayload.setCode(Code.OK);
-
-        SubscribePayloadIDs subscribePayloadIDs = new SubscribePayloadIDs();
-        subscribePayloadIDs.setModulesToSubscribeOnId(module.getSubscribersList());
-
     }
 }

@@ -9,5 +9,5 @@ import java.util.List;
 public class SubscribePayloadIDs implements Payload{
 
     @JsonProperty("ids")
-    private int[] modulesToSubscribeOnId;
+    private int[] modulesIdsToSubscribeOn;
 }

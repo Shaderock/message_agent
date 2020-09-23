@@ -1,12 +1,16 @@
 package broker.models.payload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.ArrayList;
+
 @Data
-public class SubscribePayloadNonExisting implements Payload{
+@AllArgsConstructor
+public class SubscribePayloadNonExisting implements Payload {
     private final Code code;
 
     @JsonProperty("ids")
-    private int[] nonExistingModulesID;
+    private ArrayList<Integer> nonExistingModulesID;
 }

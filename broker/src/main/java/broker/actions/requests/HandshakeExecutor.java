@@ -183,7 +183,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
-                        context.getHandshakeServers().add(handshakeServer);
+                        context.getWorkers().add(handshakeServer);
                         handshakeServer.work(finalFreePort);
                     }
                 };

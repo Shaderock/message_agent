@@ -20,5 +20,9 @@ public enum Operation {
     @JsonProperty("good-bye")
     GOOD_BYE,
     @JsonProperty("keep-alive")
-    KEEP_ALIVE
+    KEEP_ALIVE,
+    @JsonProperty("broker-is-alive")
+    BROKER_IS_ALIVE,
+    @JsonProperty("module-is-alive")
+    MODULE_IS_ALIVE
 }

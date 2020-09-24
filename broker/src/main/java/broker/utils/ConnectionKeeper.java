@@ -7,8 +7,15 @@ import broker.models.PortData;
 import broker.models.protocols.Operation;
 import broker.servers.Finishable;
 
-public class ConnectionKeeper implements Finishable {
+public class ConnectionKeeper
+    extends Thread
+        implements Finishable {
     private boolean isRunning = true;
+
+    @Override
+    public void run() {
+        keepConnection();
+    }
 
     @SuppressWarnings("BusyWait")
     public void keepConnection() {
@@ -20,7 +27,7 @@ public class ConnectionKeeper implements Finishable {
                 Thread.sleep(15000);
             }
             catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println("Connection keeper sleep interrupted");
             }
             for (PortData portsDatum : context.getPortsData()) {
                 for (Module module : portsDatum.getModules()) {
@@ -33,5 +40,7 @@ public class ConnectionKeeper implements Finishable {
     @Override
     public void finish() {
         isRunning = false;
+        this.interrupt();
+        System.out.println("ConnectionKeeper finished its work");
     }
 }

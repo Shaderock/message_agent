@@ -42,7 +42,7 @@ def listen_to_broker_udp() -> str:
 
     data, address = udp_socket.recvfrom(1024)
 
-    return address
+    return address[0]
 
 
 class Connection:

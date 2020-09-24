@@ -2,12 +2,14 @@ import atexit
 import random
 import string
 import json
+from time import sleep
 
 import hash
 import connection
 
 blockchain = []
 cr_list = []
+new_cr_list = []
 has_task = False
 prev_hash = ''
 need_sub = True
@@ -59,6 +61,7 @@ def send_task():
         }
         conn.send(json.dumps(direct_message))
         print('New task has been sent')
+        sleep(0.1)
     global has_task
     has_task = False
 
@@ -79,6 +82,7 @@ def send_all_stop():
             'payload': json.dumps(payload)
         }
         conn.send(json.dumps(direct_message))
+        sleep(0.1)
     print('Stop command has been sent')
 
 
@@ -92,32 +96,34 @@ def save_block(message):
     print('Block has been saved')
 
 
-def send_task_to_cr(cr):
-    info_block = {
-        'id-block': len(blockchain) - 1,
-        'prev-hash': prev_hash,
-        'content': blockchain[len(blockchain) - 1]['content']
-    }
-    payload = {
-        'id-receiver': cr,
-        'command': 'new-task',
-        'info-block': json.dumps(info_block)
-    }
-    direct_message = {
-        'operation': 'direct-message',
-        'payload': json.dumps(payload)
-    }
-    conn.send(json.dumps(direct_message))
-    print('Individual task has been sent')
+def send_task_to_cr(new_cr: list):
+    for cr in new_cr:
+        info_block = {
+            'id-block': len(blockchain) - 1,
+            'prev-hash': prev_hash,
+            'content': blockchain[len(blockchain) - 1]['content']
+        }
+        payload = {
+            'id-receiver': cr,
+            'command': 'new-task',
+            'info-block': json.dumps(info_block)
+        }
+        direct_message = {
+            'operation': 'direct-message',
+            'payload': json.dumps(payload)
+        }
+        conn.send(json.dumps(direct_message))
+        print(f'Individual task to {cr} has been sent')
+        sleep(0.1)
 
 
-def sub_to_cr(cr):
+def sub_to_new_cr():
     subscribe = {
         'operation': 'subscribe',
-        'payload': json.dumps({'ids': [cr]})
+        'payload': json.dumps({'ids': cr_list + new_cr_list})
     }
     conn.send(json.dumps(subscribe))
-    print(f'Requested individual sub to {str(cr)}')
+    print(f'Requested new sub to {str(cr_list + new_cr_list)}')
 
 
 def manage_task():
@@ -141,31 +147,38 @@ def manage_task():
                         if module['type'] == 'CR':
                             cr_list.append(module['id'])
                     print(f'There is/are {len(cr_list)} CR-module(s)')
-                    # if len(cr_list) != 0:
-                    #     subscribe = {
-                    #         'operation': 'subscribe',
-                    #         'payload': json.dumps({'ids': cr_list})
-                    #     }
-                    #     conn.send(json.dumps(subscribe))
-                    #     print('Requested for sub')
-                    # else:
-                    has_task = True
-                    need_sub = False
+                    if len(cr_list) != 0:
+                        subscribe = {
+                            'operation': 'subscribe',
+                            'payload': json.dumps({'ids': cr_list})
+                        }
+                        conn.send(json.dumps(subscribe))
+                        print('Requested for sub')
+                    else:
+                        has_task = True
+                        need_sub = False
 
             elif message['operation'] == 'subscribe':
                 if json.loads(message['payload'])['code'] == 20:
-                    print(f'Subbed successful ({str(cr_list)})')
+                    print(f'Subbed successful ({str(cr_list + new_cr_list)})')
                     if need_sub:
                         has_task = True
                         need_sub = False
+                    elif len(new_cr_list) != 0:
+                        if not has_task:
+                            send_task_to_cr(new_cr_list)
+                        cr_list += new_cr_list
+                        new_cr_list.clear()
                 elif json.loads(message['payload'])['code'] in [43, 44]:
-                    print(f'Some sub has failed - {str(message["payload"]["ids"])}')
+                    print(f'Some sub has failed - {json.loads(message["payload"])["ids"]}')
                     if need_sub:
                         cr_list.clear()
                         get_modules_for_sub()
-                    else:
-                        for cr_id in message["payload"]["ids"]:
-                            cr_list.remove(cr_id)
+                    elif len(new_cr_list) != 0:
+                        for cr_id in json.loads(message['payload'])["ids"]:
+                            new_cr_list.remove(cr_id)
+                        cr_list += new_cr_list
+                        new_cr_list.clear()
 
             elif message['operation'] == 'notify':
                 if json.loads(message['payload'])['command'] == 'complete-task':
@@ -176,10 +189,11 @@ def manage_task():
                         break
                     if json.loads(json.loads(message['payload'])['info-block'])['hash'] == \
                             get_last_block_hash(json.loads(json.loads(message['payload'])['info-block'])['nonce']):
-                        print(f'Block #{message["payload"]["info-block"]["id-block"]} has been finished\n\t'
-                              f'by: {message["payload"]["id-sender"]}\n\t'
-                              f'nonce: {message["payload"]["info-block"]["nonce"]}\n\t'
-                              f'hash: {message["payload"]["info-block"]["hash"]}')
+                        print(f'Block #{json.loads(json.loads(message["payload"])["info-block"])["id-block"]} has '
+                              f'been finished\n\t'
+                              f'by: {json.loads(message["payload"])["id-sender"]}\n\t'
+                              f'nonce: {json.loads(json.loads(message["payload"])["info-block"])["nonce"]}\n\t'
+                              f'hash: {json.loads(json.loads(message["payload"])["info-block"])["hash"]}')
                         save_block(message)
 
             elif message['operation'] == 'direct-message':
@@ -189,14 +203,12 @@ def manage_task():
             elif message['operation'] == 'welcome':
                 if json.loads(message['payload'])['type'] == 'CR':
                     print('New cr in system')
-                    sub_to_cr(json.loads(message['payload'])['id'])
-                    cr_list.append(json.loads(message['payload'])['id'])
-                    if not has_task:
-                        send_task_to_cr(json.loads(message['payload'])['id'])
+                    new_cr_list.append(json.loads(message['payload'])['id'])
+                    sub_to_new_cr()
 
             elif message['operation'] == 'good-bye':
                 if json.loads(message['payload'])['type'] == 'CR':
-                    print('One cr left')
+                    print(f'One cr left - {json.loads(message["payload"])["id"]}')
                     cr_list.remove(json.loads(message['payload'])['id'])
                     if len(cr_list) == 0:
                         blockchain.pop()

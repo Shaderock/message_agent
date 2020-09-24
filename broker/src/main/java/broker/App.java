@@ -18,9 +18,9 @@ public class App {
         TerminalHandler terminalHandler = new TerminalHandler();
         terminalHandler.start();
 
-        handshakeServer.work(context.HANDSHAKE_PORT);
-
         BroadcastHandler broadcastHandler = new BroadcastHandler();
         broadcastHandler.start();
+
+        handshakeServer.work(context.HANDSHAKE_PORT);
     }
 }

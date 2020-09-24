@@ -36,7 +36,15 @@ public class CommunicationHandler
     @Override
     public void run() {
         super.run();
-        acceptMessages();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                acceptMessages();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+
         modulesConnectionNotifier.notifyAboutNewModuleConnected(module);
     }
 
@@ -52,6 +60,7 @@ public class CommunicationHandler
         while (isWorking) {
             try {
                 String request = messageListener.listen(in);
+                System.out.print("message RECEIVED, message: " + request);
                 taskExecutor = protocolTaskExecutorFactory.createProtocolTaskExecutor(request);
                 taskExecutor.execute(module);
             }

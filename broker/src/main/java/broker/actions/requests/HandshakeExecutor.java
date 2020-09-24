@@ -15,6 +15,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class HandshakeExecutor extends ProtocolTaskExecutor {
     private final MessageGenerator messageGenerator;
@@ -90,8 +91,16 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
             if (connectedPort != context.HANDSHAKE_PORT &&
                     portsDatum.getPort() == connectedPort &&
                     portsDatum.getModules().size() < context.MAX_SOCKETS_PER_PORT) {
-                Module moduleToConnect = new Module(moduleSocket, moduleInput, moduleOutput,
-                        moduleType, context.getNextModuleId());
+                Module moduleToConnect = Module
+                        .builder()
+                        .socket(moduleSocket)
+                        .in(moduleInput)
+                        .out(moduleOutput)
+                        .type(moduleType)
+                        .id(context.getNextModuleId())
+                        .notifiersIds(new ArrayList<Integer>())
+                        .build();
+
                 portsDatum.getModules().add(moduleToConnect);
                 context.setNextModuleId(context.getNextModuleId() + 1);
                 System.out.println("Connected to port " + connectedPort);

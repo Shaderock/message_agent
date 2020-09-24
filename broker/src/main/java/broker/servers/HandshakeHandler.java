@@ -17,6 +17,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class HandshakeHandler
         extends Thread
@@ -49,7 +50,7 @@ public class HandshakeHandler
         MessageListener messageListener = new MessageListener();
         String request = messageListener.listen(in);
 
-        System.out.print("Message Received: " + request);
+        System.out.print("message RECEIVED, message: " + request);
 
         ProtocolTaskExecutorFactory protocolTaskExecutorFactory = new ProtocolTaskExecutorFactory();
         HandshakeExecutor handshakeExecutor;
@@ -58,7 +59,13 @@ public class HandshakeHandler
                     .createProtocolTaskExecutor(request);
             handshakeExecutor.setConnectedPort(connectedToPort);
             handshakeExecutor.setOnConnectionEstablishedListener(this);
-            handshakeExecutor.execute(new Module(acceptedSocket, in, out, null, 0));
+            handshakeExecutor.execute(Module
+                    .builder()
+                    .socket(acceptedSocket)
+                    .in(in)
+                    .out(out)
+                    .notifiersIds(new ArrayList<Integer>())
+                    .build());
         }
         catch (WrongPayloadSchemeException e) {
             messageGenerator.sendMessage(Operation.HANDSHAKE,

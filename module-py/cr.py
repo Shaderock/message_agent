@@ -97,6 +97,9 @@ def wait_task():
                 print('Close connection (by broker)')
                 break
 
+            elif message['operation'] == 'keep-alive':
+                pass
+
             else:
                 print(f'Untreated operation - {message["operation"]}')
 

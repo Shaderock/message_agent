@@ -220,6 +220,9 @@ def manage_task():
                     send_all_stop()
                 break
 
+            elif message['operation'] == 'keep-alive':
+                pass
+
             else:
                 print(f'Untreated operation - {message["operation"]}')
                 pass

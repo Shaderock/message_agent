@@ -6,29 +6,31 @@ import broker.exceptions.SelfSubscribeException;
 import broker.models.Module;
 import broker.models.PortData;
 import broker.models.payload.Code;
+import broker.models.payload.CodeIdsPayload;
 import broker.models.payload.CodePayload;
-import broker.models.payload.SubscribePayloadIDs;
-import broker.models.payload.SubscribePayloadNonExisting;
+import broker.models.payload.IdsPayload;
 import broker.models.protocols.Operation;
 
 import java.util.ArrayList;
 
 public class SubscribeExecutor extends ProtocolTaskExecutor {
 
-    public SubscribeExecutor(SubscribePayloadIDs payload) {
+    public SubscribeExecutor(IdsPayload payload) {
         super(payload);
     }
 
     @Override
     public void execute(Module module) {
-        SubscribePayloadIDs subscribePayloadIDs = (SubscribePayloadIDs) getPayload();
+        IdsPayload idsPayload = (IdsPayload) getPayload();
         Context context = Context.getInstance();
         MessageGenerator messageGenerator = new MessageGenerator();
 
         ArrayList<Integer> idsToCheck = new ArrayList<>();
-        for (int id : subscribePayloadIDs.getModulesIdsToSubscribeOn()) {
+        for (int id : idsPayload.getIds()) {
             idsToCheck.add(id);
         }
+        ArrayList<Integer> idsToCheckTmp = new ArrayList<>(idsToCheck);
+
         ArrayList<Integer> checkedIds = new ArrayList<>();
 
         try {
@@ -40,7 +42,7 @@ public class SubscribeExecutor extends ProtocolTaskExecutor {
                         } else {
                             if (portsDatumModule.getId() == id) {
                                 checkedIds.add(id);
-                                idsToCheck.remove(id);
+                                idsToCheckTmp.remove(id);
                             }
                         }
                     }
@@ -49,17 +51,18 @@ public class SubscribeExecutor extends ProtocolTaskExecutor {
         }
         catch (SelfSubscribeException e) {
             messageGenerator.sendMessage(Operation.SUBSCRIBE,
-                    new CodePayload(Code.SELF_SUBSCRIBE), module.getOut());
+                    new CodePayload(Code.SELF_SUBSCRIBE), module);
             return;
         }
 
-        if (idsToCheck.size() > 0) {
+        module.setNotifiersIds(checkedIds);
+
+        if (idsToCheckTmp.size() > 0) {
             messageGenerator.sendMessage(Operation.SUBSCRIBE,
-                    new SubscribePayloadNonExisting(Code.MODULE_DOES_NOT_EXIST, idsToCheck),
-                    module.getOut());
+                    new CodeIdsPayload(Code.MODULE_DOES_NOT_EXIST, idsToCheck),
+                    module);
         } else {
-            module.setNotifiersIds(checkedIds);
-            messageGenerator.sendMessage(Operation.SUBSCRIBE, new CodePayload(Code.OK), module.getOut());
+            messageGenerator.sendMessage(Operation.SUBSCRIBE, new CodePayload(Code.OK), module);
         }
     }
 }

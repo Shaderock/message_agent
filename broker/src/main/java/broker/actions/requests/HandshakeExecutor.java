@@ -15,6 +15,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class HandshakeExecutor extends ProtocolTaskExecutor {
     private final MessageGenerator messageGenerator;
@@ -39,7 +40,11 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
         try {
             if (connectModuleToTheSystem(moduleSocket, moduleInput, moduleOutput,
                     moduleType, messageGenerator, connectedPort)) {
-                messageGenerator.sendMessage(Operation.HANDSHAKE, new CodePayload(Code.OK), moduleOutput);
+                messageGenerator.sendMessage(Operation.HANDSHAKE, new CodePayload(Code.OK),
+                        Module.builder()
+                                .out(moduleOutput)
+                                .id(-1)
+                                .build());
 
                 for (PortData portsDatum : Context.getInstance().getPortsData()) {
                     for (Module connectedModule : portsDatum.getModules()) {
@@ -81,7 +86,11 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
 
         if (amountModulesConnected >= moduleType.getMaxConnections()) {
             messageGenerator.sendMessage(Operation.HANDSHAKE,
-                    new CodePayload(Code.NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION), moduleOutput);
+                    new CodePayload(Code.NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION),
+                    Module.builder()
+                            .out(moduleOutput)
+                            .id(-1)
+                            .build());
             moduleSocket.close();
             return false;
         }
@@ -90,8 +99,18 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
             if (connectedPort != context.HANDSHAKE_PORT &&
                     portsDatum.getPort() == connectedPort &&
                     portsDatum.getModules().size() < context.MAX_SOCKETS_PER_PORT) {
-                Module moduleToConnect = new Module(moduleSocket, moduleInput, moduleOutput,
-                        moduleType, context.getNextModuleId());
+                Module moduleToConnect = Module
+                        .builder()
+                        .socket(moduleSocket)
+                        .in(moduleInput)
+                        .out(moduleOutput)
+                        .type(moduleType)
+                        .id(context.getNextModuleId())
+                        .notifiersIds(new ArrayList<Integer>())
+                        .build();
+
+                moduleToConnect.getSocket().setSoTimeout(1000);
+
                 portsDatum.getModules().add(moduleToConnect);
                 context.setNextModuleId(context.getNextModuleId() + 1);
                 System.out.println("Connected to port " + connectedPort);
@@ -112,19 +131,31 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
 
         if (isFoundFreeSlot) {
             messageGenerator.sendMessage(Operation.HANDSHAKE,
-                    new RedirectPayload(Code.REDIRECT, portWithFreeSlot), moduleOutput);
+                    new RedirectPayload(Code.REDIRECT, portWithFreeSlot),
+                    Module.builder()
+                            .out(moduleOutput)
+                            .id(-1)
+                            .build());
             return false;
         } else {
             try {
                 int port = startHandshakeServer();
                 messageGenerator.sendMessage(Operation.HANDSHAKE,
-                        new RedirectPayload(Code.REDIRECT, port), moduleOutput);
+                        new RedirectPayload(Code.REDIRECT, port),
+                        Module.builder()
+                                .out(moduleOutput)
+                                .id(-1)
+                                .build());
                 moduleSocket.close();
                 return false;
             }
             catch (TooManyConnectionsException e) {
                 messageGenerator.sendMessage(Operation.HANDSHAKE,
-                        new CodePayload(Code.NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION), moduleOutput);
+                        new CodePayload(Code.NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION),
+                        Module.builder()
+                                .out(moduleOutput)
+                                .id(-1)
+                                .build());
                 moduleSocket.close();
                 return false;
             }

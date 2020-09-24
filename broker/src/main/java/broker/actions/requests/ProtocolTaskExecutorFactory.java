@@ -48,8 +48,8 @@ public class ProtocolTaskExecutorFactory {
                             DirectMessageRequestPayload.class);
                     return new DirectMessageExecutor((DirectMessageRequestPayload) payload);
                 case SUBSCRIBE:
-                    payload = objectMapper.readValue(communicationMessageDTO.getPayload(), SubscribePayloadIDs.class);
-                    return new SubscribeExecutor((SubscribePayloadIDs) payload);
+                    payload = objectMapper.readValue(communicationMessageDTO.getPayload(), IdsPayload.class);
+                    return new SubscribeExecutor((IdsPayload) payload);
                 case NOTIFY:
                     payload = objectMapper.readValue(communicationMessageDTO.getPayload(), NotifyRequestPayload.class);
                     return new NotifyExecutor((NotifyRequestPayload) payload);

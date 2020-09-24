@@ -27,6 +27,13 @@
 
 "-----------------------------------------"
 
+"broker-module"
+{
+	"operation": "keep-alive"
+}
+
+"-----------------------------------------"
+
 "module-broker"
 {
 	"operation": "handshake",

@@ -1,7 +1,6 @@
 import json
 import random
 import string
-import atexit
 
 import hash
 import connection
@@ -17,6 +16,7 @@ def close_connection():
             'operation': 'close'
         }
         conn.send(json.dumps(close))
+        conn.reset_socket()
         print('Connection closed (by self)')
         input('Press enter to exit...')
     except:
@@ -59,6 +59,11 @@ def wait_task():
     global block
 
     while True:
+
+        if conn.is_socket_resetted():
+            print('Broker force closed connection')
+            break
+
         if has_task:
             block['nonce'] = get_new_nonce()
             # print(f'Random new nonce - {block["nonce"]}')
@@ -70,6 +75,7 @@ def wait_task():
                 has_task = False
         else:
             pass
+
         if conn.has_messages():
             message = json.loads(conn.wait_message())
 
@@ -95,6 +101,7 @@ def wait_task():
 
             elif message['operation'] == 'close':
                 print('Close connection (by broker)')
+                conn.reset_socket()
                 break
 
             elif message['operation'] == 'keep-alive':
@@ -107,7 +114,5 @@ def wait_task():
 if __name__ == '__main__':
     conn = connection.Connection("CR")
     print('Connection established')
-
-    atexit.register(close_connection)
 
     wait_task()

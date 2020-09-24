@@ -1,4 +1,3 @@
-import atexit
 import random
 import string
 import json
@@ -21,6 +20,7 @@ def close_connection():
             'operation': 'close'
         }
         conn.send(json.dumps(close))
+        conn.reset_socket()
         print('Connection closed (by self)')
         input('Press enter to exit...')
     except:
@@ -132,11 +132,17 @@ def manage_task():
     global need_sub
 
     while True:
+
+        if conn.is_socket_resetted():
+            print('Broker force closed connection')
+            break
+
         if has_task:
             if len(cr_list) != 0:
                 send_task()
             else:
                 pass
+
         if conn.has_messages():
             message = json.loads(conn.wait_message())
 
@@ -184,9 +190,9 @@ def manage_task():
                 if json.loads(message['payload'])['command'] == 'complete-task':
                     print('Someone attempted to complete task')
                     if json.loads(json.loads(message['payload'])['info-block'])['id-block'] != (len(blockchain)-1):
-                        break
+                        pass
                     if not hash.check_hash_rule(json.loads(json.loads(message['payload'])['info-block'])['hash']):
-                        break
+                        pass
                     if json.loads(json.loads(message['payload'])['info-block'])['hash'] == \
                             get_last_block_hash(json.loads(json.loads(message['payload'])['info-block'])['nonce']):
                         print(f'Block #{json.loads(json.loads(message["payload"])["info-block"])["id-block"]} has '
@@ -216,8 +222,7 @@ def manage_task():
 
             elif message['operation'] == 'close':
                 print('Connection closed (by broker)')
-                if not has_task:
-                    send_all_stop()
+                conn.reset_socket()
                 break
 
             elif message['operation'] == 'keep-alive':
@@ -231,8 +236,6 @@ def manage_task():
 if __name__ == '__main__':
     conn = connection.Connection('MNG')
     print('Connection established')
-
-    atexit.register(close_connection)
 
     get_modules_for_sub()
     manage_task()

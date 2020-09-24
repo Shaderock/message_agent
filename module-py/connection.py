@@ -3,9 +3,28 @@ import socket
 import json
 import threading
 
-server_ip = 'localhost'
-# server_ip = '89.28.116.199'
+# server_ip = 'localhost'
+server_ip = '89.28.116.199'
 server_port = 17001
+
+
+# noinspection PyBroadException
+def parse_json(string_list: str) -> list:
+    list_of_strings = []
+    brackets = 0
+    string_start = None
+    for index in range(len(string_list)):
+        if string_list[index] == '{':
+            if string_start is None:
+                string_start = index
+            brackets += 1
+        elif string_list[index] == '}':
+            brackets -= 1
+            if brackets == 0 and string_start is not None:
+                list_of_strings.append(string_list[string_start:index+1])
+                string_start = None
+
+    return list_of_strings
 
 
 class Connection:
@@ -62,8 +81,9 @@ class Connection:
             while True:
                 descriptors = select.select([self.socket], [], [], 0.01)
                 if self.socket in descriptors[0]:
-                    buff = self.socket.recv(4096).decode('utf8')
-                    if buff == '':
+                    try:
+                        buff = self.socket.recv(4096).decode('utf8')
+                    except Exception:
                         self.socket.close()
                         self.socket = None
                         return
@@ -71,7 +91,7 @@ class Connection:
                 else:
                     break
             if recv != '':
-                self.messages.append(recv)
+                self.messages.extend(parse_json(recv))
             self.work.release()
 
     def has_messages(self) -> bool:
@@ -79,6 +99,9 @@ class Connection:
         has = len(self.messages) != 0
         self.work.release()
         return has
+
+    def is_socket_resetted(self) -> bool:
+        return self.socket is None
 
     def send(self, send_string: str):
         self.work.acquire()

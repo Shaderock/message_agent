@@ -10,7 +10,7 @@ public class MessageListener {
 
         while (in.available() == 0) {
             try {
-                Thread.sleep(25);
+                Thread.sleep(1);
             }
             catch (InterruptedException e) {
                 e.printStackTrace();

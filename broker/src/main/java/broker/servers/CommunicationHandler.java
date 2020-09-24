@@ -60,17 +60,25 @@ public class CommunicationHandler
         while (isWorking) {
             try {
                 String request = messageListener.listen(in);
-                System.out.print("message RECEIVED, message: " + request);
+                System.out.print("RECEIVED from id=" + module.getId() + ", message: " + request);
                 taskExecutor = protocolTaskExecutorFactory.createProtocolTaskExecutor(request);
                 taskExecutor.execute(module);
             }
             catch (UnsupportableOperationException | OperationNotPresentException e) {
                 messageGenerator.sendMessage(e.getOperation(),
-                        new CodePayload(Code.UNSUPPORTABLE_OPERATION), out);
+                        new CodePayload(Code.UNSUPPORTABLE_OPERATION),
+                        Module.builder()
+                                .out(out)
+                                .id(-1)
+                                .build());
             }
             catch (WrongPayloadSchemeException e) {
                 messageGenerator.sendMessage(e.getOperation(),
-                        new CodePayload(Code.INCORRECT_PAYLOAD_SCHEME), out);
+                        new CodePayload(Code.INCORRECT_PAYLOAD_SCHEME),
+                        Module.builder()
+                                .out(out)
+                                .id(-1)
+                                .build());
             }
             catch (IOException e) {
                 moduleRemover.removeModuleFromStorage(module);

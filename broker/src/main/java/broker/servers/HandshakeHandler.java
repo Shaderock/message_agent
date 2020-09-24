@@ -50,7 +50,7 @@ public class HandshakeHandler
         MessageListener messageListener = new MessageListener();
         String request = messageListener.listen(in);
 
-        System.out.print("message RECEIVED, message: " + request);
+        System.out.print("RECEIVED, message: " + request);
 
         ProtocolTaskExecutorFactory protocolTaskExecutorFactory = new ProtocolTaskExecutorFactory();
         HandshakeExecutor handshakeExecutor;
@@ -69,11 +69,19 @@ public class HandshakeHandler
         }
         catch (WrongPayloadSchemeException e) {
             messageGenerator.sendMessage(Operation.HANDSHAKE,
-                    new CodePayload(Code.INCORRECT_PAYLOAD_SCHEME), out);
+                    new CodePayload(Code.INCORRECT_PAYLOAD_SCHEME),
+                    Module.builder()
+                            .out(out)
+                            .id(-1)
+                            .build());
         }
         catch (UnsupportableOperationException | OperationNotPresentException e) {
             messageGenerator.sendMessage(Operation.HANDSHAKE,
-                    new CodePayload(Code.UNSUPPORTABLE_OPERATION), out);
+                    new CodePayload(Code.UNSUPPORTABLE_OPERATION),
+                    Module.builder()
+                            .out(out)
+                            .id(-1)
+                            .build());
         }
     }
 

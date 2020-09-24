@@ -18,5 +18,7 @@ public enum Operation {
     @JsonProperty("welcome")
     WELCOME,
     @JsonProperty("good-bye")
-    GOOD_BYE
+    GOOD_BYE,
+    @JsonProperty("keep-alive")
+    KEEP_ALIVE
 }

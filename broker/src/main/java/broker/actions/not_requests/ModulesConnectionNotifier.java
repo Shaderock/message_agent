@@ -25,7 +25,7 @@ public class ModulesConnectionNotifier {
                 if (module.getId() != portsDatumModule.getId()) {
                     messageGenerator.sendMessage(operation,
                             new TypeIdPayload(module.getType(), module.getId()),
-                            portsDatumModule.getOut());
+                            portsDatumModule);
                 }
             }
         }

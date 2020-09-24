@@ -51,7 +51,7 @@ public class SubscribeExecutor extends ProtocolTaskExecutor {
         }
         catch (SelfSubscribeException e) {
             messageGenerator.sendMessage(Operation.SUBSCRIBE,
-                    new CodePayload(Code.SELF_SUBSCRIBE), module.getOut());
+                    new CodePayload(Code.SELF_SUBSCRIBE), module);
             return;
         }
 
@@ -60,9 +60,9 @@ public class SubscribeExecutor extends ProtocolTaskExecutor {
         if (idsToCheckTmp.size() > 0) {
             messageGenerator.sendMessage(Operation.SUBSCRIBE,
                     new CodeIdsPayload(Code.MODULE_DOES_NOT_EXIST, idsToCheck),
-                    module.getOut());
+                    module);
         } else {
-            messageGenerator.sendMessage(Operation.SUBSCRIBE, new CodePayload(Code.OK), module.getOut());
+            messageGenerator.sendMessage(Operation.SUBSCRIBE, new CodePayload(Code.OK), module);
         }
     }
 }

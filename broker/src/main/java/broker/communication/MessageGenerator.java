@@ -9,17 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MessageGenerator {
     public void sendMessage(Operation operation, Payload payload, Module module) {
-        CommunicationMessageDTO communicationMessageDTO = new CommunicationMessageDTO();
-        communicationMessageDTO.setOperation(operation);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
         try {
-            String payloadAsJson = objectMapper.writeValueAsString(payload);
-            CommunicationMessageDTO response = new CommunicationMessageDTO();
-            response.setOperation(operation);
-            response.setPayload(payloadAsJson);
-            String responseAsStr = objectMapper.writeValueAsString(response);
+            String responseAsStr = generateMessage(operation, payload);
 
             module.getOut().print(responseAsStr);
             module.getOut().flush();
@@ -35,5 +26,18 @@ public class MessageGenerator {
         catch (JsonProcessingException e) {
             System.out.println("Could not serialize payload");
         }
+    }
+
+    public String generateMessage(Operation operation, Payload payload) throws JsonProcessingException {
+        CommunicationMessageDTO communicationMessageDTO = new CommunicationMessageDTO();
+        communicationMessageDTO.setOperation(operation);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String payloadAsJson = objectMapper.writeValueAsString(payload);
+        CommunicationMessageDTO response = new CommunicationMessageDTO();
+        response.setOperation(operation);
+        response.setPayload(payloadAsJson);
+        return objectMapper.writeValueAsString(response);
     }
 }

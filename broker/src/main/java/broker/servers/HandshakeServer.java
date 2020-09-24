@@ -8,18 +8,19 @@ public class HandshakeServer
         implements Finishable {
     private boolean isRunning = true;
     private HandshakeHandler handshakeHandler;
+    private ServerSocket handshakeServerSocket;
 
     public void work(int port) {
         this.start();
         try {
-            ServerSocket handshakeServerSocket = new ServerSocket(port);
+            handshakeServerSocket = new ServerSocket(port);
             while (isRunning) {
                 handshakeHandler = new HandshakeHandler(handshakeServerSocket.accept(), port);
                 handshakeHandler.start();
             }
         }
         catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Server socket on port " + port + " has been closed");
         }
     }
 
@@ -28,6 +29,13 @@ public class HandshakeServer
         if (handshakeHandler != null) {
             handshakeHandler.finish();
         }
-        System.out.println("Handshake server finished its work");
+        try {
+            handshakeServerSocket.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.interrupt();
+        System.out.println("HandshakeServer finished its work");
     }
 }

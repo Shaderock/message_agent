@@ -1,27 +1,26 @@
 package broker;
 
 import broker.servers.HandshakeServer;
+import broker.utils.BroadcastHandler;
 import broker.utils.ConnectionKeeper;
+import broker.utils.TerminalHandler;
 
 public class App {
     public static void main(String[] args) {
         HandshakeServer handshakeServer = new HandshakeServer();
         Context context = Context.getInstance();
-        context.getHandshakeServers().add(handshakeServer);
+        ConnectionKeeper connectionKeeper = new ConnectionKeeper();
+        connectionKeeper.start();
 
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                ConnectionKeeper connectionKeeper = new ConnectionKeeper();
-                connectionKeeper.keepConnection();
-            }
-        };
+        context.getWorkers().add(handshakeServer);
+        context.getWorkers().add(connectionKeeper);
 
-        Thread thread = new Thread(runnable);
-        thread.start();
+        TerminalHandler terminalHandler = new TerminalHandler();
+        terminalHandler.start();
 
         handshakeServer.work(context.HANDSHAKE_PORT);
-//        ConnectionKeeper connectionKeeper = new ConnectionKeeper();
-//        connectionKeeper.keepConnection();
+
+        BroadcastHandler broadcastHandler = new BroadcastHandler();
+        broadcastHandler.start();
     }
 }

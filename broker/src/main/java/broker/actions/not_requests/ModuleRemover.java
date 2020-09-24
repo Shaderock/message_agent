@@ -7,7 +7,7 @@ import broker.models.PortData;
 import java.io.IOException;
 
 public class ModuleRemover {
-    public void removeModuleFromStorage(Module module) {
+    public synchronized static void removeModuleFromStorage(Module module) {
         Context context = Context.getInstance();
         for (PortData portsDatum : context.getPortsData()) {
             portsDatum.getModules().remove(module);
@@ -24,7 +24,7 @@ public class ModuleRemover {
             try {
                 module.getSocket().close();
                 System.out.println("Module with type " + module.getType().name() +
-                        " ;with id " + module.getId() + " has been disabled and removed from storage");
+                        " with id=" + module.getId() + " has been disabled and removed from storage");
             }
             catch (IOException e) {
                 e.printStackTrace();

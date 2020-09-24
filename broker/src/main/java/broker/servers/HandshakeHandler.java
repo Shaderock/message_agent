@@ -1,5 +1,6 @@
 package broker.servers;
 
+import broker.Context;
 import broker.actions.not_requests.OnConnectionEstablishedListener;
 import broker.actions.requests.HandshakeExecutor;
 import broker.actions.requests.ProtocolTaskExecutorFactory;
@@ -88,6 +89,7 @@ public class HandshakeHandler
     @Override
     public void onConnectionEstablished(Module module) {
         communicationHandler = new CommunicationHandler(module);
+        Context.getInstance().getWorkers().add(communicationHandler);
         communicationHandler.start();
     }
 
@@ -96,5 +98,8 @@ public class HandshakeHandler
         if (communicationHandler != null) {
             communicationHandler.finish();
         }
+
+        this.interrupt();
+        System.out.println("HandshakeHandler finished its work");
     }
 }

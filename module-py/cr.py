@@ -10,6 +10,7 @@ block = {}
 nonce_max_len = 20
 
 
+# noinspection PyBroadException
 def close_connection():
     try:
         close = {
@@ -19,10 +20,11 @@ def close_connection():
         conn.reset_socket()
         print('Connection closed (by self)')
         input('Press enter to exit...')
-    except:
+    except Exception:
         pass
 
 
+# noinspection PyUnusedLocal
 def get_new_nonce() -> str:
     length = random.randint(1, nonce_max_len)
     letters = string.ascii_letters + string.digits + string.punctuation
@@ -65,13 +67,16 @@ def wait_task():
             break
 
         if has_task:
-            block['nonce'] = get_new_nonce()
-            # print(f'Random new nonce - {block["nonce"]}')
-            if check_nonce():
-                print(f'Block nonce found - {block["nonce"]}\n\tHash: {get_block_hash()}')
+            if block['nonce'] == '':
+                block['nonce'] = get_new_nonce()
+                # print(f'Random new nonce - {block["nonce"]}')
+                if check_nonce():
+                    print(f'Block nonce found - {block["nonce"]}\n\tHash: {get_block_hash()}')
+                else:
+                    block['nonce'] = ''
+            else:
                 send_task()
                 print('Hash has been sent')
-                block = {}
                 has_task = False
         else:
             pass
@@ -91,12 +96,23 @@ def wait_task():
 
                 elif json.loads(message['payload'])['command'] == 'new-task':
                     print('DM\'ed to start new task')
-                    block = {
+                    new_block = {
                         'id-block': json.loads(json.loads(message['payload'])['info-block'])['id-block'],
                         'prev-hash': json.loads(json.loads(message['payload'])['info-block'])['prev-hash'],
-                        'content': json.loads(json.loads(message['payload'])['info-block'])['content'],
-                        'nonce': ''
+                        'content': json.loads(json.loads(message['payload'])['info-block'])['content']
                     }
+
+                    if 'nonce' in block.keys():
+                        nonce = block['nonce']
+                        block = new_block
+                        block['nonce'] = nonce
+                        if block['nonce'] != '':
+                            if not check_nonce():
+                                block['nonce'] = ''
+                    else:
+                        block = new_block
+                        block['nonce'] = ''
+
                     has_task = True
 
             elif message['operation'] == 'close':
@@ -114,6 +130,5 @@ def wait_task():
 if __name__ == '__main__':
     while True:
         conn = connection.Connection("CR")
-        print('Connection established')
 
         wait_task()

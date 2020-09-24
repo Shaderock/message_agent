@@ -14,17 +14,29 @@ prev_hash = ''
 need_sub = True
 
 
+# noinspection PyUnusedLocal
+def generate_content():
+    length = random.randint(1, 15)
+    letters = string.ascii_letters
+    return ''.join(random.choice(letters) for i in range(length))
+
+
+def create_new_block():
+    blockchain.append(
+        {'id-block': len(blockchain),
+         'content': generate_content(),
+         'prev-hash': prev_hash})
+
+
+# noinspection PyBroadException
 def close_connection():
-    try:
-        close = {
-            'operation': 'close'
-        }
-        conn.send(json.dumps(close))
-        conn.reset_socket()
-        print('Connection closed (by self)')
-        input('Press enter to exit...')
-    except:
-        pass
+    close = {
+        'operation': 'close'
+    }
+    conn.send(json.dumps(close))
+    conn.reset_socket()
+    print('Connection closed (by self)')
+    input('Press enter to exit...')
 
 
 def get_modules_for_sub():
@@ -35,14 +47,7 @@ def get_modules_for_sub():
     print('Requested all modules')
 
 
-def generate_content():
-    length = random.randint(1, 15)
-    letters = string.ascii_letters
-    return ''.join(random.choice(letters) for i in range(length))
-
-
 def send_task():
-    blockchain.append({'content': generate_content()})
     info_block = {
         'id-block': len(blockchain)-1,
         'prev-hash': prev_hash,
@@ -60,7 +65,7 @@ def send_task():
             'payload': json.dumps(payload)
         }
         conn.send(json.dumps(direct_message))
-        print('New task has been sent')
+        print(f'New task has been sent to {cr}')
         sleep(0.1)
     global has_task
     has_task = False
@@ -126,6 +131,7 @@ def sub_to_new_cr():
     print(f'Requested new sub to {str(cr_list + new_cr_list)}')
 
 
+# noinspection PyBroadException
 def manage_task():
     global has_task
     global cr_list
@@ -152,26 +158,26 @@ def manage_task():
                     for module in json.loads(message['payload'])['modules']:
                         if module['type'] == 'CR':
                             cr_list.append(module['id'])
-                    print(f'There is/are {len(cr_list)} CR-module(s)')
+                    print(f'\tThere is/are {len(cr_list)} CR-module(s)')
                     if len(cr_list) != 0:
                         subscribe = {
                             'operation': 'subscribe',
                             'payload': json.dumps({'ids': cr_list})
                         }
                         conn.send(json.dumps(subscribe))
-                        print('Requested for sub')
+                        print('\tRequested for sub')
                     else:
                         has_task = True
                         need_sub = False
 
             elif message['operation'] == 'subscribe':
-                if json.loads(message['payload'])['code'] == 20:
+                if json.loads(message['payload'])['code'] == 20:                # Success sub
                     print(f'Subbed successful ({str(cr_list + new_cr_list)})')
-                    if need_sub:
-                        has_task = True
+                    if need_sub:                                                # If first sub
+                        has_task = True                                         # Next loop will give them task
                         need_sub = False
-                    elif len(new_cr_list) != 0:
-                        if not has_task:
+                    elif len(new_cr_list) != 0:                                 # If not first time and there is smn new
+                        if not has_task:                                        # If other CR are working
                             send_task_to_cr(new_cr_list)
                         cr_list += new_cr_list
                         new_cr_list.clear()
@@ -179,28 +185,36 @@ def manage_task():
                     print(f'Some sub has failed - {json.loads(message["payload"])["ids"]}')
                     if need_sub:
                         cr_list.clear()
-                        get_modules_for_sub()
-                    elif len(new_cr_list) != 0:
+                        get_modules_for_sub()                                   # Repeat sub attempt
+                    elif len(new_cr_list) != 0:                                 # If there is someone new
                         for cr_id in json.loads(message['payload'])["ids"]:
-                            new_cr_list.remove(cr_id)
+                            try:
+                                new_cr_list.remove(cr_id)
+                            except Exception:
+                                pass
+                        send_task_to_cr(new_cr_list)
                         cr_list += new_cr_list
                         new_cr_list.clear()
 
             elif message['operation'] == 'notify':
-                if json.loads(message['payload'])['command'] == 'complete-task':
-                    print('Someone attempted to complete task')
-                    if json.loads(json.loads(message['payload'])['info-block'])['id-block'] != (len(blockchain)-1):
-                        pass
-                    if not hash.check_hash_rule(json.loads(json.loads(message['payload'])['info-block'])['hash']):
-                        pass
-                    if json.loads(json.loads(message['payload'])['info-block'])['hash'] == \
-                            get_last_block_hash(json.loads(json.loads(message['payload'])['info-block'])['nonce']):
-                        print(f'Block #{json.loads(json.loads(message["payload"])["info-block"])["id-block"]} has '
-                              f'been finished\n\t'
-                              f'by: {json.loads(message["payload"])["id-sender"]}\n\t'
-                              f'nonce: {json.loads(json.loads(message["payload"])["info-block"])["nonce"]}\n\t'
-                              f'hash: {json.loads(json.loads(message["payload"])["info-block"])["hash"]}')
-                        save_block(message)
+                try:
+                    if json.loads(message['payload'])['command'] == 'complete-task':
+                        print(f'Someone ({json.loads(message["payload"])["id-sender"]}) attempted to complete task')
+                        if json.loads(json.loads(message['payload'])['info-block'])['id-block'] != (len(blockchain)-1):
+                            pass
+                        if not hash.check_hash_rule(json.loads(json.loads(message['payload'])['info-block'])['hash']):
+                            pass
+                        if json.loads(json.loads(message['payload'])['info-block'])['hash'] == \
+                                get_last_block_hash(json.loads(json.loads(message['payload'])['info-block'])['nonce']):
+                            print(f'Block #{json.loads(json.loads(message["payload"])["info-block"])["id-block"]} has '
+                                  f'been finished\n\t'
+                                  f'by: {json.loads(message["payload"])["id-sender"]}\n\t'
+                                  f'nonce: {json.loads(json.loads(message["payload"])["info-block"])["nonce"]}\n\t'
+                                  f'hash: {json.loads(json.loads(message["payload"])["info-block"])["hash"]}')
+                            save_block(message)
+                            create_new_block()
+                except Exception:
+                    print(f'Invalid notify serialization - {message}')
 
             elif message['operation'] == 'direct-message':
                 print('Someone dm\'ed me - let\'s just ignore ¯\\_(ツ)_/¯')
@@ -214,10 +228,12 @@ def manage_task():
 
             elif message['operation'] == 'good-bye':
                 if json.loads(message['payload'])['type'] == 'CR':
-                    print(f'One cr left - {json.loads(message["payload"])["id"]}')
-                    cr_list.remove(json.loads(message['payload'])['id'])
+                    print(f'One CR left - {json.loads(message["payload"])["id"]}')
+                    try:
+                        cr_list.remove(json.loads(message['payload'])['id'])
+                    except Exception:
+                        print('\tCan\'t repeat delete')
                     if len(cr_list) == 0:
-                        blockchain.pop()
                         has_task = True
 
             elif message['operation'] == 'close':
@@ -236,7 +252,9 @@ def manage_task():
 if __name__ == '__main__':
     while True:
         conn = connection.Connection('MNG')
-        print('Connection established')
+
+        if len(blockchain) == 0:
+            create_new_block()
 
         get_modules_for_sub()
         manage_task()

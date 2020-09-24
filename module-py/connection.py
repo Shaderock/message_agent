@@ -24,27 +24,47 @@ def parse_json(string_list: str) -> list:
                 string_start = index
             brackets += 1
         elif string_list[index] == '}':
+            if brackets < 0:  # Message started from '}'
+                print(f'Invalid message - "{string_list}"')
+                return []
             brackets -= 1
             if brackets == 0 and string_start is not None:
-                list_of_strings.append(string_list[string_start:index+1])
-                string_start = None
+                try:
+                    json.loads(string_list[string_start:index + 1])
+                except Exception:
+                    print(f'Invalid json component "{string_list[string_start:index + 1]}" in message "{string_list}"')
+                else:
+                    list_of_strings.append(string_list[string_start:index + 1])
+                finally:
+                    string_start = None
 
     return list_of_strings
 
 
+# noinspection PyBroadException
 def listen_to_broker_udp() -> str:
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     module_is_alive = {'operation': 'module-is-alive'}
     udp_socket.sendto(json.dumps(module_is_alive).encode('utf8'), (broadcast_udp_ip, broker_udp_port))
+    print('Send UDP broadcast')
 
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udp_socket.bind(('0.0.0.0', module_udp_port))
 
-    data, address = udp_socket.recvfrom(1024)
+    print('Waiting broker ')
+    while True:
+        data, address = udp_socket.recvfrom(1024)
+        try:
+            data_dict = json.loads(data.decode('utf8'))
+            if data_dict['operation'] == 'broker-is-alive':
+                break
+        except Exception:
+            print(f'Invalid json from udp listener {str(address)}:\n\t{data.decode("utf8")}')
 
     return address[0]
 
 
+# noinspection PyBroadException,SpellCheckingInspection
 class Connection:
     def __init__(self, module_type):
         self.module_type = module_type
@@ -65,27 +85,42 @@ class Connection:
         while not ready_to_go:
             self.socket.connect((broker_tcp_ip, self.broker_port))
 
-            payload = \
-                {
+            payload = {
                     'type': self.module_type
                 }
-            handshake = \
-                {
+            handshake = {
                     'operation': 'handshake',
                     'payload': json.dumps(payload)
                 }
 
             self.socket.sendall((json.dumps(handshake) + '\n').encode('utf8'))
 
-            response = json.loads(self.socket.recv(4096).decode('utf8'))
+            try:
+                while True:
+                    response_bytes = self.socket.recv(4096)
+                    try:
+                        response = json.loads(response_bytes.decode('utf8'))
+                        payload = json.loads(response['payload'])
+                        if response['operation'] == 'handshake':
+                            break
+                    except Exception:
+                        print(f'Invalid response or payload - {response_bytes.decode("utf8")}')
+            except ConnectionResetError:
+                print('Refused to handshake')
+                self.socket.close()
+                self.socket = None
+                return
 
-            if json.loads(response['payload'])['code'] >= 40:
-                print('Caught an error')
-                raise Exception()
-            elif json.loads(response['payload'])['code'] == 30:
-                self.broker_port = json.loads(response['payload'])['port']
+            if payload['code'] >= 40:
+                print(f'Caught an error {payload["code"]}')
+                self.socket.close()
+                self.socket = None
+                return
+            elif payload['code'] == 30:
+                self.broker_port = payload['port']
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            elif json.loads(response['payload'])['code'] == 20:
+            elif payload['code'] == 20:
+                print('Connection established')
                 ready_to_go = True
 
     def reset_socket(self):
@@ -105,6 +140,7 @@ class Connection:
                     try:
                         buff = self.socket.recv(4096).decode('utf8')
                     except Exception:
+                        print('Broker unexpectedly turned down')
                         self.socket.close()
                         self.socket = None
                         return
@@ -122,12 +158,16 @@ class Connection:
         return has
 
     def is_socket_resetted(self) -> bool:
-        return self.socket is None
+        self.work.acquire()
+        _is = self.socket is None
+        self.work.release()
+        return _is
 
     def send(self, send_string: str):
         self.work.acquire()
         if self.socket is None:
-            raise Exception()
+            print('Send can\'t be done - no socket')
+            return
         self.socket.sendall((send_string + '\n').encode('utf8'))
         self.work.release()
 

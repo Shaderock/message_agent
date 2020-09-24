@@ -14,6 +14,7 @@ public class Context {
     private static Context instance;
 
     public final int BROKER_LISTENED_PORT = 16002;
+    public final int MODULE_LISTENED_PORT = 16001;
     public final int HANDSHAKE_PORT = 17001;
     public final int COMMUNICATION_PORT = 17002;
     public final int MAX_COMMUNICATION_PORTS = 1;

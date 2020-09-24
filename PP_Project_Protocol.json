@@ -12,6 +12,21 @@
 "-----------------------------------------"
 "-----------------------------------------"
 
+"broker-module"
+{
+	"operation": "broker-is-alive"
+}
+"module is waiting UDP message on port 16001"
+
+
+"module-broker"
+{
+	"operation": "module-is-alive"
+}
+"broker is waiting UDP message on port 16002"
+
+"-----------------------------------------"
+
 "module-broker"
 {
 	"operation": "handshake",

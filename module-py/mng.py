@@ -234,8 +234,9 @@ def manage_task():
 
 
 if __name__ == '__main__':
-    conn = connection.Connection('MNG')
-    print('Connection established')
+    while True:
+        conn = connection.Connection('MNG')
+        print('Connection established')
 
-    get_modules_for_sub()
-    manage_task()
+        get_modules_for_sub()
+        manage_task()

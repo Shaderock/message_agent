@@ -4,8 +4,13 @@ import json
 import threading
 
 # server_ip = 'localhost'
-server_ip = '89.28.116.199'
-server_port = 17001
+# server_ip = '89.28.116.199'
+
+broadcast_udp_ip = '192.168.0.255'
+broker_tcp_ip = ''
+broker_tcp_port = 17001
+module_udp_port = 16001
+broker_udp_port = 16002
 
 
 # noinspection PyBroadException
@@ -27,13 +32,29 @@ def parse_json(string_list: str) -> list:
     return list_of_strings
 
 
+def listen_to_broker_udp() -> str:
+    udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    module_is_alive = {'operation': 'module-is-alive'}
+    udp_socket.sendto(json.dumps(module_is_alive).encode('utf8'), (broadcast_udp_ip, broker_udp_port))
+
+    udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    udp_socket.bind(('0.0.0.0', module_udp_port))
+
+    data, address = udp_socket.recvfrom(1024)
+
+    return address
+
+
 class Connection:
     def __init__(self, module_type):
         self.module_type = module_type
-        self.server_port = server_port
+        self.broker_port = broker_tcp_port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.work = threading.Lock()
         self.messages = []
+
+        global broker_tcp_ip
+        broker_tcp_ip = listen_to_broker_udp()
 
         self.connect()
         self.listener = threading.Thread(target=self.listen)
@@ -42,7 +63,7 @@ class Connection:
     def connect(self):
         ready_to_go = False
         while not ready_to_go:
-            self.socket.connect((server_ip, self.server_port))
+            self.socket.connect((broker_tcp_ip, self.broker_port))
 
             payload = \
                 {
@@ -62,7 +83,7 @@ class Connection:
                 print('Caught an error')
                 raise Exception()
             elif json.loads(response['payload'])['code'] == 30:
-                self.server_port = json.loads(response['payload'])['port']
+                self.broker_port = json.loads(response['payload'])['port']
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             elif json.loads(response['payload'])['code'] == 20:
                 ready_to_go = True

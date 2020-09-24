@@ -112,7 +112,8 @@ def wait_task():
 
 
 if __name__ == '__main__':
-    conn = connection.Connection("CR")
-    print('Connection established')
+    while True:
+        conn = connection.Connection("CR")
+        print('Connection established')
 
-    wait_task()
+        wait_task()

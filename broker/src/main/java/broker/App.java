@@ -22,5 +22,7 @@ public class App {
 
         BroadcastHandler broadcastHandler = new BroadcastHandler();
         broadcastHandler.start();
+
+        handshakeServer.work(context.HANDSHAKE_PORT);
     }
 }

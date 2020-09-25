@@ -1,7 +1,6 @@
 import json
 import random
 import string
-import atexit
 
 import hash
 import connection

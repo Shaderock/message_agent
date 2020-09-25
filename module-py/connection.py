@@ -2,16 +2,20 @@ import select
 import socket
 import json
 import threading
+import netifaces
 
-# server_ip = 'localhost'
-# server_ip = '89.28.116.199'
-import time
-
-broadcast_udp_ip = '192.168.0.255'
+broadcast_udp_ip = ''
 broker_tcp_ip = ''
 broker_tcp_port = 17001
 # module_udp_port = 16001
 broker_udp_port = 16002
+
+
+def broadcast_init():
+    global broadcast_udp_ip
+    nums = netifaces.gateways()['default'][2][0].split('.')
+    nums[3] = '255'
+    broadcast_udp_ip = '.'.join(nums)
 
 
 # noinspection PyBroadException
@@ -68,6 +72,7 @@ def listen_to_broker_udp() -> str:
 # noinspection PyBroadException,SpellCheckingInspection
 class Connection:
     def __init__(self, module_type):
+        broadcast_init()
         self.module_type = module_type
         self.broker_port = broker_tcp_port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -10,7 +10,7 @@ import time
 broadcast_udp_ip = '192.168.0.255'
 broker_tcp_ip = ''
 broker_tcp_port = 17001
-module_udp_port = 16001
+# module_udp_port = 16001
 broker_udp_port = 16002
 
 
@@ -46,21 +46,21 @@ def parse_json(string_list: str) -> list:
 def listen_to_broker_udp() -> str:
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     module_is_alive = {'operation': 'module-is-alive'}
-    udp_socket.sendto(json.dumps(module_is_alive).encode('utf8'), (broadcast_udp_ip, broker_udp_port))
-    print('Send UDP broadcast')
-
-    udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    udp_socket.bind(('0.0.0.0', module_udp_port))
-
+    module_is_alive = json.dumps(module_is_alive).encode('utf8')
     print('Waiting broker')
+
     while True:
-        data, address = udp_socket.recvfrom(1024)
-        try:
-            data_dict = json.loads(data.decode('utf8'))
-            if data_dict['operation'] == 'broker-is-alive':
-                break
-        except Exception:
-            print(f'Invalid json from udp listener {str(address)}:\n\t{data.decode("utf8")}')
+        udp_socket.sendto(module_is_alive, (broadcast_udp_ip, broker_udp_port))
+
+        descriptors = select.select([udp_socket], [], [], 5)
+        if udp_socket in descriptors[0]:
+            data, address = udp_socket.recvfrom(1024)
+            try:
+                data_dict = json.loads(data.decode('utf8'))
+                if data_dict['operation'] == 'broker-is-alive':
+                    break
+            except Exception:
+                print(f'Invalid json from udp listener {str(address)}:\n\t{data.decode("utf8")}')
 
     return address[0]
 

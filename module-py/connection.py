@@ -5,6 +5,7 @@ import threading
 
 # server_ip = 'localhost'
 # server_ip = '89.28.116.199'
+import time
 
 broadcast_udp_ip = '192.168.0.255'
 broker_tcp_ip = ''
@@ -51,7 +52,7 @@ def listen_to_broker_udp() -> str:
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udp_socket.bind(('0.0.0.0', module_udp_port))
 
-    print('Waiting broker ')
+    print('Waiting broker')
     while True:
         data, address = udp_socket.recvfrom(1024)
         try:
@@ -124,14 +125,23 @@ class Connection:
                 ready_to_go = True
 
     def reset_socket(self):
+        # print('will acq')
         self.work.acquire()
+        # print('acq')
         self.socket = None
+        # print('none')
         self.work.release()
+        # print('relea')
 
     def listen(self):
         while True:
+            # time.sleep(1)
             self.work.acquire()
+            # print('acq_lstn')
             if self.socket is None:
+                # print('found none')
+                self.work.release()
+                # print('acq_rel')
                 break
             recv = ''
             while True:
@@ -139,10 +149,12 @@ class Connection:
                 if self.socket in descriptors[0]:
                     try:
                         buff = self.socket.recv(4096).decode('utf8')
-                    except Exception:
+                    except ConnectionResetError:
                         print('Broker unexpectedly turned down')
                         self.socket.close()
                         self.socket = None
+                        self.work.release()
+                        # print('acq_rel')
                         return
                     recv += buff
                 else:
@@ -150,26 +162,49 @@ class Connection:
             if recv != '':
                 self.messages.extend(parse_json(recv))
             self.work.release()
+            # print('acq_rel-1')
 
     def has_messages(self) -> bool:
-        self.work.acquire()
-        has = len(self.messages) != 0
-        self.work.release()
+        try:
+            self.work.acquire()
+            # print('acq_has')
+            has = len(self.messages) != 0
+        except KeyboardInterrupt:
+            # print('GOTCHA!')
+            self.work.release()
+            # print('acq_rel')
+            raise KeyboardInterrupt()
+        else:
+            self.work.release()
+            # print('acq_rel')
         return has
 
     def is_socket_resetted(self) -> bool:
-        self.work.acquire()
-        _is = self.socket is None
-        self.work.release()
+        try:
+            self.work.acquire()
+            # print('acq_is')
+            _is = self.socket is None
+        except KeyboardInterrupt:
+            _is = True
+            self.work.release()
+            # print('acq_rel')
+            raise KeyboardInterrupt()
+        else:
+            self.work.release()
+            # print('acq_rel')
         return _is
 
     def send(self, send_string: str):
         self.work.acquire()
+        # print('acq_send')
         if self.socket is None:
             print('Send can\'t be done - no socket')
+            self.work.release()
+            # print('acq_rel')
             return
         self.socket.sendall((send_string + '\n').encode('utf8'))
         self.work.release()
+        # print('acq_rel')
 
     def wait_message(self) -> str:
         while True:

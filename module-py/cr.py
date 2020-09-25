@@ -1,6 +1,7 @@
 import json
 import random
 import string
+import atexit
 
 import hash
 import connection
@@ -19,9 +20,11 @@ def close_connection():
         conn.send(json.dumps(close))
         conn.reset_socket()
         print('Connection closed (by self)')
-        input('Press enter to exit...')
+
     except Exception:
         pass
+    finally:
+        input('Press enter to exit...')
 
 
 # noinspection PyUnusedLocal
@@ -125,10 +128,15 @@ def wait_task():
 
             else:
                 print(f'Untreated operation - {message["operation"]}')
+        # raise KeyboardInterrupt
 
 
 if __name__ == '__main__':
-    while True:
-        conn = connection.Connection("CR")
+    conn = None
+    try:
+        while True:
+            conn = connection.Connection("CR")
 
-        wait_task()
+            wait_task()
+    finally:
+        close_connection()

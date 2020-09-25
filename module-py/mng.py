@@ -30,13 +30,18 @@ def create_new_block():
 
 # noinspection PyBroadException
 def close_connection():
-    close = {
-        'operation': 'close'
-    }
-    conn.send(json.dumps(close))
-    conn.reset_socket()
-    print('Connection closed (by self)')
-    input('Press enter to exit...')
+    try:
+        close = {
+            'operation': 'close'
+        }
+        conn.send(json.dumps(close))
+        conn.reset_socket()
+        print('Connection closed (by self)')
+
+    except Exception:
+        pass
+    finally:
+        input('Press enter to exit...')
 
 
 def get_modules_for_sub():
@@ -250,11 +255,15 @@ def manage_task():
 
 
 if __name__ == '__main__':
-    while True:
-        conn = connection.Connection('MNG')
+    conn = None
+    try:
+        while True:
+            conn = connection.Connection('MNG')
 
-        if len(blockchain) == 0:
-            create_new_block()
+            if len(blockchain) == 0:
+                create_new_block()
 
-        get_modules_for_sub()
-        manage_task()
+            get_modules_for_sub()
+            manage_task()
+    finally:
+        close_connection()

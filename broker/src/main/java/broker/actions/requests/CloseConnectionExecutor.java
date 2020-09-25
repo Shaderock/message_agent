@@ -10,7 +10,6 @@ public class CloseConnectionExecutor extends ProtocolTaskExecutor {
     }
 
     public void execute(Module module) {
-        ModuleRemover moduleRemover = new ModuleRemover();
-        moduleRemover.removeModuleFromStorage(module);
+        ModuleRemover.removeModuleFromStorage(module);
     }
 }

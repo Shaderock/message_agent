@@ -1,6 +1,5 @@
 package broker.servers;
 
-import broker.Context;
 import broker.actions.not_requests.OnConnectionEstablishedListener;
 import broker.actions.requests.HandshakeExecutor;
 import broker.actions.requests.ProtocolTaskExecutorFactory;
@@ -22,12 +21,12 @@ import java.util.ArrayList;
 
 public class HandshakeHandler
         extends Thread
-        implements OnConnectionEstablishedListener,
-        Finishable {
+        implements OnConnectionEstablishedListener {
     private final Socket moduleSocket;
     private final MessageGenerator messageGenerator = new MessageGenerator();
     private final int connectedToPort;
     private CommunicationHandler communicationHandler;
+    private PrintWriter out;
 
     public HandshakeHandler(Socket moduleSocket, int connectedToPort) {
         this.moduleSocket = moduleSocket;
@@ -36,28 +35,25 @@ public class HandshakeHandler
 
     @Override
     public void run() {
-        try {
-            handshake(moduleSocket);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        handshake(moduleSocket);
     }
 
-    private void handshake(Socket acceptedSocket) throws IOException {
-        PrintWriter out = new PrintWriter(acceptedSocket.getOutputStream(), true);
-        DataInputStream in = new DataInputStream(acceptedSocket.getInputStream());
-
-        MessageListener messageListener = new MessageListener();
-        String request = messageListener.listen(in);
-
-        System.out.print("RECEIVED, message: " + request);
-
-        ProtocolTaskExecutorFactory protocolTaskExecutorFactory = new ProtocolTaskExecutorFactory();
-        HandshakeExecutor handshakeExecutor;
+    private void handshake(Socket acceptedSocket) {
         try {
+            out = new PrintWriter(acceptedSocket.getOutputStream(), true);
+            DataInputStream in = new DataInputStream(acceptedSocket.getInputStream());
+
+            MessageListener messageListener = new MessageListener(Module.builder()
+                    .connected(false)
+                    .in(in)
+                    .build());
+            String message = messageListener.listen();
+            System.out.print("RECEIVED, message: " + message);
+
+            ProtocolTaskExecutorFactory protocolTaskExecutorFactory = new ProtocolTaskExecutorFactory();
+            HandshakeExecutor handshakeExecutor;
             handshakeExecutor = (HandshakeExecutor) protocolTaskExecutorFactory
-                    .createProtocolTaskExecutor(request);
+                    .createProtocolTaskExecutor(message);
             handshakeExecutor.setConnectedPort(connectedToPort);
             handshakeExecutor.setOnConnectionEstablishedListener(this);
             handshakeExecutor.execute(Module
@@ -73,7 +69,7 @@ public class HandshakeHandler
                     new CodePayload(Code.INCORRECT_PAYLOAD_SCHEME),
                     Module.builder()
                             .out(out)
-                            .id(-1)
+                            .connected(false)
                             .build());
         }
         catch (UnsupportableOperationException | OperationNotPresentException e) {
@@ -81,25 +77,29 @@ public class HandshakeHandler
                     new CodePayload(Code.UNSUPPORTABLE_OPERATION),
                     Module.builder()
                             .out(out)
-                            .id(-1)
+                            .connected(false)
                             .build());
+        }
+        catch (IOException e) {
+            System.out.println("HandshakeHandler does not serve an unconnected module anymore");
+        }
+        catch (InterruptedException e) {
+            System.out.println("MessageListener is not listening for a socket anymore");
         }
     }
 
     @Override
     public void onConnectionEstablished(Module module) {
         communicationHandler = new CommunicationHandler(module);
-        Context.getInstance().getWorkers().add(communicationHandler);
         communicationHandler.start();
     }
 
     @Override
-    public void finish() {
+    public void interrupt() {
+        super.interrupt();
         if (communicationHandler != null) {
-            communicationHandler.finish();
+            communicationHandler.interrupt();
         }
-
-        this.interrupt();
         System.out.println("HandshakeHandler finished its work");
     }
 }

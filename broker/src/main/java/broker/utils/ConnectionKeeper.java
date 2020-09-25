@@ -5,12 +5,11 @@ import broker.communication.MessageGenerator;
 import broker.models.Module;
 import broker.models.PortData;
 import broker.models.protocols.Operation;
-import broker.servers.Finishable;
+import broker.servers.Worker;
 
 public class ConnectionKeeper
-    extends Thread
-        implements Finishable {
-    private boolean isRunning = true;
+        extends Worker {
+    private boolean isWorking = true;
 
     @Override
     public void run() {
@@ -22,7 +21,7 @@ public class ConnectionKeeper
         Context context = Context.getInstance();
         MessageGenerator messageGenerator = new MessageGenerator();
 
-        while (isRunning) {
+        while (isWorking) {
             try {
                 Thread.sleep(15000);
             }
@@ -38,9 +37,8 @@ public class ConnectionKeeper
     }
 
     @Override
-    public void finish() {
-        isRunning = false;
-        this.interrupt();
+    public void interrupt() {
+        isWorking = false;
         System.out.println("ConnectionKeeper finished its work");
     }
 }

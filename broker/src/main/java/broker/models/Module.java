@@ -23,6 +23,8 @@ public class Module {
     private PrintWriter out;
     @JsonIgnore
     private ArrayList<Integer> notifiersIds;
+    @JsonIgnore
+    private boolean connected;
 
     private Type type;
     private int id;

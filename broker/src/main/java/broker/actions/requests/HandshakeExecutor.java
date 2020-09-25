@@ -43,7 +43,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                 messageGenerator.sendMessage(Operation.HANDSHAKE, new CodePayload(Code.OK),
                         Module.builder()
                                 .out(moduleOutput)
-                                .id(-1)
+                                .connected(true)
                                 .build());
 
                 for (PortData portsDatum : Context.getInstance().getPortsData()) {
@@ -89,14 +89,14 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                     new CodePayload(Code.NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION),
                     Module.builder()
                             .out(moduleOutput)
-                            .id(-1)
+                            .connected(false)
                             .build());
             moduleSocket.close();
             return false;
         }
 
         for (PortData portsDatum : context.getPortsData()) {
-            if (connectedPort != context.HANDSHAKE_PORT &&
+            if (connectedPort != context.TCP_HANDSHAKE_PORT &&
                     portsDatum.getPort() == connectedPort &&
                     portsDatum.getModules().size() < context.MAX_SOCKETS_PER_PORT) {
                 Module moduleToConnect = Module
@@ -107,6 +107,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                         .type(moduleType)
                         .id(context.getNextModuleId())
                         .notifiersIds(new ArrayList<Integer>())
+                        .connected(true)
                         .build();
 
                 moduleToConnect.getSocket().setSoTimeout(1000);
@@ -134,7 +135,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                     new RedirectPayload(Code.REDIRECT, portWithFreeSlot),
                     Module.builder()
                             .out(moduleOutput)
-                            .id(-1)
+                            .connected(false)
                             .build());
             return false;
         } else {
@@ -144,7 +145,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                         new RedirectPayload(Code.REDIRECT, port),
                         Module.builder()
                                 .out(moduleOutput)
-                                .id(-1)
+                                .connected(false)
                                 .build());
                 moduleSocket.close();
                 return false;
@@ -154,7 +155,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                         new CodePayload(Code.NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION),
                         Module.builder()
                                 .out(moduleOutput)
-                                .id(-1)
+                                .connected(false)
                                 .build());
                 moduleSocket.close();
                 return false;
@@ -164,8 +165,8 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
 
     private static synchronized int startHandshakeServer() throws TooManyConnectionsException {
         final Context context = Context.getInstance();
-        for (int freePort = context.COMMUNICATION_PORT;
-             freePort < context.COMMUNICATION_PORT + context.MAX_COMMUNICATION_PORTS; freePort++) {
+        for (int freePort = context.TCP_COMMUNICATION_PORT;
+             freePort < context.TCP_COMMUNICATION_PORT + context.MAX_COMMUNICATION_PORTS; freePort++) {
 
             boolean isFoundFreePort = true;
             for (PortData portsDatum : context.getPortsData()) {

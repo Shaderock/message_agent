@@ -2,12 +2,11 @@ package broker.utils;
 
 import broker.Context;
 import broker.actions.not_requests.ModuleRemover;
-import broker.communication.MessageGenerator;
 import broker.models.Module;
 import broker.models.PortData;
-import broker.models.protocols.Operation;
-import broker.servers.Finishable;
+import broker.servers.Worker;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TerminalHandler extends Thread {
@@ -17,33 +16,30 @@ public class TerminalHandler extends Thread {
     }
 
     private void askForProcessStop() {
-        String input = "";
+        String input;
         Scanner in = new Scanner(System.in);
 
-        System.out.println("Type 'stop' to stop the process: ");
-
-        while (!input.equals("stop")) {
+        do {
+            System.out.println("Type 'stop' to stop the process: ");
             input = in.nextLine();
         }
+        while (!input.equals("stop"));
 
         Context context = Context.getInstance();
-        MessageGenerator messageGenerator = new MessageGenerator();
-        // todo fix problems
-        for (PortData portsDatum : context.getPortsData()) {
-            for (Module module : portsDatum.getModules()) {
-                messageGenerator.sendMessage(Operation.CLOSE, null, module);
-                try {
-                    Thread.sleep(100);
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                ModuleRemover.removeModuleFromStorage(module);
-            }
+        context.APP_IS_SHUT_DOWN = true;
+
+        for (Worker worker : context.getWorkers()) {
+            worker.interrupt();
         }
 
-        for (Finishable finishable : context.getWorkers()) {
-            finishable.finish();
+        ArrayList<Module> modulesToDisable = new ArrayList<>();
+
+        for (PortData portsDatum : context.getPortsData()) {
+            modulesToDisable.addAll(portsDatum.getModules());
+        }
+
+        for (Module module : modulesToDisable) {
+            ModuleRemover.removeModuleFromStorage(module);
         }
     }
 }

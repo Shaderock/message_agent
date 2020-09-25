@@ -29,7 +29,7 @@ public class BroadcastHandler extends Thread {
 
             DatagramPacket packet
                     = new DatagramPacket(buffer, buffer.length,
-                    InetAddress.getLocalHost(), Context.getInstance().MODULE_LISTENED_PORT);
+                    InetAddress.getLocalHost(), Context.getInstance().UDP_MODULE_LISTENED_PORT);
             socket.send(packet);
             socket.close();
         }

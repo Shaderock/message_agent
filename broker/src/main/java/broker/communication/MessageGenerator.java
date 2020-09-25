@@ -15,11 +15,13 @@ public class MessageGenerator {
             module.getOut().print(responseAsStr);
             module.getOut().flush();
 
-            if (module.getId() == -1) {
-                System.out.println("SENT, message: " + responseAsStr);
-            } else {
+            if (module.isConnected()) {
                 if (operation != Operation.KEEP_ALIVE) {
                     System.out.println("SENT to id=" + module.getId() + ", message: " + responseAsStr);
+                }
+            } else {
+                if (operation != Operation.KEEP_ALIVE) {
+                    System.out.println("SENT, message: " + responseAsStr);
                 }
             }
         }

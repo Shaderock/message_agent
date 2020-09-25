@@ -30,7 +30,7 @@ public class ConnectionKeeper
             }
             for (PortData portsDatum : context.getPortsData()) {
                 for (Module module : portsDatum.getModules()) {
-                    messageGenerator.sendMessage(Operation.KEEP_ALIVE, null, module);
+                    messageGenerator.sendTCPMessage(Operation.KEEP_ALIVE, null, module);
                 }
             }
         }

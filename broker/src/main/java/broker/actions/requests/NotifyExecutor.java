@@ -28,7 +28,7 @@ public class NotifyExecutor extends ProtocolTaskExecutor {
             for (Module portsDatumModule : portsDatum.getModules()) {
                 for (Integer notifierId : portsDatumModule.getNotifiersIds()) {
                     if (notifierId == module.getId()){
-                        messageGenerator.sendMessage(Operation.NOTIFY,
+                        messageGenerator.sendTCPMessage(Operation.NOTIFY,
                                 notifyResponsePayload, portsDatumModule);
                     }
                 }

@@ -1,20 +1,26 @@
 package broker.servers;
 
+import lombok.RequiredArgsConstructor;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 
+@RequiredArgsConstructor
 public class HandshakeServer
         extends Worker {
     private final ArrayList<HandshakeHandler> handshakeHandlers = new ArrayList<>();
 
     private ServerSocket handshakeServerSocket;
-    private int port;
+    private final int port;
     private boolean isWorking = true;
 
-    public void work(int port) {
-        this.start();
-        this.port = port;
+    @Override
+    public void run() {
+        work(port);
+    }
+
+    private void work(int port) {
         try {
             handshakeServerSocket = new ServerSocket(port);
             while (isWorking) {

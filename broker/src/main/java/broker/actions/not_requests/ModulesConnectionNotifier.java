@@ -23,7 +23,7 @@ public class ModulesConnectionNotifier {
         for (PortData portsDatum : context.getPortsData()) {
             for (Module portsDatumModule : portsDatum.getModules()) {
                 if (module.getId() != portsDatumModule.getId()) {
-                    messageGenerator.sendMessage(operation,
+                    messageGenerator.sendTCPMessage(operation,
                             new TypeIdPayload(module.getType(), module.getId()),
                             portsDatumModule);
                 }

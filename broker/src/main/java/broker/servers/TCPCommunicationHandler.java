@@ -3,30 +3,30 @@ package broker.servers;
 import broker.actions.not_requests.ModulesConnectionNotifier;
 import broker.models.Module;
 
-public class CommunicationHandler
+public class TCPCommunicationHandler
         extends Thread {
 
     private final Module module;
-    private ReceivedMessageHandler receivedMessageHandler;
+    private TCPReceivedMessageHandler TCPReceivedMessageHandler;
 
     private final ModulesConnectionNotifier modulesConnectionNotifier =
             new ModulesConnectionNotifier();
 
-    public CommunicationHandler(Module justConnectedModule) {
+    public TCPCommunicationHandler(Module justConnectedModule) {
         module = justConnectedModule;
     }
 
     @Override
     public void run() {
-        receivedMessageHandler = new ReceivedMessageHandler(module);
-        receivedMessageHandler.start();
+        TCPReceivedMessageHandler = new TCPReceivedMessageHandler(module);
+        TCPReceivedMessageHandler.start();
         modulesConnectionNotifier.notifyAboutNewModuleConnected(module);
     }
 
     @Override
     public void interrupt() {
-        if (receivedMessageHandler != null) {
-            receivedMessageHandler.interrupt();
+        if (TCPReceivedMessageHandler != null) {
+            TCPReceivedMessageHandler.interrupt();
         }
         super.interrupt();
         System.out.println("CommunicationHandler finished its work");

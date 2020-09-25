@@ -26,7 +26,7 @@ public class ModuleRemover {
         module.setConnected(false);
 
         if (context.APP_IS_SHUT_DOWN) {
-            messageGenerator.sendMessage(Operation.CLOSE, null, module);
+            messageGenerator.sendTCPMessage(Operation.CLOSE, null, module);
         } else {
             modulesConnectionNotifier.notifyAboutModuleDisconnected(module);
         }

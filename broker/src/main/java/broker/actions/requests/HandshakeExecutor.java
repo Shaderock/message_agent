@@ -40,7 +40,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
         try {
             if (connectModuleToTheSystem(moduleSocket, moduleInput, moduleOutput,
                     moduleType, messageGenerator, connectedPort)) {
-                messageGenerator.sendMessage(Operation.HANDSHAKE, new CodePayload(Code.OK),
+                messageGenerator.sendTCPMessage(Operation.HANDSHAKE, new CodePayload(Code.OK),
                         Module.builder()
                                 .out(moduleOutput)
                                 .connected(true)
@@ -85,7 +85,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
         }
 
         if (amountModulesConnected >= moduleType.getMaxConnections()) {
-            messageGenerator.sendMessage(Operation.HANDSHAKE,
+            messageGenerator.sendTCPMessage(Operation.HANDSHAKE,
                     new CodePayload(Code.NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION),
                     Module.builder()
                             .out(moduleOutput)
@@ -131,7 +131,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
         }
 
         if (isFoundFreeSlot) {
-            messageGenerator.sendMessage(Operation.HANDSHAKE,
+            messageGenerator.sendTCPMessage(Operation.HANDSHAKE,
                     new RedirectPayload(Code.REDIRECT, portWithFreeSlot),
                     Module.builder()
                             .out(moduleOutput)
@@ -141,7 +141,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
         } else {
             try {
                 int port = startHandshakeServer();
-                messageGenerator.sendMessage(Operation.HANDSHAKE,
+                messageGenerator.sendTCPMessage(Operation.HANDSHAKE,
                         new RedirectPayload(Code.REDIRECT, port),
                         Module.builder()
                                 .out(moduleOutput)
@@ -151,7 +151,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
                 return false;
             }
             catch (TooManyConnectionsException e) {
-                messageGenerator.sendMessage(Operation.HANDSHAKE,
+                messageGenerator.sendTCPMessage(Operation.HANDSHAKE,
                         new CodePayload(Code.NOT_ENOUGH_PLACE_FOR_NEW_CONNECTION),
                         Module.builder()
                                 .out(moduleOutput)
@@ -177,19 +177,11 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
             }
 
             if (isFoundFreePort) {
-                final HandshakeServer handshakeServer = new HandshakeServer();
-
-                final int finalFreePort = freePort;
                 context.getPortsData().add(new PortData(freePort));
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        context.getWorkers().add(handshakeServer);
-                        handshakeServer.work(finalFreePort);
-                    }
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
+
+                HandshakeServer handshakeServer = new HandshakeServer(freePort);
+                context.getWorkers().add(handshakeServer);
+                handshakeServer.start();
 
                 return freePort;
             }

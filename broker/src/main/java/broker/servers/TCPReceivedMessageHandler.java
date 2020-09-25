@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import java.io.IOException;
 
 @RequiredArgsConstructor
-public class ReceivedMessageHandler
+public class TCPReceivedMessageHandler
         extends Thread {
 
     private final Module module;
@@ -42,12 +42,12 @@ public class ReceivedMessageHandler
                 taskExecutor.execute(module);
             }
             catch (UnsupportableOperationException | OperationNotPresentException e) {
-                messageGenerator.sendMessage(e.getOperation(),
+                messageGenerator.sendTCPMessage(e.getOperation(),
                         new CodePayload(Code.UNSUPPORTABLE_OPERATION),
                         module);
             }
             catch (WrongPayloadSchemeException e) {
-                messageGenerator.sendMessage(e.getOperation(),
+                messageGenerator.sendTCPMessage(e.getOperation(),
                         new CodePayload(Code.INCORRECT_PAYLOAD_SCHEME),
                         module);
             }

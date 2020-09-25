@@ -28,6 +28,6 @@ public class ModuleListExecutor extends ProtocolTaskExecutor {
         }
 
         moduleListPayload.setCode(Code.OK);
-        messageGenerator.sendMessage(Operation.GET_MODULES, moduleListPayload, module);
+        messageGenerator.sendTCPMessage(Operation.GET_MODULES, moduleListPayload, module);
     }
 }

@@ -36,7 +36,7 @@ public class DirectMessageExecutor extends ProtocolTaskExecutor {
         directMessageResponsePayload.setInfoBlock(directMessageRequestPayload.getInfoBlock());
 
         if (receiver != null) {
-            messageGenerator.sendMessage(Operation.DIRECT_MESSAGE, directMessageResponsePayload, receiver);
+            messageGenerator.sendTCPMessage(Operation.DIRECT_MESSAGE, directMessageResponsePayload, receiver);
         }
 
         // todo what if wrong id...

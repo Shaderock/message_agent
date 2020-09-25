@@ -50,7 +50,7 @@ public class SubscribeExecutor extends ProtocolTaskExecutor {
             }
         }
         catch (SelfSubscribeException e) {
-            messageGenerator.sendMessage(Operation.SUBSCRIBE,
+            messageGenerator.sendTCPMessage(Operation.SUBSCRIBE,
                     new CodePayload(Code.SELF_SUBSCRIBE), module);
             return;
         }
@@ -58,11 +58,11 @@ public class SubscribeExecutor extends ProtocolTaskExecutor {
         module.setNotifiersIds(checkedIds);
 
         if (idsToCheckTmp.size() > 0) {
-            messageGenerator.sendMessage(Operation.SUBSCRIBE,
+            messageGenerator.sendTCPMessage(Operation.SUBSCRIBE,
                     new CodeIdsPayload(Code.MODULE_DOES_NOT_EXIST, idsToCheck),
                     module);
         } else {
-            messageGenerator.sendMessage(Operation.SUBSCRIBE, new CodePayload(Code.OK), module);
+            messageGenerator.sendTCPMessage(Operation.SUBSCRIBE, new CodePayload(Code.OK), module);
         }
     }
 }

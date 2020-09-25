@@ -25,7 +25,7 @@ public class HandshakeHandler
     private final Socket moduleSocket;
     private final MessageGenerator messageGenerator = new MessageGenerator();
     private final int connectedToPort;
-    private CommunicationHandler communicationHandler;
+    private TCPCommunicationHandler TCPCommunicationHandler;
     private PrintWriter out;
 
     public HandshakeHandler(Socket moduleSocket, int connectedToPort) {
@@ -65,7 +65,7 @@ public class HandshakeHandler
                     .build());
         }
         catch (WrongPayloadSchemeException e) {
-            messageGenerator.sendMessage(Operation.HANDSHAKE,
+            messageGenerator.sendTCPMessage(Operation.HANDSHAKE,
                     new CodePayload(Code.INCORRECT_PAYLOAD_SCHEME),
                     Module.builder()
                             .out(out)
@@ -73,7 +73,7 @@ public class HandshakeHandler
                             .build());
         }
         catch (UnsupportableOperationException | OperationNotPresentException e) {
-            messageGenerator.sendMessage(Operation.HANDSHAKE,
+            messageGenerator.sendTCPMessage(Operation.HANDSHAKE,
                     new CodePayload(Code.UNSUPPORTABLE_OPERATION),
                     Module.builder()
                             .out(out)
@@ -90,15 +90,15 @@ public class HandshakeHandler
 
     @Override
     public void onConnectionEstablished(Module module) {
-        communicationHandler = new CommunicationHandler(module);
-        communicationHandler.start();
+        TCPCommunicationHandler = new TCPCommunicationHandler(module);
+        TCPCommunicationHandler.start();
     }
 
     @Override
     public void interrupt() {
         super.interrupt();
-        if (communicationHandler != null) {
-            communicationHandler.interrupt();
+        if (TCPCommunicationHandler != null) {
+            TCPCommunicationHandler.interrupt();
         }
         System.out.println("HandshakeHandler finished its work");
     }

@@ -7,8 +7,13 @@ import broker.models.protocols.Operation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
 public class MessageGenerator {
-    public void sendMessage(Operation operation, Payload payload, Module module) {
+    public void sendTCPMessage(Operation operation, Payload payload, Module module) {
         try {
             String responseAsStr = generateMessage(operation, payload);
 
@@ -41,5 +46,22 @@ public class MessageGenerator {
         response.setOperation(operation);
         response.setPayload(payloadAsJson);
         return objectMapper.writeValueAsString(response);
+    }
+
+    public void sendUDPMessage(Operation operation, Payload payload,
+                               InetAddress address, int port) throws IOException {
+        try {
+            byte[] buf;
+            DatagramSocket socket = new DatagramSocket();
+            String message = generateMessage(operation, payload);
+            buf = message.getBytes();
+            DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
+            socket.send(packet);
+
+            System.out.println("SENT, message: " + message);
+        }
+        catch (JsonProcessingException e) {
+            System.out.println("Could not serialize payload");
+        }
     }
 }

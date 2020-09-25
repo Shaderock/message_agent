@@ -29,7 +29,8 @@ public class BroadcastHandler extends Thread {
 
             DatagramPacket packet
                     = new DatagramPacket(buffer, buffer.length,
-                    InetAddress.getByName("192.168.0.255"), Context.getInstance().UDP_MODULE_LISTENED_PORT);
+                    InetAddress.getByName("192.168.1.255"),
+                    Context.getInstance().UDP_MODULE_LISTENED_PORT);
             socket.send(packet);
             socket.close();
         }

@@ -52,6 +52,7 @@ public class TCPReceivedMessageHandler
                         module);
             }
             catch (IOException e) {
+                this.interrupt();
                 ModuleRemover.removeModuleFromStorage(module);
                 System.out.println("ReceivedMessageHandler is not listening for module with id=" +
                         module.getId() + " anymore");

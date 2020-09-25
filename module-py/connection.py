@@ -128,6 +128,7 @@ class Connection:
         # print('will acq')
         self.work.acquire()
         # print('acq')
+        # self.socket.close()
         self.socket = None
         # print('none')
         self.work.release()
@@ -149,8 +150,10 @@ class Connection:
                 if self.socket in descriptors[0]:
                     try:
                         buff = self.socket.recv(4096).decode('utf8')
+                        if buff == '':
+                            raise ConnectionResetError()
                     except ConnectionResetError:
-                        print('Broker unexpectedly turned down')
+                        print('Broker dropped connection')
                         self.socket.close()
                         self.socket = None
                         self.work.release()

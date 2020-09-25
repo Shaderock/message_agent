@@ -30,7 +30,7 @@ def close_connection():
 # noinspection PyUnusedLocal
 def get_new_nonce() -> str:
     length = random.randint(1, nonce_max_len)
-    letters = string.ascii_letters + string.digits + string.punctuation
+    letters = (string.ascii_letters + string.digits + string.punctuation).replace('{', '').replace('}', '')
     return ''.join(random.choice(letters) for i in range(length))
 
 

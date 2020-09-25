@@ -263,6 +263,8 @@ if __name__ == '__main__':
             if len(blockchain) == 0:
                 create_new_block()
 
+            cr_list.clear()
+            new_cr_list.clear()
             get_modules_for_sub()
             manage_task()
     finally:

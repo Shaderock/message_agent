@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+option java_multiple_files = true;
+option java_package = "proto.module";
+option java_outer_classname = "Module";
+
+message EmptyMessage{
+
+}
+
+message MessageRequest{
+  required int64 idSender = 1;
+  required string message = 2;
+}
+
+service ModuleService{
+  rpc receiveMessage(MessageRequest) returns (EmptyMessage);
+  rpc close(EmptyMessage) returns (EmptyMessage);
+}

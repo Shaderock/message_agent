@@ -1,8 +1,0 @@
-option java_multiple_files = true;
-option java_package = "broker.proto";
-option java_outer_classname = "Broker";
-
-
-message Person{
-  required int64 age = 1;
-}

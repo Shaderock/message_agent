@@ -74,8 +74,10 @@
                             <includeMavenTypes>direct</includeMavenTypes>
 
                             <inputDirectories>
-                                <include>src/main/resources</include>
+<!--                                <include>src/main/resources</include>-->
+                                <include>../protos</include>
                             </inputDirectories>
+
 
                             <outputTargets>
                                 <outputTarget>

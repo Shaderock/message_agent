@@ -1,7 +1,7 @@
 package broker.services.executants;
 
 import broker.Context;
-import broker.models.GrpcModule;
+import broker.models.Module;
 import broker.utils.ModulesConnectionNotifier;
 import broker.models.Type;
 import io.grpc.stub.StreamObserver;
@@ -36,8 +36,8 @@ public class HandshakeExecutant extends Executant {
         }
 
         int connections = 0;
-        for (GrpcModule grpcModule : context.getGrpcModules()) {
-            if (grpcModule.getType() == type) {
+        for (Module module : context.getModules()) {
+            if (module.getType() == type) {
                 connections++;
             }
         }
@@ -48,10 +48,10 @@ public class HandshakeExecutant extends Executant {
         }
 
         int nextModuleId = context.getNextModuleId();
-        GrpcModule addedModule = new GrpcModule(nextModuleId, type,
+        Module addedModule = new Module(nextModuleId, type,
                 request.getIp(), (int) request.getPort());
         context.setNextModuleId(nextModuleId + 1);
-        context.getGrpcModules().add(addedModule);
+        context.getModules().add(addedModule);
 
         response.setGivenId(nextModuleId);
         response.setOk(true);

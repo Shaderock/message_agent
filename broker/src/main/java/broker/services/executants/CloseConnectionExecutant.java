@@ -1,7 +1,7 @@
 package broker.services.executants;
 
 import broker.Context;
-import broker.models.GrpcModule;
+import broker.models.Module;
 import broker.exceptions.ModuleDoesNotExistException;
 import broker.utils.ModuleRemover;
 import io.grpc.stub.StreamObserver;
@@ -22,7 +22,7 @@ public class CloseConnectionExecutant extends Executant {
 
     private void closeConnection() {
         try {
-            GrpcModule module = Context.getInstance().findModuleById(request.getIdRequester());
+            Module module = Context.getInstance().findModuleById(request.getIdRequester());
             ModuleRemover.removeModule(module);
         }
         catch (ModuleDoesNotExistException e) {

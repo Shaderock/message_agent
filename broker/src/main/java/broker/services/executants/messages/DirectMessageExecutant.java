@@ -1,9 +1,9 @@
-package broker.services.executants;
+package broker.services.executants.messages;
 
 import broker.Context;
-import broker.models.GrpcModule;
 import broker.exceptions.ModuleDoesNotExistException;
-import broker.utils.ModuleRemover;
+import broker.models.Module;
+import broker.services.executants.Executant;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -12,11 +12,9 @@ import proto.broker.EmptyMessage;
 import proto.module.MessageRequest;
 import proto.module.ModuleServiceGrpc;
 
-import java.util.concurrent.TimeUnit;
-
 @RequiredArgsConstructor
 public class DirectMessageExecutant extends Executant {
-    private final proto.broker.MessageRequest request;
+    private final proto.broker.MessageRequest requestFromModule;
     private final StreamObserver<EmptyMessage> responseObserver;
 
     @Override
@@ -26,9 +24,9 @@ public class DirectMessageExecutant extends Executant {
 
     private void sendDirectMessage() {
         Context context = Context.getInstance();
-        long idRequester = request.getIdRequester();
-        long idReceiver = request.getIdReceiver();
-        GrpcModule receiver;
+        long idRequester = requestFromModule.getIdRequester();
+        long idReceiver = requestFromModule.getIdReceiver();
+        Module receiver;
 
         try {
             context.findModuleById(idRequester);
@@ -48,16 +46,17 @@ public class DirectMessageExecutant extends Executant {
 
         proto.module.MessageRequest.Builder request = MessageRequest.newBuilder();
         request.setIdSender(idRequester);
-        request.setMessage(this.request.getMessage());
-        proto.module.EmptyMessage response = moduleServiceStub.withDeadlineAfter(5, TimeUnit.SECONDS)
-                .receiveMessage(request.build());
-
-        if (response == null) {
-            ModuleRemover.removeModule(receiver);
-        }
+        setMessageToRequest(receiver, moduleServiceStub, request);
 
         responseObserver.onNext(EmptyMessage.newBuilder().build());
         responseObserver.onCompleted();
+    }
+
+    private void setMessageToRequest(Module receiver,
+                                     ModuleServiceGrpc.ModuleServiceBlockingStub moduleServiceStub,
+                                     MessageRequest.Builder requestToModule) {
+        MessageSender.sendMessage(receiver, moduleServiceStub,
+                requestToModule, this.requestFromModule);
     }
 
 }

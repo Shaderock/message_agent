@@ -1,17 +1,17 @@
 package broker.utils;
 
 import broker.Context;
-import broker.models.GrpcModule;
+import broker.models.Module;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import proto.module.EmptyMessage;
 import proto.module.ModuleServiceGrpc;
 
 public class ModuleRemover {
-    public static synchronized void removeModule(GrpcModule module) {
+    public static synchronized void removeModule(Module module) {
         Context context = Context.getInstance();
 
-        if (context.getGrpcModules().remove(module)) {
+        if (context.getModules().remove(module)) {
             if (context.APP_IS_SHUT_DOWN) {
                 ManagedChannel channel = ManagedChannelBuilder
                         .forAddress(module.getIp(), module.getPort()).usePlaintext().build();
@@ -19,7 +19,10 @@ public class ModuleRemover {
                         ModuleServiceGrpc.newBlockingStub(channel);
 
                 proto.module.EmptyMessage.Builder request = EmptyMessage.newBuilder();
-                proto.module.EmptyMessage response = moduleServiceStub.close(request.build());
+                EmptyMessage response = request.build();
+                System.out.println("SENT: " + response.toString());
+                //noinspection ResultOfMethodCallIgnored
+                moduleServiceStub.close(response); // todo handle ignoring?
             } else {
                 new ModulesConnectionNotifier().notifyAboutModuleDisconnected(module);
             }

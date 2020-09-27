@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.ArrayList;
 
 @Data
-public class GrpcModule {
+public class Module {
     private final long id;
     private final Type type;
     private final String ip;

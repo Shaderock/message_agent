@@ -1,7 +1,7 @@
 package broker.services.executants;
 
 import broker.Context;
-import broker.models.GrpcModule;
+import broker.models.Module;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import proto.broker.SubscribeRequest;
@@ -28,10 +28,10 @@ public class SubscribeExecutant extends Executant {
 
         Context context = Context.getInstance();
 
-        for (GrpcModule grpcModule : context.getGrpcModules()) {
+        for (Module module : context.getModules()) {
             for (Long id : idsToCheck) {
                 if (id != idRequester) {
-                    if (grpcModule.getId() == id) {
+                    if (module.getId() == id) {
                         checkedIds.add(id);
                         idsToCheckTmp.remove(id);
                     }
@@ -46,9 +46,9 @@ public class SubscribeExecutant extends Executant {
             response.addAllWrongId(idsToCheckTmp);
         } else {
             response.setOk(true);
-            for (GrpcModule grpcModule : context.getGrpcModules()) {
-                if (grpcModule.getId() == idRequester) {
-                    grpcModule.setNotifiersId(checkedIds);
+            for (Module module : context.getModules()) {
+                if (module.getId() == idRequester) {
+                    module.setNotifiersId(checkedIds);
                 }
             }
         }

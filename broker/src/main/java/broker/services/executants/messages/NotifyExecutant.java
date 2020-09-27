@@ -1,9 +1,9 @@
-package broker.services.executants;
+package broker.services.executants.messages;
 
 import broker.Context;
-import broker.models.GrpcModule;
 import broker.exceptions.ModuleDoesNotExistException;
-import broker.utils.ModuleRemover;
+import broker.models.Module;
+import broker.services.executants.Executant;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -12,11 +12,9 @@ import proto.broker.EmptyMessage;
 import proto.broker.MessageRequest;
 import proto.module.ModuleServiceGrpc;
 
-import java.util.concurrent.TimeUnit;
-
 @RequiredArgsConstructor
 public class NotifyExecutant extends Executant {
-    private final MessageRequest request;
+    private final MessageRequest requestFromModule;
     private final StreamObserver<EmptyMessage> responseObserver;
 
     @Override
@@ -25,10 +23,10 @@ public class NotifyExecutant extends Executant {
     }
 
     private void notifyExecutant() {
-        long idRequester = request.getIdRequester();
+        long idRequester = requestFromModule.getIdRequester();
         Context context = Context.getInstance();
 
-        GrpcModule foundModule;
+        Module foundModule;
         try {
             foundModule = context.findModuleById(idRequester);
         }
@@ -39,7 +37,7 @@ public class NotifyExecutant extends Executant {
             return;
         }
 
-        for (GrpcModule module : context.getGrpcModules()) {
+        for (Module module : context.getModules()) {
             for (Long notifierId : foundModule.getNotifiersId()) {
                 if (notifierId == idRequester) {
                     ManagedChannel channel = ManagedChannelBuilder
@@ -49,14 +47,7 @@ public class NotifyExecutant extends Executant {
 
                     proto.module.MessageRequest.Builder request = proto.module.MessageRequest.newBuilder();
                     request.setIdSender(module.getId());
-                    request.setMessage(this.request.getMessage());
-                    proto.module.EmptyMessage response =
-                            moduleServiceStub.withDeadlineAfter(5, TimeUnit.SECONDS)
-                                    .receiveMessage(request.build());
-
-                    if (response == null) {
-                        ModuleRemover.removeModule(module);
-                    }
+                    MessageSender.sendMessage(module, moduleServiceStub, request, this.requestFromModule);
                 }
             }
         }
@@ -64,4 +55,5 @@ public class NotifyExecutant extends Executant {
         responseObserver.onNext(EmptyMessage.newBuilder().build());
         responseObserver.onCompleted();
     }
+
 }

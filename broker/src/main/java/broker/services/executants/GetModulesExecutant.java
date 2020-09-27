@@ -1,12 +1,11 @@
 package broker.services.executants;
 
 import broker.Context;
-import broker.models.GrpcModule;
+import broker.models.Module;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import proto.broker.EmptyIdRequest;
 import proto.broker.GetModulesResponse;
-import proto.broker.Module;
 
 @RequiredArgsConstructor
 public class GetModulesExecutant extends Executant {
@@ -24,9 +23,9 @@ public class GetModulesExecutant extends Executant {
 
         GetModulesResponse.Builder response = GetModulesResponse.newBuilder();
 
-        for (GrpcModule grpcModule : context.getGrpcModules()) {
+        for (Module grpcModule : context.getModules()) {
             if (grpcModule.getId() != idRequester) {
-                Module.Builder module = Module.newBuilder();
+                proto.broker.Module.Builder module = proto.broker.Module.newBuilder();
                 module.setType(grpcModule.getType().getName());
                 module.setId(grpcModule.getId());
                 response.addModule(module.build());

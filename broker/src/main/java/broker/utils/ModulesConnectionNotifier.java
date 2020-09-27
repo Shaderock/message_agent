@@ -1,8 +1,8 @@
 package broker.utils;
 
 import broker.Context;
-import broker.models.GrpcModule;
 import broker.exceptions.ModuleDoesNotExistException;
+import broker.models.Module;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -13,63 +13,75 @@ import proto.module.WelcomeRequest;
 import java.util.concurrent.TimeUnit;
 
 public class ModulesConnectionNotifier {
-    public void notifyAboutModuleConnected(GrpcModule module) {
+    public void notifyAboutModuleConnected(Module module) {
+        if (moduleDoesNotExist(module)) {
+            return;
+        }
+        for (Module connectedModule : Context.getInstance().getModules()) {
+            if (connectedModule.getId() != module.getId()) {
+                ManagedChannel channel = ManagedChannelBuilder
+                        .forAddress(module.getIp(), module.getPort()).usePlaintext().build();
+                ModuleServiceGrpc.ModuleServiceBlockingStub moduleServiceStub =
+                        ModuleServiceGrpc.newBlockingStub(channel);
+
+                proto.module.WelcomeRequest.Builder request = WelcomeRequest.newBuilder();
+                request.setModule(proto.module.Module.newBuilder()
+                        .setType(module.getType().getName())
+                        .setId(module.getId())
+                        .build());
+
+                try {
+                    proto.module.EmptyMessage response = moduleServiceStub
+                            .withDeadlineAfter(5, TimeUnit.SECONDS)
+                            .welcome(request.build());
+                    System.out.println("SENT: " + response.toString());
+                }
+                catch (StatusRuntimeException e) {
+                    System.out.println("Time for response has exceeded");
+                    ModuleRemover.removeModule(module);
+                }
+            }
+        }
+    }
+
+    public void notifyAboutModuleDisconnected(Module module) {
         if (moduleDoesNotExist(module)) {
             return;
         }
 
-        ManagedChannel channel = ManagedChannelBuilder
-                .forAddress(module.getIp(), module.getPort()).usePlaintext().build();
-        ModuleServiceGrpc.ModuleServiceBlockingStub moduleServiceStub =
-                ModuleServiceGrpc.newBlockingStub(channel);
+        for (Module connectedModule : Context.getInstance().getModules()) {
+            if (connectedModule.getId() != module.getId()) {
+                ManagedChannel channel = ManagedChannelBuilder
+                        .forAddress(module.getIp(), module.getPort()).usePlaintext().build();
+                ModuleServiceGrpc.ModuleServiceBlockingStub moduleServiceStub =
+                        ModuleServiceGrpc.newBlockingStub(channel);
 
-        proto.module.WelcomeRequest.Builder request = WelcomeRequest.newBuilder();
-        request.setModule(proto.module.Module.newBuilder()
-                .setType(module.getType().getName())
-                .setId(module.getId())
-                .build());
-
-        try {
-            proto.module.EmptyMessage response = moduleServiceStub
-                    .withDeadlineAfter(15, TimeUnit.SECONDS)
-                    .welcome(request.build());
-        } catch (StatusRuntimeException e) {
-            System.out.println("Time for response has exceeded");
-            ModuleRemover.removeModule(module);
+                GoodByeRequest.Builder request = GoodByeRequest.newBuilder();
+                request.setModule(proto.module.Module.newBuilder()
+                        .setType(module.getType().getName())
+                        .setId(module.getId())
+                        .build());
+                try {
+                    proto.module.EmptyMessage response = moduleServiceStub
+                            .withDeadlineAfter(5, TimeUnit.SECONDS)
+                            .goodBye(request.build());
+                    System.out.println("SENT: " + response.toString());
+                }
+                catch (StatusRuntimeException e) {
+                    System.out.println("Time for response has exceeded");
+                    ModuleRemover.removeModule(module);
+                }
+            }
         }
     }
 
-    public void notifyAboutModuleDisconnected(GrpcModule module) {
-        if (moduleDoesNotExist(module)) {
-            return;
-        }
-
-        ManagedChannel channel = ManagedChannelBuilder
-                .forAddress(module.getIp(), module.getPort()).usePlaintext().build();
-        ModuleServiceGrpc.ModuleServiceBlockingStub moduleServiceStub =
-                ModuleServiceGrpc.newBlockingStub(channel);
-
-        GoodByeRequest.Builder request = GoodByeRequest.newBuilder();
-        request.setModule(proto.module.Module.newBuilder()
-                .setType(module.getType().getName())
-                .setId(module.getId())
-                .build());
-
-        proto.module.EmptyMessage response = moduleServiceStub
-                .withDeadlineAfter(5, TimeUnit.SECONDS)
-                .goodBye(request.build());
-
-        if (response == null) {
-            ModuleRemover.removeModule(module);
-        }
-    }
-
-    private boolean moduleDoesNotExist(GrpcModule module) {
+    private boolean moduleDoesNotExist(Module module) {
         Context context = Context.getInstance();
 
         try {
             context.findModuleById(module.getId());
-        } catch (ModuleDoesNotExistException e) {
+        }
+        catch (ModuleDoesNotExistException e) {
             System.out.println("Can not notify about id=" + module.getId());
             return true;
         }

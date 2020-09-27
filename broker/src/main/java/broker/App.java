@@ -7,7 +7,6 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
 import java.io.IOException;
-import java.net.SocketAddress;
 
 public class App {
     public static void main(String[] args) {
@@ -15,8 +14,6 @@ public class App {
 
         Server server = ServerBuilder.forPort(context.GRPS_SERVER_PORT)
                 .addService(new BrokerService()).build();
-        int size = server.getListenSockets().size();
-        SocketAddress socketAddress = server.getListenSockets().get(size);
         context.setServer(server);
 
         try {// todo check for async

@@ -91,6 +91,70 @@ public final class ModuleServiceGrpc {
      }
      return getCloseMethod;
   }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getWelcomeMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<proto.module.WelcomeRequest,
+      proto.module.EmptyMessage> METHOD_WELCOME = getWelcomeMethod();
+
+  private static volatile io.grpc.MethodDescriptor<proto.module.WelcomeRequest,
+      proto.module.EmptyMessage> getWelcomeMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<proto.module.WelcomeRequest,
+      proto.module.EmptyMessage> getWelcomeMethod() {
+    io.grpc.MethodDescriptor<proto.module.WelcomeRequest, proto.module.EmptyMessage> getWelcomeMethod;
+    if ((getWelcomeMethod = ModuleServiceGrpc.getWelcomeMethod) == null) {
+      synchronized (ModuleServiceGrpc.class) {
+        if ((getWelcomeMethod = ModuleServiceGrpc.getWelcomeMethod) == null) {
+          ModuleServiceGrpc.getWelcomeMethod = getWelcomeMethod = 
+              io.grpc.MethodDescriptor.<proto.module.WelcomeRequest, proto.module.EmptyMessage>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "ModuleService", "welcome"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  proto.module.WelcomeRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  proto.module.EmptyMessage.getDefaultInstance()))
+                  .setSchemaDescriptor(new ModuleServiceMethodDescriptorSupplier("welcome"))
+                  .build();
+          }
+        }
+     }
+     return getWelcomeMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getGoodByeMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<proto.module.GoodByeRequest,
+      proto.module.EmptyMessage> METHOD_GOOD_BYE = getGoodByeMethod();
+
+  private static volatile io.grpc.MethodDescriptor<proto.module.GoodByeRequest,
+      proto.module.EmptyMessage> getGoodByeMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<proto.module.GoodByeRequest,
+      proto.module.EmptyMessage> getGoodByeMethod() {
+    io.grpc.MethodDescriptor<proto.module.GoodByeRequest, proto.module.EmptyMessage> getGoodByeMethod;
+    if ((getGoodByeMethod = ModuleServiceGrpc.getGoodByeMethod) == null) {
+      synchronized (ModuleServiceGrpc.class) {
+        if ((getGoodByeMethod = ModuleServiceGrpc.getGoodByeMethod) == null) {
+          ModuleServiceGrpc.getGoodByeMethod = getGoodByeMethod = 
+              io.grpc.MethodDescriptor.<proto.module.GoodByeRequest, proto.module.EmptyMessage>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "ModuleService", "goodBye"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  proto.module.GoodByeRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  proto.module.EmptyMessage.getDefaultInstance()))
+                  .setSchemaDescriptor(new ModuleServiceMethodDescriptorSupplier("goodBye"))
+                  .build();
+          }
+        }
+     }
+     return getGoodByeMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -133,6 +197,20 @@ public final class ModuleServiceGrpc {
       asyncUnimplementedUnaryCall(getCloseMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void welcome(proto.module.WelcomeRequest request,
+        io.grpc.stub.StreamObserver<proto.module.EmptyMessage> responseObserver) {
+      asyncUnimplementedUnaryCall(getWelcomeMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void goodBye(proto.module.GoodByeRequest request,
+        io.grpc.stub.StreamObserver<proto.module.EmptyMessage> responseObserver) {
+      asyncUnimplementedUnaryCall(getGoodByeMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -149,6 +227,20 @@ public final class ModuleServiceGrpc {
                 proto.module.EmptyMessage,
                 proto.module.EmptyMessage>(
                   this, METHODID_CLOSE)))
+          .addMethod(
+            getWelcomeMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                proto.module.WelcomeRequest,
+                proto.module.EmptyMessage>(
+                  this, METHODID_WELCOME)))
+          .addMethod(
+            getGoodByeMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                proto.module.GoodByeRequest,
+                proto.module.EmptyMessage>(
+                  this, METHODID_GOOD_BYE)))
           .build();
     }
   }
@@ -186,6 +278,22 @@ public final class ModuleServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getCloseMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void welcome(proto.module.WelcomeRequest request,
+        io.grpc.stub.StreamObserver<proto.module.EmptyMessage> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getWelcomeMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void goodBye(proto.module.GoodByeRequest request,
+        io.grpc.stub.StreamObserver<proto.module.EmptyMessage> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGoodByeMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -218,6 +326,20 @@ public final class ModuleServiceGrpc {
     public proto.module.EmptyMessage close(proto.module.EmptyMessage request) {
       return blockingUnaryCall(
           getChannel(), getCloseMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public proto.module.EmptyMessage welcome(proto.module.WelcomeRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getWelcomeMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public proto.module.EmptyMessage goodBye(proto.module.GoodByeRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getGoodByeMethod(), getCallOptions(), request);
     }
   }
 
@@ -254,10 +376,28 @@ public final class ModuleServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getCloseMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<proto.module.EmptyMessage> welcome(
+        proto.module.WelcomeRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getWelcomeMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<proto.module.EmptyMessage> goodBye(
+        proto.module.GoodByeRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGoodByeMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_RECEIVE_MESSAGE = 0;
   private static final int METHODID_CLOSE = 1;
+  private static final int METHODID_WELCOME = 2;
+  private static final int METHODID_GOOD_BYE = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -284,6 +424,14 @@ public final class ModuleServiceGrpc {
           serviceImpl.close((proto.module.EmptyMessage) request,
               (io.grpc.stub.StreamObserver<proto.module.EmptyMessage>) responseObserver);
           break;
+        case METHODID_WELCOME:
+          serviceImpl.welcome((proto.module.WelcomeRequest) request,
+              (io.grpc.stub.StreamObserver<proto.module.EmptyMessage>) responseObserver);
+          break;
+        case METHODID_GOOD_BYE:
+          serviceImpl.goodBye((proto.module.GoodByeRequest) request,
+              (io.grpc.stub.StreamObserver<proto.module.EmptyMessage>) responseObserver);
+          break;
         default:
           throw new AssertionError();
       }
@@ -306,7 +454,7 @@ public final class ModuleServiceGrpc {
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return proto.module.Module.getDescriptor();
+      return proto.module.ModuleProto.getDescriptor();
     }
 
     @java.lang.Override
@@ -347,6 +495,8 @@ public final class ModuleServiceGrpc {
               .setSchemaDescriptor(new ModuleServiceFileDescriptorSupplier())
               .addMethod(getReceiveMessageMethod())
               .addMethod(getCloseMethod())
+              .addMethod(getWelcomeMethod())
+              .addMethod(getGoodByeMethod())
               .build();
         }
       }

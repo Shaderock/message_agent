@@ -1,6 +1,7 @@
 
 package broker;
 
+import broker.grpc.GrpcModule;
 import broker.models.PortData;
 import broker.servers.Worker;
 import io.grpc.Server;
@@ -25,6 +26,9 @@ public class Context {
     private final ArrayList<Worker> workers;
 
     @Getter
+    private final ArrayList<GrpcModule> grpcModules;
+
+    @Getter
     @Setter
     private Server server;
 
@@ -38,6 +42,7 @@ public class Context {
     private Context() {
         portsData = new ArrayList<>();
         workers = new ArrayList<>();
+        grpcModules = new ArrayList<>();
     }
 
     public static Context getInstance() {

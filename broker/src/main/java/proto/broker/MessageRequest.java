@@ -52,12 +52,17 @@ private static final long serialVersionUID = 0L;
             break;
           case 8: {
             bitField0_ |= 0x00000001;
+            idRequester_ = input.readInt64();
+            break;
+          }
+          case 16: {
+            bitField0_ |= 0x00000002;
             idReceiver_ = input.readInt64();
             break;
           }
-          case 18: {
+          case 26: {
             com.google.protobuf.ByteString bs = input.readBytes();
-            bitField0_ |= 0x00000002;
+            bitField0_ |= 0x00000004;
             message_ = bs;
             break;
           }
@@ -82,46 +87,63 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return proto.broker.Broker.internal_static_MessageRequest_descriptor;
+    return proto.broker.BrokerProto.internal_static_MessageRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return proto.broker.Broker.internal_static_MessageRequest_fieldAccessorTable
+    return proto.broker.BrokerProto.internal_static_MessageRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             proto.broker.MessageRequest.class, proto.broker.MessageRequest.Builder.class);
   }
 
   private int bitField0_;
-  public static final int IDRECEIVER_FIELD_NUMBER = 1;
-  private long idReceiver_;
+  public static final int IDREQUESTER_FIELD_NUMBER = 1;
+  private long idRequester_;
   /**
-   * <code>optional int64 idReceiver = 1;</code>
-   * @return Whether the idReceiver field is set.
+   * <code>required int64 idRequester = 1;</code>
+   * @return Whether the idRequester field is set.
    */
-  public boolean hasIdReceiver() {
+  public boolean hasIdRequester() {
     return ((bitField0_ & 0x00000001) != 0);
   }
   /**
-   * <code>optional int64 idReceiver = 1;</code>
+   * <code>required int64 idRequester = 1;</code>
+   * @return The idRequester.
+   */
+  public long getIdRequester() {
+    return idRequester_;
+  }
+
+  public static final int IDRECEIVER_FIELD_NUMBER = 2;
+  private long idReceiver_;
+  /**
+   * <code>optional int64 idReceiver = 2;</code>
+   * @return Whether the idReceiver field is set.
+   */
+  public boolean hasIdReceiver() {
+    return ((bitField0_ & 0x00000002) != 0);
+  }
+  /**
+   * <code>optional int64 idReceiver = 2;</code>
    * @return The idReceiver.
    */
   public long getIdReceiver() {
     return idReceiver_;
   }
 
-  public static final int MESSAGE_FIELD_NUMBER = 2;
+  public static final int MESSAGE_FIELD_NUMBER = 3;
   private volatile java.lang.Object message_;
   /**
-   * <code>required string message = 2;</code>
+   * <code>required string message = 3;</code>
    * @return Whether the message field is set.
    */
   public boolean hasMessage() {
-    return ((bitField0_ & 0x00000002) != 0);
+    return ((bitField0_ & 0x00000004) != 0);
   }
   /**
-   * <code>required string message = 2;</code>
+   * <code>required string message = 3;</code>
    * @return The message.
    */
   public java.lang.String getMessage() {
@@ -139,7 +161,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>required string message = 2;</code>
+   * <code>required string message = 3;</code>
    * @return The bytes for message.
    */
   public com.google.protobuf.ByteString
@@ -163,6 +185,10 @@ private static final long serialVersionUID = 0L;
     if (isInitialized == 1) return true;
     if (isInitialized == 0) return false;
 
+    if (!hasIdRequester()) {
+      memoizedIsInitialized = 0;
+      return false;
+    }
     if (!hasMessage()) {
       memoizedIsInitialized = 0;
       return false;
@@ -175,10 +201,13 @@ private static final long serialVersionUID = 0L;
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (((bitField0_ & 0x00000001) != 0)) {
-      output.writeInt64(1, idReceiver_);
+      output.writeInt64(1, idRequester_);
     }
     if (((bitField0_ & 0x00000002) != 0)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
+      output.writeInt64(2, idReceiver_);
+    }
+    if (((bitField0_ & 0x00000004) != 0)) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, message_);
     }
     unknownFields.writeTo(output);
   }
@@ -191,10 +220,14 @@ private static final long serialVersionUID = 0L;
     size = 0;
     if (((bitField0_ & 0x00000001) != 0)) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt64Size(1, idReceiver_);
+        .computeInt64Size(1, idRequester_);
     }
     if (((bitField0_ & 0x00000002) != 0)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt64Size(2, idReceiver_);
+    }
+    if (((bitField0_ & 0x00000004) != 0)) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, message_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -211,6 +244,11 @@ private static final long serialVersionUID = 0L;
     }
     proto.broker.MessageRequest other = (proto.broker.MessageRequest) obj;
 
+    if (hasIdRequester() != other.hasIdRequester()) return false;
+    if (hasIdRequester()) {
+      if (getIdRequester()
+          != other.getIdRequester()) return false;
+    }
     if (hasIdReceiver() != other.hasIdReceiver()) return false;
     if (hasIdReceiver()) {
       if (getIdReceiver()
@@ -232,6 +270,11 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
+    if (hasIdRequester()) {
+      hash = (37 * hash) + IDREQUESTER_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getIdRequester());
+    }
     if (hasIdReceiver()) {
       hash = (37 * hash) + IDRECEIVER_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
@@ -345,13 +388,13 @@ private static final long serialVersionUID = 0L;
       proto.broker.MessageRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.broker.Broker.internal_static_MessageRequest_descriptor;
+      return proto.broker.BrokerProto.internal_static_MessageRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.broker.Broker.internal_static_MessageRequest_fieldAccessorTable
+      return proto.broker.BrokerProto.internal_static_MessageRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               proto.broker.MessageRequest.class, proto.broker.MessageRequest.Builder.class);
     }
@@ -374,17 +417,19 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      idReceiver_ = 0L;
+      idRequester_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000001);
-      message_ = "";
+      idReceiver_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000002);
+      message_ = "";
+      bitField0_ = (bitField0_ & ~0x00000004);
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return proto.broker.Broker.internal_static_MessageRequest_descriptor;
+      return proto.broker.BrokerProto.internal_static_MessageRequest_descriptor;
     }
 
     @java.lang.Override
@@ -407,11 +452,15 @@ private static final long serialVersionUID = 0L;
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
       if (((from_bitField0_ & 0x00000001) != 0)) {
-        result.idReceiver_ = idReceiver_;
+        result.idRequester_ = idRequester_;
         to_bitField0_ |= 0x00000001;
       }
       if (((from_bitField0_ & 0x00000002) != 0)) {
+        result.idReceiver_ = idReceiver_;
         to_bitField0_ |= 0x00000002;
+      }
+      if (((from_bitField0_ & 0x00000004) != 0)) {
+        to_bitField0_ |= 0x00000004;
       }
       result.message_ = message_;
       result.bitField0_ = to_bitField0_;
@@ -463,11 +512,14 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(proto.broker.MessageRequest other) {
       if (other == proto.broker.MessageRequest.getDefaultInstance()) return this;
+      if (other.hasIdRequester()) {
+        setIdRequester(other.getIdRequester());
+      }
       if (other.hasIdReceiver()) {
         setIdReceiver(other.getIdReceiver());
       }
       if (other.hasMessage()) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         message_ = other.message_;
         onChanged();
       }
@@ -478,6 +530,9 @@ private static final long serialVersionUID = 0L;
 
     @java.lang.Override
     public final boolean isInitialized() {
+      if (!hasIdRequester()) {
+        return false;
+      }
       if (!hasMessage()) {
         return false;
       }
@@ -504,38 +559,75 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private long idReceiver_ ;
+    private long idRequester_ ;
     /**
-     * <code>optional int64 idReceiver = 1;</code>
-     * @return Whether the idReceiver field is set.
+     * <code>required int64 idRequester = 1;</code>
+     * @return Whether the idRequester field is set.
      */
-    public boolean hasIdReceiver() {
+    public boolean hasIdRequester() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>optional int64 idReceiver = 1;</code>
+     * <code>required int64 idRequester = 1;</code>
+     * @return The idRequester.
+     */
+    public long getIdRequester() {
+      return idRequester_;
+    }
+    /**
+     * <code>required int64 idRequester = 1;</code>
+     * @param value The idRequester to set.
+     * @return This builder for chaining.
+     */
+    public Builder setIdRequester(long value) {
+      bitField0_ |= 0x00000001;
+      idRequester_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>required int64 idRequester = 1;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearIdRequester() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      idRequester_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    private long idReceiver_ ;
+    /**
+     * <code>optional int64 idReceiver = 2;</code>
+     * @return Whether the idReceiver field is set.
+     */
+    public boolean hasIdReceiver() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>optional int64 idReceiver = 2;</code>
      * @return The idReceiver.
      */
     public long getIdReceiver() {
       return idReceiver_;
     }
     /**
-     * <code>optional int64 idReceiver = 1;</code>
+     * <code>optional int64 idReceiver = 2;</code>
      * @param value The idReceiver to set.
      * @return This builder for chaining.
      */
     public Builder setIdReceiver(long value) {
-      bitField0_ |= 0x00000001;
+      bitField0_ |= 0x00000002;
       idReceiver_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional int64 idReceiver = 1;</code>
+     * <code>optional int64 idReceiver = 2;</code>
      * @return This builder for chaining.
      */
     public Builder clearIdReceiver() {
-      bitField0_ = (bitField0_ & ~0x00000001);
+      bitField0_ = (bitField0_ & ~0x00000002);
       idReceiver_ = 0L;
       onChanged();
       return this;
@@ -543,14 +635,14 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object message_ = "";
     /**
-     * <code>required string message = 2;</code>
+     * <code>required string message = 3;</code>
      * @return Whether the message field is set.
      */
     public boolean hasMessage() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
-     * <code>required string message = 2;</code>
+     * <code>required string message = 3;</code>
      * @return The message.
      */
     public java.lang.String getMessage() {
@@ -568,7 +660,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>required string message = 2;</code>
+     * <code>required string message = 3;</code>
      * @return The bytes for message.
      */
     public com.google.protobuf.ByteString
@@ -585,7 +677,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>required string message = 2;</code>
+     * <code>required string message = 3;</code>
      * @param value The message to set.
      * @return This builder for chaining.
      */
@@ -594,23 +686,23 @@ private static final long serialVersionUID = 0L;
       if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
       message_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>required string message = 2;</code>
+     * <code>required string message = 3;</code>
      * @return This builder for chaining.
      */
     public Builder clearMessage() {
-      bitField0_ = (bitField0_ & ~0x00000002);
+      bitField0_ = (bitField0_ & ~0x00000004);
       message_ = getDefaultInstance().getMessage();
       onChanged();
       return this;
     }
     /**
-     * <code>required string message = 2;</code>
+     * <code>required string message = 3;</code>
      * @param value The bytes for message to set.
      * @return This builder for chaining.
      */
@@ -619,7 +711,7 @@ private static final long serialVersionUID = 0L;
       if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
       message_ = value;
       onChanged();
       return this;

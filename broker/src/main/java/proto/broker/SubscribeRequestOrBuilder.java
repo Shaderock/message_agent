@@ -8,17 +8,28 @@ public interface SubscribeRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>repeated int64 ids = 1;</code>
+   * <code>required int64 idSubscriber = 1;</code>
+   * @return Whether the idSubscriber field is set.
+   */
+  boolean hasIdSubscriber();
+  /**
+   * <code>required int64 idSubscriber = 1;</code>
+   * @return The idSubscriber.
+   */
+  long getIdSubscriber();
+
+  /**
+   * <code>repeated int64 ids = 2;</code>
    * @return A list containing the ids.
    */
   java.util.List<java.lang.Long> getIdsList();
   /**
-   * <code>repeated int64 ids = 1;</code>
+   * <code>repeated int64 ids = 2;</code>
    * @return The count of ids.
    */
   int getIdsCount();
   /**
-   * <code>repeated int64 ids = 1;</code>
+   * <code>repeated int64 ids = 2;</code>
    * @param index The index of the element to return.
    * @return The ids at the given index.
    */

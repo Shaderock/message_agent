@@ -8,28 +8,39 @@ public interface MessageRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional int64 idReceiver = 1;</code>
+   * <code>required int64 idRequester = 1;</code>
+   * @return Whether the idRequester field is set.
+   */
+  boolean hasIdRequester();
+  /**
+   * <code>required int64 idRequester = 1;</code>
+   * @return The idRequester.
+   */
+  long getIdRequester();
+
+  /**
+   * <code>optional int64 idReceiver = 2;</code>
    * @return Whether the idReceiver field is set.
    */
   boolean hasIdReceiver();
   /**
-   * <code>optional int64 idReceiver = 1;</code>
+   * <code>optional int64 idReceiver = 2;</code>
    * @return The idReceiver.
    */
   long getIdReceiver();
 
   /**
-   * <code>required string message = 2;</code>
+   * <code>required string message = 3;</code>
    * @return Whether the message field is set.
    */
   boolean hasMessage();
   /**
-   * <code>required string message = 2;</code>
+   * <code>required string message = 3;</code>
    * @return The message.
    */
   java.lang.String getMessage();
   /**
-   * <code>required string message = 2;</code>
+   * <code>required string message = 3;</code>
    * @return The bytes for message.
    */
   com.google.protobuf.ByteString

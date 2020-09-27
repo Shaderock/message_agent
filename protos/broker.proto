@@ -2,10 +2,14 @@ syntax = "proto2";
 
 option java_multiple_files = true;
 option java_package = "proto.broker";
-option java_outer_classname = "Broker";
+option java_outer_classname = "BrokerProto";
 
 message EmptyMessage{
 
+}
+
+message EmptyIdRequest{
+  required int64 idRequester = 1;
 }
 
 message HandshakeRequest{
@@ -16,6 +20,7 @@ message HandshakeRequest{
 
 message HandshakeResponse{
   required bool ok = 1;
+  optional int64 givenId = 2;
 }
 
 message Module{
@@ -24,27 +29,29 @@ message Module{
 }
 
 message GetModulesResponse{
-  repeated Module modules = 1;
+  repeated Module module = 1;
 }
 
 message SubscribeRequest{
-  repeated int64 ids = 1;
+  required int64 idSubscriber = 1;
+  repeated int64 id = 2;
 }
 
 message SubscribeResponse{
   required bool ok = 1;
-  repeated int64 wrongIds = 2;
+  repeated int64 wrongId = 2;
 }
 
 message MessageRequest{
-  optional int64 idReceiver = 1;
-  required string message = 2;
+  required int64 idRequester = 1;
+  optional int64 idReceiver = 2;
+  required string message = 3;
 }
 
 service BrokerService{
   rpc handshake(HandshakeRequest) returns (HandshakeResponse);
-  rpc getModules(EmptyMessage) returns (GetModulesResponse);
+  rpc getModules(EmptyIdRequest) returns (GetModulesResponse);
   rpc subscribe(SubscribeRequest) returns (SubscribeResponse);
   rpc sendMessage(MessageRequest) returns (EmptyMessage);
-  rpc close(EmptyMessage) returns (EmptyMessage);
+  rpc close(EmptyIdRequest) returns (EmptyMessage);
 }

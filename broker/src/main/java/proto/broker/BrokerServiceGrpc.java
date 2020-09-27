@@ -61,27 +61,27 @@ public final class BrokerServiceGrpc {
   }
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getGetModulesMethod()} instead. 
-  public static final io.grpc.MethodDescriptor<proto.broker.EmptyMessage,
+  public static final io.grpc.MethodDescriptor<proto.broker.EmptyIdRequest,
       proto.broker.GetModulesResponse> METHOD_GET_MODULES = getGetModulesMethod();
 
-  private static volatile io.grpc.MethodDescriptor<proto.broker.EmptyMessage,
+  private static volatile io.grpc.MethodDescriptor<proto.broker.EmptyIdRequest,
       proto.broker.GetModulesResponse> getGetModulesMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static io.grpc.MethodDescriptor<proto.broker.EmptyMessage,
+  public static io.grpc.MethodDescriptor<proto.broker.EmptyIdRequest,
       proto.broker.GetModulesResponse> getGetModulesMethod() {
-    io.grpc.MethodDescriptor<proto.broker.EmptyMessage, proto.broker.GetModulesResponse> getGetModulesMethod;
+    io.grpc.MethodDescriptor<proto.broker.EmptyIdRequest, proto.broker.GetModulesResponse> getGetModulesMethod;
     if ((getGetModulesMethod = BrokerServiceGrpc.getGetModulesMethod) == null) {
       synchronized (BrokerServiceGrpc.class) {
         if ((getGetModulesMethod = BrokerServiceGrpc.getGetModulesMethod) == null) {
           BrokerServiceGrpc.getGetModulesMethod = getGetModulesMethod = 
-              io.grpc.MethodDescriptor.<proto.broker.EmptyMessage, proto.broker.GetModulesResponse>newBuilder()
+              io.grpc.MethodDescriptor.<proto.broker.EmptyIdRequest, proto.broker.GetModulesResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "BrokerService", "getModules"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  proto.broker.EmptyMessage.getDefaultInstance()))
+                  proto.broker.EmptyIdRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   proto.broker.GetModulesResponse.getDefaultInstance()))
                   .setSchemaDescriptor(new BrokerServiceMethodDescriptorSupplier("getModules"))
@@ -157,27 +157,27 @@ public final class BrokerServiceGrpc {
   }
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getCloseMethod()} instead. 
-  public static final io.grpc.MethodDescriptor<proto.broker.EmptyMessage,
+  public static final io.grpc.MethodDescriptor<proto.broker.EmptyIdRequest,
       proto.broker.EmptyMessage> METHOD_CLOSE = getCloseMethod();
 
-  private static volatile io.grpc.MethodDescriptor<proto.broker.EmptyMessage,
+  private static volatile io.grpc.MethodDescriptor<proto.broker.EmptyIdRequest,
       proto.broker.EmptyMessage> getCloseMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static io.grpc.MethodDescriptor<proto.broker.EmptyMessage,
+  public static io.grpc.MethodDescriptor<proto.broker.EmptyIdRequest,
       proto.broker.EmptyMessage> getCloseMethod() {
-    io.grpc.MethodDescriptor<proto.broker.EmptyMessage, proto.broker.EmptyMessage> getCloseMethod;
+    io.grpc.MethodDescriptor<proto.broker.EmptyIdRequest, proto.broker.EmptyMessage> getCloseMethod;
     if ((getCloseMethod = BrokerServiceGrpc.getCloseMethod) == null) {
       synchronized (BrokerServiceGrpc.class) {
         if ((getCloseMethod = BrokerServiceGrpc.getCloseMethod) == null) {
           BrokerServiceGrpc.getCloseMethod = getCloseMethod = 
-              io.grpc.MethodDescriptor.<proto.broker.EmptyMessage, proto.broker.EmptyMessage>newBuilder()
+              io.grpc.MethodDescriptor.<proto.broker.EmptyIdRequest, proto.broker.EmptyMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "BrokerService", "close"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  proto.broker.EmptyMessage.getDefaultInstance()))
+                  proto.broker.EmptyIdRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   proto.broker.EmptyMessage.getDefaultInstance()))
                   .setSchemaDescriptor(new BrokerServiceMethodDescriptorSupplier("close"))
@@ -224,7 +224,7 @@ public final class BrokerServiceGrpc {
 
     /**
      */
-    public void getModules(proto.broker.EmptyMessage request,
+    public void getModules(proto.broker.EmptyIdRequest request,
         io.grpc.stub.StreamObserver<proto.broker.GetModulesResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getGetModulesMethod(), responseObserver);
     }
@@ -245,7 +245,7 @@ public final class BrokerServiceGrpc {
 
     /**
      */
-    public void close(proto.broker.EmptyMessage request,
+    public void close(proto.broker.EmptyIdRequest request,
         io.grpc.stub.StreamObserver<proto.broker.EmptyMessage> responseObserver) {
       asyncUnimplementedUnaryCall(getCloseMethod(), responseObserver);
     }
@@ -263,7 +263,7 @@ public final class BrokerServiceGrpc {
             getGetModulesMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                proto.broker.EmptyMessage,
+                proto.broker.EmptyIdRequest,
                 proto.broker.GetModulesResponse>(
                   this, METHODID_GET_MODULES)))
           .addMethod(
@@ -284,7 +284,7 @@ public final class BrokerServiceGrpc {
             getCloseMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                proto.broker.EmptyMessage,
+                proto.broker.EmptyIdRequest,
                 proto.broker.EmptyMessage>(
                   this, METHODID_CLOSE)))
           .build();
@@ -319,7 +319,7 @@ public final class BrokerServiceGrpc {
 
     /**
      */
-    public void getModules(proto.broker.EmptyMessage request,
+    public void getModules(proto.broker.EmptyIdRequest request,
         io.grpc.stub.StreamObserver<proto.broker.GetModulesResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getGetModulesMethod(), getCallOptions()), request, responseObserver);
@@ -343,7 +343,7 @@ public final class BrokerServiceGrpc {
 
     /**
      */
-    public void close(proto.broker.EmptyMessage request,
+    public void close(proto.broker.EmptyIdRequest request,
         io.grpc.stub.StreamObserver<proto.broker.EmptyMessage> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getCloseMethod(), getCallOptions()), request, responseObserver);
@@ -377,7 +377,7 @@ public final class BrokerServiceGrpc {
 
     /**
      */
-    public proto.broker.GetModulesResponse getModules(proto.broker.EmptyMessage request) {
+    public proto.broker.GetModulesResponse getModules(proto.broker.EmptyIdRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetModulesMethod(), getCallOptions(), request);
     }
@@ -398,7 +398,7 @@ public final class BrokerServiceGrpc {
 
     /**
      */
-    public proto.broker.EmptyMessage close(proto.broker.EmptyMessage request) {
+    public proto.broker.EmptyMessage close(proto.broker.EmptyIdRequest request) {
       return blockingUnaryCall(
           getChannel(), getCloseMethod(), getCallOptions(), request);
     }
@@ -433,7 +433,7 @@ public final class BrokerServiceGrpc {
     /**
      */
     public com.google.common.util.concurrent.ListenableFuture<proto.broker.GetModulesResponse> getModules(
-        proto.broker.EmptyMessage request) {
+        proto.broker.EmptyIdRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getGetModulesMethod(), getCallOptions()), request);
     }
@@ -457,7 +457,7 @@ public final class BrokerServiceGrpc {
     /**
      */
     public com.google.common.util.concurrent.ListenableFuture<proto.broker.EmptyMessage> close(
-        proto.broker.EmptyMessage request) {
+        proto.broker.EmptyIdRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getCloseMethod(), getCallOptions()), request);
     }
@@ -491,7 +491,7 @@ public final class BrokerServiceGrpc {
               (io.grpc.stub.StreamObserver<proto.broker.HandshakeResponse>) responseObserver);
           break;
         case METHODID_GET_MODULES:
-          serviceImpl.getModules((proto.broker.EmptyMessage) request,
+          serviceImpl.getModules((proto.broker.EmptyIdRequest) request,
               (io.grpc.stub.StreamObserver<proto.broker.GetModulesResponse>) responseObserver);
           break;
         case METHODID_SUBSCRIBE:
@@ -503,7 +503,7 @@ public final class BrokerServiceGrpc {
               (io.grpc.stub.StreamObserver<proto.broker.EmptyMessage>) responseObserver);
           break;
         case METHODID_CLOSE:
-          serviceImpl.close((proto.broker.EmptyMessage) request,
+          serviceImpl.close((proto.broker.EmptyIdRequest) request,
               (io.grpc.stub.StreamObserver<proto.broker.EmptyMessage>) responseObserver);
           break;
         default:
@@ -528,7 +528,7 @@ public final class BrokerServiceGrpc {
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return proto.broker.Broker.getDescriptor();
+      return proto.broker.BrokerProto.getDescriptor();
     }
 
     @java.lang.Override

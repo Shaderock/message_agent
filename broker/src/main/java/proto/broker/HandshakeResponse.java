@@ -54,6 +54,11 @@ private static final long serialVersionUID = 0L;
             ok_ = input.readBool();
             break;
           }
+          case 16: {
+            bitField0_ |= 0x00000002;
+            givenId_ = input.readInt64();
+            break;
+          }
           default: {
             if (!parseUnknownField(
                 input, unknownFields, extensionRegistry, tag)) {
@@ -75,13 +80,13 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return proto.broker.Broker.internal_static_HandshakeResponse_descriptor;
+    return proto.broker.BrokerProto.internal_static_HandshakeResponse_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return proto.broker.Broker.internal_static_HandshakeResponse_fieldAccessorTable
+    return proto.broker.BrokerProto.internal_static_HandshakeResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             proto.broker.HandshakeResponse.class, proto.broker.HandshakeResponse.Builder.class);
   }
@@ -102,6 +107,23 @@ private static final long serialVersionUID = 0L;
    */
   public boolean getOk() {
     return ok_;
+  }
+
+  public static final int GIVENID_FIELD_NUMBER = 2;
+  private long givenId_;
+  /**
+   * <code>optional int64 givenId = 2;</code>
+   * @return Whether the givenId field is set.
+   */
+  public boolean hasGivenId() {
+    return ((bitField0_ & 0x00000002) != 0);
+  }
+  /**
+   * <code>optional int64 givenId = 2;</code>
+   * @return The givenId.
+   */
+  public long getGivenId() {
+    return givenId_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -125,6 +147,9 @@ private static final long serialVersionUID = 0L;
     if (((bitField0_ & 0x00000001) != 0)) {
       output.writeBool(1, ok_);
     }
+    if (((bitField0_ & 0x00000002) != 0)) {
+      output.writeInt64(2, givenId_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -137,6 +162,10 @@ private static final long serialVersionUID = 0L;
     if (((bitField0_ & 0x00000001) != 0)) {
       size += com.google.protobuf.CodedOutputStream
         .computeBoolSize(1, ok_);
+    }
+    if (((bitField0_ & 0x00000002) != 0)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt64Size(2, givenId_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -158,6 +187,11 @@ private static final long serialVersionUID = 0L;
       if (getOk()
           != other.getOk()) return false;
     }
+    if (hasGivenId() != other.hasGivenId()) return false;
+    if (hasGivenId()) {
+      if (getGivenId()
+          != other.getGivenId()) return false;
+    }
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -173,6 +207,11 @@ private static final long serialVersionUID = 0L;
       hash = (37 * hash) + OK_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getOk());
+    }
+    if (hasGivenId()) {
+      hash = (37 * hash) + GIVENID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getGivenId());
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -278,13 +317,13 @@ private static final long serialVersionUID = 0L;
       proto.broker.HandshakeResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.broker.Broker.internal_static_HandshakeResponse_descriptor;
+      return proto.broker.BrokerProto.internal_static_HandshakeResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.broker.Broker.internal_static_HandshakeResponse_fieldAccessorTable
+      return proto.broker.BrokerProto.internal_static_HandshakeResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               proto.broker.HandshakeResponse.class, proto.broker.HandshakeResponse.Builder.class);
     }
@@ -309,13 +348,15 @@ private static final long serialVersionUID = 0L;
       super.clear();
       ok_ = false;
       bitField0_ = (bitField0_ & ~0x00000001);
+      givenId_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00000002);
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return proto.broker.Broker.internal_static_HandshakeResponse_descriptor;
+      return proto.broker.BrokerProto.internal_static_HandshakeResponse_descriptor;
     }
 
     @java.lang.Override
@@ -340,6 +381,10 @@ private static final long serialVersionUID = 0L;
       if (((from_bitField0_ & 0x00000001) != 0)) {
         result.ok_ = ok_;
         to_bitField0_ |= 0x00000001;
+      }
+      if (((from_bitField0_ & 0x00000002) != 0)) {
+        result.givenId_ = givenId_;
+        to_bitField0_ |= 0x00000002;
       }
       result.bitField0_ = to_bitField0_;
       onBuilt();
@@ -392,6 +437,9 @@ private static final long serialVersionUID = 0L;
       if (other == proto.broker.HandshakeResponse.getDefaultInstance()) return this;
       if (other.hasOk()) {
         setOk(other.getOk());
+      }
+      if (other.hasGivenId()) {
+        setGivenId(other.getGivenId());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -459,6 +507,43 @@ private static final long serialVersionUID = 0L;
     public Builder clearOk() {
       bitField0_ = (bitField0_ & ~0x00000001);
       ok_ = false;
+      onChanged();
+      return this;
+    }
+
+    private long givenId_ ;
+    /**
+     * <code>optional int64 givenId = 2;</code>
+     * @return Whether the givenId field is set.
+     */
+    public boolean hasGivenId() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>optional int64 givenId = 2;</code>
+     * @return The givenId.
+     */
+    public long getGivenId() {
+      return givenId_;
+    }
+    /**
+     * <code>optional int64 givenId = 2;</code>
+     * @param value The givenId to set.
+     * @return This builder for chaining.
+     */
+    public Builder setGivenId(long value) {
+      bitField0_ |= 0x00000002;
+      givenId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>optional int64 givenId = 2;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearGivenId() {
+      bitField0_ = (bitField0_ & ~0x00000002);
+      givenId_ = 0L;
       onChanged();
       return this;
     }

@@ -16,7 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private SubscribeRequest() {
-    ids_ = emptyLongList();
+    id_ = emptyLongList();
   }
 
   @java.lang.Override
@@ -51,22 +51,27 @@ private static final long serialVersionUID = 0L;
             done = true;
             break;
           case 8: {
-            if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-              ids_ = newLongList();
-              mutable_bitField0_ |= 0x00000001;
-            }
-            ids_.addLong(input.readInt64());
+            bitField0_ |= 0x00000001;
+            idSubscriber_ = input.readInt64();
             break;
           }
-          case 10: {
+          case 16: {
+            if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              id_ = newLongList();
+              mutable_bitField0_ |= 0x00000002;
+            }
+            id_.addLong(input.readInt64());
+            break;
+          }
+          case 18: {
             int length = input.readRawVarint32();
             int limit = input.pushLimit(length);
-            if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
-              ids_ = newLongList();
-              mutable_bitField0_ |= 0x00000001;
+            if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+              id_ = newLongList();
+              mutable_bitField0_ |= 0x00000002;
             }
             while (input.getBytesUntilLimit() > 0) {
-              ids_.addLong(input.readInt64());
+              id_.addLong(input.readInt64());
             }
             input.popLimit(limit);
             break;
@@ -86,8 +91,8 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000001) != 0)) {
-        ids_.makeImmutable(); // C
+      if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        id_.makeImmutable(); // C
       }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
@@ -95,41 +100,59 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return proto.broker.Broker.internal_static_SubscribeRequest_descriptor;
+    return proto.broker.BrokerProto.internal_static_SubscribeRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return proto.broker.Broker.internal_static_SubscribeRequest_fieldAccessorTable
+    return proto.broker.BrokerProto.internal_static_SubscribeRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             proto.broker.SubscribeRequest.class, proto.broker.SubscribeRequest.Builder.class);
   }
 
-  public static final int IDS_FIELD_NUMBER = 1;
-  private com.google.protobuf.Internal.LongList ids_;
+  private int bitField0_;
+  public static final int IDSUBSCRIBER_FIELD_NUMBER = 1;
+  private long idSubscriber_;
   /**
-   * <code>repeated int64 ids = 1;</code>
-   * @return A list containing the ids.
+   * <code>required int64 idSubscriber = 1;</code>
+   * @return Whether the idSubscriber field is set.
+   */
+  public boolean hasIdSubscriber() {
+    return ((bitField0_ & 0x00000001) != 0);
+  }
+  /**
+   * <code>required int64 idSubscriber = 1;</code>
+   * @return The idSubscriber.
+   */
+  public long getIdSubscriber() {
+    return idSubscriber_;
+  }
+
+  public static final int ID_FIELD_NUMBER = 2;
+  private com.google.protobuf.Internal.LongList id_;
+  /**
+   * <code>repeated int64 id = 2;</code>
+   * @return A list containing the id.
    */
   public java.util.List<java.lang.Long>
-      getIdsList() {
-    return ids_;
+      getIdList() {
+    return id_;
   }
   /**
-   * <code>repeated int64 ids = 1;</code>
-   * @return The count of ids.
+   * <code>repeated int64 id = 2;</code>
+   * @return The count of id.
    */
-  public int getIdsCount() {
-    return ids_.size();
+  public int getIdCount() {
+    return id_.size();
   }
   /**
-   * <code>repeated int64 ids = 1;</code>
+   * <code>repeated int64 id = 2;</code>
    * @param index The index of the element to return.
-   * @return The ids at the given index.
+   * @return The id at the given index.
    */
-  public long getIds(int index) {
-    return ids_.getLong(index);
+  public long getId(int index) {
+    return id_.getLong(index);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -139,6 +162,10 @@ private static final long serialVersionUID = 0L;
     if (isInitialized == 1) return true;
     if (isInitialized == 0) return false;
 
+    if (!hasIdSubscriber()) {
+      memoizedIsInitialized = 0;
+      return false;
+    }
     memoizedIsInitialized = 1;
     return true;
   }
@@ -146,8 +173,11 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    for (int i = 0; i < ids_.size(); i++) {
-      output.writeInt64(1, ids_.getLong(i));
+    if (((bitField0_ & 0x00000001) != 0)) {
+      output.writeInt64(1, idSubscriber_);
+    }
+    for (int i = 0; i < id_.size(); i++) {
+      output.writeInt64(2, id_.getLong(i));
     }
     unknownFields.writeTo(output);
   }
@@ -158,14 +188,18 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
+    if (((bitField0_ & 0x00000001) != 0)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt64Size(1, idSubscriber_);
+    }
     {
       int dataSize = 0;
-      for (int i = 0; i < ids_.size(); i++) {
+      for (int i = 0; i < id_.size(); i++) {
         dataSize += com.google.protobuf.CodedOutputStream
-          .computeInt64SizeNoTag(ids_.getLong(i));
+          .computeInt64SizeNoTag(id_.getLong(i));
       }
       size += dataSize;
-      size += 1 * getIdsList().size();
+      size += 1 * getIdList().size();
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -182,8 +216,13 @@ private static final long serialVersionUID = 0L;
     }
     proto.broker.SubscribeRequest other = (proto.broker.SubscribeRequest) obj;
 
-    if (!getIdsList()
-        .equals(other.getIdsList())) return false;
+    if (hasIdSubscriber() != other.hasIdSubscriber()) return false;
+    if (hasIdSubscriber()) {
+      if (getIdSubscriber()
+          != other.getIdSubscriber()) return false;
+    }
+    if (!getIdList()
+        .equals(other.getIdList())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -195,9 +234,14 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    if (getIdsCount() > 0) {
-      hash = (37 * hash) + IDS_FIELD_NUMBER;
-      hash = (53 * hash) + getIdsList().hashCode();
+    if (hasIdSubscriber()) {
+      hash = (37 * hash) + IDSUBSCRIBER_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getIdSubscriber());
+    }
+    if (getIdCount() > 0) {
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getIdList().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -303,13 +347,13 @@ private static final long serialVersionUID = 0L;
       proto.broker.SubscribeRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.broker.Broker.internal_static_SubscribeRequest_descriptor;
+      return proto.broker.BrokerProto.internal_static_SubscribeRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.broker.Broker.internal_static_SubscribeRequest_fieldAccessorTable
+      return proto.broker.BrokerProto.internal_static_SubscribeRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               proto.broker.SubscribeRequest.class, proto.broker.SubscribeRequest.Builder.class);
     }
@@ -332,15 +376,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      ids_ = emptyLongList();
+      idSubscriber_ = 0L;
       bitField0_ = (bitField0_ & ~0x00000001);
+      id_ = emptyLongList();
+      bitField0_ = (bitField0_ & ~0x00000002);
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return proto.broker.Broker.internal_static_SubscribeRequest_descriptor;
+      return proto.broker.BrokerProto.internal_static_SubscribeRequest_descriptor;
     }
 
     @java.lang.Override
@@ -361,11 +407,17 @@ private static final long serialVersionUID = 0L;
     public proto.broker.SubscribeRequest buildPartial() {
       proto.broker.SubscribeRequest result = new proto.broker.SubscribeRequest(this);
       int from_bitField0_ = bitField0_;
-      if (((bitField0_ & 0x00000001) != 0)) {
-        ids_.makeImmutable();
-        bitField0_ = (bitField0_ & ~0x00000001);
+      int to_bitField0_ = 0;
+      if (((from_bitField0_ & 0x00000001) != 0)) {
+        result.idSubscriber_ = idSubscriber_;
+        to_bitField0_ |= 0x00000001;
       }
-      result.ids_ = ids_;
+      if (((bitField0_ & 0x00000002) != 0)) {
+        id_.makeImmutable();
+        bitField0_ = (bitField0_ & ~0x00000002);
+      }
+      result.id_ = id_;
+      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
@@ -414,13 +466,16 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(proto.broker.SubscribeRequest other) {
       if (other == proto.broker.SubscribeRequest.getDefaultInstance()) return this;
-      if (!other.ids_.isEmpty()) {
-        if (ids_.isEmpty()) {
-          ids_ = other.ids_;
-          bitField0_ = (bitField0_ & ~0x00000001);
+      if (other.hasIdSubscriber()) {
+        setIdSubscriber(other.getIdSubscriber());
+      }
+      if (!other.id_.isEmpty()) {
+        if (id_.isEmpty()) {
+          id_ = other.id_;
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
-          ensureIdsIsMutable();
-          ids_.addAll(other.ids_);
+          ensureIdIsMutable();
+          id_.addAll(other.id_);
         }
         onChanged();
       }
@@ -431,6 +486,9 @@ private static final long serialVersionUID = 0L;
 
     @java.lang.Override
     public final boolean isInitialized() {
+      if (!hasIdSubscriber()) {
+        return false;
+      }
       return true;
     }
 
@@ -454,81 +512,118 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private com.google.protobuf.Internal.LongList ids_ = emptyLongList();
-    private void ensureIdsIsMutable() {
-      if (!((bitField0_ & 0x00000001) != 0)) {
-        ids_ = mutableCopy(ids_);
-        bitField0_ |= 0x00000001;
+    private long idSubscriber_ ;
+    /**
+     * <code>required int64 idSubscriber = 1;</code>
+     * @return Whether the idSubscriber field is set.
+     */
+    public boolean hasIdSubscriber() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>required int64 idSubscriber = 1;</code>
+     * @return The idSubscriber.
+     */
+    public long getIdSubscriber() {
+      return idSubscriber_;
+    }
+    /**
+     * <code>required int64 idSubscriber = 1;</code>
+     * @param value The idSubscriber to set.
+     * @return This builder for chaining.
+     */
+    public Builder setIdSubscriber(long value) {
+      bitField0_ |= 0x00000001;
+      idSubscriber_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>required int64 idSubscriber = 1;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearIdSubscriber() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      idSubscriber_ = 0L;
+      onChanged();
+      return this;
+    }
+
+    private com.google.protobuf.Internal.LongList id_ = emptyLongList();
+    private void ensureIdIsMutable() {
+      if (!((bitField0_ & 0x00000002) != 0)) {
+        id_ = mutableCopy(id_);
+        bitField0_ |= 0x00000002;
        }
     }
     /**
-     * <code>repeated int64 ids = 1;</code>
-     * @return A list containing the ids.
+     * <code>repeated int64 id = 2;</code>
+     * @return A list containing the id.
      */
     public java.util.List<java.lang.Long>
-        getIdsList() {
-      return ((bitField0_ & 0x00000001) != 0) ?
-               java.util.Collections.unmodifiableList(ids_) : ids_;
+        getIdList() {
+      return ((bitField0_ & 0x00000002) != 0) ?
+               java.util.Collections.unmodifiableList(id_) : id_;
     }
     /**
-     * <code>repeated int64 ids = 1;</code>
-     * @return The count of ids.
+     * <code>repeated int64 id = 2;</code>
+     * @return The count of id.
      */
-    public int getIdsCount() {
-      return ids_.size();
+    public int getIdCount() {
+      return id_.size();
     }
     /**
-     * <code>repeated int64 ids = 1;</code>
+     * <code>repeated int64 id = 2;</code>
      * @param index The index of the element to return.
-     * @return The ids at the given index.
+     * @return The id at the given index.
      */
-    public long getIds(int index) {
-      return ids_.getLong(index);
+    public long getId(int index) {
+      return id_.getLong(index);
     }
     /**
-     * <code>repeated int64 ids = 1;</code>
+     * <code>repeated int64 id = 2;</code>
      * @param index The index to set the value at.
-     * @param value The ids to set.
+     * @param value The id to set.
      * @return This builder for chaining.
      */
-    public Builder setIds(
+    public Builder setId(
         int index, long value) {
-      ensureIdsIsMutable();
-      ids_.setLong(index, value);
+      ensureIdIsMutable();
+      id_.setLong(index, value);
       onChanged();
       return this;
     }
     /**
-     * <code>repeated int64 ids = 1;</code>
-     * @param value The ids to add.
+     * <code>repeated int64 id = 2;</code>
+     * @param value The id to add.
      * @return This builder for chaining.
      */
-    public Builder addIds(long value) {
-      ensureIdsIsMutable();
-      ids_.addLong(value);
+    public Builder addId(long value) {
+      ensureIdIsMutable();
+      id_.addLong(value);
       onChanged();
       return this;
     }
     /**
-     * <code>repeated int64 ids = 1;</code>
-     * @param values The ids to add.
+     * <code>repeated int64 id = 2;</code>
+     * @param values The id to add.
      * @return This builder for chaining.
      */
-    public Builder addAllIds(
+    public Builder addAllId(
         java.lang.Iterable<? extends java.lang.Long> values) {
-      ensureIdsIsMutable();
+      ensureIdIsMutable();
       com.google.protobuf.AbstractMessageLite.Builder.addAll(
-          values, ids_);
+          values, id_);
       onChanged();
       return this;
     }
     /**
-     * <code>repeated int64 ids = 1;</code>
+     * <code>repeated int64 id = 2;</code>
      * @return This builder for chaining.
      */
-    public Builder clearIds() {
-      ids_ = emptyLongList();
-      bitField0_ = (bitField0_ & ~0x00000001);
+    public Builder clearId() {
+      id_ = emptyLongList();
+      bitField0_ = (bitField0_ & ~0x00000002);
       onChanged();
       return this;
     }

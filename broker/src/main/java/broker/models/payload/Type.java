@@ -1,18 +1,16 @@
 package broker.models.payload;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public enum Type {
-    @JsonProperty("CR")
-    CRYPTOGRAPHER(10),
-    @JsonProperty("MNG")
-    MANAGER(1);
+    CR(10, "CR"),
+    MNG(1, "MNG");
 
     @Getter
     private final int maxConnections;
 
-    Type(int maxConnections) {
-        this.maxConnections = maxConnections;
-    }
+    @Getter
+    private final String name;
 }

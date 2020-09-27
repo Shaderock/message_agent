@@ -8,26 +8,26 @@ public interface GetModulesResponseOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>repeated .Module modules = 1;</code>
+   * <code>repeated .Module module = 1;</code>
    */
   java.util.List<proto.broker.Module> 
-      getModulesList();
+      getModuleList();
   /**
-   * <code>repeated .Module modules = 1;</code>
+   * <code>repeated .Module module = 1;</code>
    */
-  proto.broker.Module getModules(int index);
+  proto.broker.Module getModule(int index);
   /**
-   * <code>repeated .Module modules = 1;</code>
+   * <code>repeated .Module module = 1;</code>
    */
-  int getModulesCount();
+  int getModuleCount();
   /**
-   * <code>repeated .Module modules = 1;</code>
+   * <code>repeated .Module module = 1;</code>
    */
   java.util.List<? extends proto.broker.ModuleOrBuilder> 
-      getModulesOrBuilderList();
+      getModuleOrBuilderList();
   /**
-   * <code>repeated .Module modules = 1;</code>
+   * <code>repeated .Module module = 1;</code>
    */
-  proto.broker.ModuleOrBuilder getModulesOrBuilder(
+  proto.broker.ModuleOrBuilder getModuleOrBuilder(
       int index);
 }

@@ -17,4 +17,15 @@ public interface HandshakeResponseOrBuilder extends
    * @return The ok.
    */
   boolean getOk();
+
+  /**
+   * <code>optional int64 givenId = 2;</code>
+   * @return Whether the givenId field is set.
+   */
+  boolean hasGivenId();
+  /**
+   * <code>optional int64 givenId = 2;</code>
+   * @return The givenId.
+   */
+  long getGivenId();
 }

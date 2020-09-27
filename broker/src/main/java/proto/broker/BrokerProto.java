@@ -3,8 +3,8 @@
 
 package proto.broker;
 
-public final class Broker {
-  private Broker() {}
+public final class BrokerProto {
+  private BrokerProto() {}
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistryLite registry) {
   }
@@ -19,6 +19,11 @@ public final class Broker {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_EmptyMessage_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_EmptyIdRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_EmptyIdRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_HandshakeRequest_descriptor;
   static final 
@@ -63,22 +68,25 @@ public final class Broker {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014broker.proto\"\016\n\014EmptyMessage\":\n\020Handsh" +
-      "akeRequest\022\014\n\004type\030\001 \002(\t\022\n\n\002ip\030\002 \002(\t\022\014\n\004" +
-      "port\030\003 \002(\003\"\037\n\021HandshakeResponse\022\n\n\002ok\030\001 " +
-      "\002(\010\"\"\n\006Module\022\014\n\004type\030\001 \002(\t\022\n\n\002id\030\002 \002(\003\"" +
-      ".\n\022GetModulesResponse\022\030\n\007modules\030\001 \003(\0132\007" +
-      ".Module\"\037\n\020SubscribeRequest\022\013\n\003ids\030\001 \003(\003" +
-      "\"1\n\021SubscribeResponse\022\n\n\002ok\030\001 \002(\010\022\020\n\010wro" +
-      "ngIds\030\002 \003(\003\"5\n\016MessageRequest\022\022\n\nidRecei" +
-      "ver\030\001 \001(\003\022\017\n\007message\030\002 \002(\t2\377\001\n\rBrokerSer" +
-      "vice\0222\n\thandshake\022\021.HandshakeRequest\032\022.H" +
-      "andshakeResponse\0220\n\ngetModules\022\r.EmptyMe" +
-      "ssage\032\023.GetModulesResponse\0222\n\tsubscribe\022" +
-      "\021.SubscribeRequest\032\022.SubscribeResponse\022-" +
-      "\n\013sendMessage\022\017.MessageRequest\032\r.EmptyMe" +
-      "ssage\022%\n\005close\022\r.EmptyMessage\032\r.EmptyMes" +
-      "sageB\030\n\014proto.brokerB\006BrokerP\001"
+      "\n\014broker.proto\"\016\n\014EmptyMessage\"%\n\016EmptyI" +
+      "dRequest\022\023\n\013idRequester\030\001 \002(\003\":\n\020Handsha" +
+      "keRequest\022\014\n\004type\030\001 \002(\t\022\n\n\002ip\030\002 \002(\t\022\014\n\004p" +
+      "ort\030\003 \002(\003\"0\n\021HandshakeResponse\022\n\n\002ok\030\001 \002" +
+      "(\010\022\017\n\007givenId\030\002 \001(\003\"\"\n\006Module\022\014\n\004type\030\001 " +
+      "\002(\t\022\n\n\002id\030\002 \002(\003\"-\n\022GetModulesResponse\022\027\n" +
+      "\006module\030\001 \003(\0132\007.Module\"4\n\020SubscribeReque" +
+      "st\022\024\n\014idSubscriber\030\001 \002(\003\022\n\n\002id\030\002 \003(\003\"0\n\021" +
+      "SubscribeResponse\022\n\n\002ok\030\001 \002(\010\022\017\n\007wrongId" +
+      "\030\002 \003(\003\"J\n\016MessageRequest\022\023\n\013idRequester\030" +
+      "\001 \002(\003\022\022\n\nidReceiver\030\002 \001(\003\022\017\n\007message\030\003 \002" +
+      "(\t2\203\002\n\rBrokerService\0222\n\thandshake\022\021.Hand" +
+      "shakeRequest\032\022.HandshakeResponse\0222\n\ngetM" +
+      "odules\022\017.EmptyIdRequest\032\023.GetModulesResp" +
+      "onse\0222\n\tsubscribe\022\021.SubscribeRequest\032\022.S" +
+      "ubscribeResponse\022-\n\013sendMessage\022\017.Messag" +
+      "eRequest\032\r.EmptyMessage\022\'\n\005close\022\017.Empty" +
+      "IdRequest\032\r.EmptyMessageB\035\n\014proto.broker" +
+      "B\013BrokerProtoP\001"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -90,48 +98,54 @@ public final class Broker {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EmptyMessage_descriptor,
         new java.lang.String[] { });
-    internal_static_HandshakeRequest_descriptor =
+    internal_static_EmptyIdRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_EmptyIdRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_EmptyIdRequest_descriptor,
+        new java.lang.String[] { "IdRequester", });
+    internal_static_HandshakeRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_HandshakeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_HandshakeRequest_descriptor,
         new java.lang.String[] { "Type", "Ip", "Port", });
     internal_static_HandshakeResponse_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_HandshakeResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_HandshakeResponse_descriptor,
-        new java.lang.String[] { "Ok", });
+        new java.lang.String[] { "Ok", "GivenId", });
     internal_static_Module_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_Module_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Module_descriptor,
         new java.lang.String[] { "Type", "Id", });
     internal_static_GetModulesResponse_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_GetModulesResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetModulesResponse_descriptor,
-        new java.lang.String[] { "Modules", });
+        new java.lang.String[] { "Module", });
     internal_static_SubscribeRequest_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_SubscribeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SubscribeRequest_descriptor,
-        new java.lang.String[] { "Ids", });
+        new java.lang.String[] { "IdSubscriber", "Id", });
     internal_static_SubscribeResponse_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_SubscribeResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SubscribeResponse_descriptor,
-        new java.lang.String[] { "Ok", "WrongIds", });
+        new java.lang.String[] { "Ok", "WrongId", });
     internal_static_MessageRequest_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_MessageRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_MessageRequest_descriptor,
-        new java.lang.String[] { "IdReceiver", "Message", });
+        new java.lang.String[] { "IdRequester", "IdReceiver", "Message", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -16,7 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private SubscribeResponse() {
-    wrongIds_ = emptyLongList();
+    wrongId_ = emptyLongList();
   }
 
   @java.lang.Override
@@ -57,21 +57,21 @@ private static final long serialVersionUID = 0L;
           }
           case 16: {
             if (!((mutable_bitField0_ & 0x00000002) != 0)) {
-              wrongIds_ = newLongList();
+              wrongId_ = newLongList();
               mutable_bitField0_ |= 0x00000002;
             }
-            wrongIds_.addLong(input.readInt64());
+            wrongId_.addLong(input.readInt64());
             break;
           }
           case 18: {
             int length = input.readRawVarint32();
             int limit = input.pushLimit(length);
             if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
-              wrongIds_ = newLongList();
+              wrongId_ = newLongList();
               mutable_bitField0_ |= 0x00000002;
             }
             while (input.getBytesUntilLimit() > 0) {
-              wrongIds_.addLong(input.readInt64());
+              wrongId_.addLong(input.readInt64());
             }
             input.popLimit(limit);
             break;
@@ -92,7 +92,7 @@ private static final long serialVersionUID = 0L;
           e).setUnfinishedMessage(this);
     } finally {
       if (((mutable_bitField0_ & 0x00000002) != 0)) {
-        wrongIds_.makeImmutable(); // C
+        wrongId_.makeImmutable(); // C
       }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
@@ -100,13 +100,13 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return proto.broker.Broker.internal_static_SubscribeResponse_descriptor;
+    return proto.broker.BrokerProto.internal_static_SubscribeResponse_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return proto.broker.Broker.internal_static_SubscribeResponse_fieldAccessorTable
+    return proto.broker.BrokerProto.internal_static_SubscribeResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             proto.broker.SubscribeResponse.class, proto.broker.SubscribeResponse.Builder.class);
   }
@@ -129,30 +129,30 @@ private static final long serialVersionUID = 0L;
     return ok_;
   }
 
-  public static final int WRONGIDS_FIELD_NUMBER = 2;
-  private com.google.protobuf.Internal.LongList wrongIds_;
+  public static final int WRONGID_FIELD_NUMBER = 2;
+  private com.google.protobuf.Internal.LongList wrongId_;
   /**
-   * <code>repeated int64 wrongIds = 2;</code>
-   * @return A list containing the wrongIds.
+   * <code>repeated int64 wrongId = 2;</code>
+   * @return A list containing the wrongId.
    */
   public java.util.List<java.lang.Long>
-      getWrongIdsList() {
-    return wrongIds_;
+      getWrongIdList() {
+    return wrongId_;
   }
   /**
-   * <code>repeated int64 wrongIds = 2;</code>
-   * @return The count of wrongIds.
+   * <code>repeated int64 wrongId = 2;</code>
+   * @return The count of wrongId.
    */
-  public int getWrongIdsCount() {
-    return wrongIds_.size();
+  public int getWrongIdCount() {
+    return wrongId_.size();
   }
   /**
-   * <code>repeated int64 wrongIds = 2;</code>
+   * <code>repeated int64 wrongId = 2;</code>
    * @param index The index of the element to return.
-   * @return The wrongIds at the given index.
+   * @return The wrongId at the given index.
    */
-  public long getWrongIds(int index) {
-    return wrongIds_.getLong(index);
+  public long getWrongId(int index) {
+    return wrongId_.getLong(index);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -176,8 +176,8 @@ private static final long serialVersionUID = 0L;
     if (((bitField0_ & 0x00000001) != 0)) {
       output.writeBool(1, ok_);
     }
-    for (int i = 0; i < wrongIds_.size(); i++) {
-      output.writeInt64(2, wrongIds_.getLong(i));
+    for (int i = 0; i < wrongId_.size(); i++) {
+      output.writeInt64(2, wrongId_.getLong(i));
     }
     unknownFields.writeTo(output);
   }
@@ -194,12 +194,12 @@ private static final long serialVersionUID = 0L;
     }
     {
       int dataSize = 0;
-      for (int i = 0; i < wrongIds_.size(); i++) {
+      for (int i = 0; i < wrongId_.size(); i++) {
         dataSize += com.google.protobuf.CodedOutputStream
-          .computeInt64SizeNoTag(wrongIds_.getLong(i));
+          .computeInt64SizeNoTag(wrongId_.getLong(i));
       }
       size += dataSize;
-      size += 1 * getWrongIdsList().size();
+      size += 1 * getWrongIdList().size();
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -221,8 +221,8 @@ private static final long serialVersionUID = 0L;
       if (getOk()
           != other.getOk()) return false;
     }
-    if (!getWrongIdsList()
-        .equals(other.getWrongIdsList())) return false;
+    if (!getWrongIdList()
+        .equals(other.getWrongIdList())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -239,9 +239,9 @@ private static final long serialVersionUID = 0L;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getOk());
     }
-    if (getWrongIdsCount() > 0) {
-      hash = (37 * hash) + WRONGIDS_FIELD_NUMBER;
-      hash = (53 * hash) + getWrongIdsList().hashCode();
+    if (getWrongIdCount() > 0) {
+      hash = (37 * hash) + WRONGID_FIELD_NUMBER;
+      hash = (53 * hash) + getWrongIdList().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -347,13 +347,13 @@ private static final long serialVersionUID = 0L;
       proto.broker.SubscribeResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.broker.Broker.internal_static_SubscribeResponse_descriptor;
+      return proto.broker.BrokerProto.internal_static_SubscribeResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.broker.Broker.internal_static_SubscribeResponse_fieldAccessorTable
+      return proto.broker.BrokerProto.internal_static_SubscribeResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               proto.broker.SubscribeResponse.class, proto.broker.SubscribeResponse.Builder.class);
     }
@@ -378,7 +378,7 @@ private static final long serialVersionUID = 0L;
       super.clear();
       ok_ = false;
       bitField0_ = (bitField0_ & ~0x00000001);
-      wrongIds_ = emptyLongList();
+      wrongId_ = emptyLongList();
       bitField0_ = (bitField0_ & ~0x00000002);
       return this;
     }
@@ -386,7 +386,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return proto.broker.Broker.internal_static_SubscribeResponse_descriptor;
+      return proto.broker.BrokerProto.internal_static_SubscribeResponse_descriptor;
     }
 
     @java.lang.Override
@@ -413,10 +413,10 @@ private static final long serialVersionUID = 0L;
         to_bitField0_ |= 0x00000001;
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        wrongIds_.makeImmutable();
+        wrongId_.makeImmutable();
         bitField0_ = (bitField0_ & ~0x00000002);
       }
-      result.wrongIds_ = wrongIds_;
+      result.wrongId_ = wrongId_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -469,13 +469,13 @@ private static final long serialVersionUID = 0L;
       if (other.hasOk()) {
         setOk(other.getOk());
       }
-      if (!other.wrongIds_.isEmpty()) {
-        if (wrongIds_.isEmpty()) {
-          wrongIds_ = other.wrongIds_;
+      if (!other.wrongId_.isEmpty()) {
+        if (wrongId_.isEmpty()) {
+          wrongId_ = other.wrongId_;
           bitField0_ = (bitField0_ & ~0x00000002);
         } else {
-          ensureWrongIdsIsMutable();
-          wrongIds_.addAll(other.wrongIds_);
+          ensureWrongIdIsMutable();
+          wrongId_.addAll(other.wrongId_);
         }
         onChanged();
       }
@@ -549,80 +549,80 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private com.google.protobuf.Internal.LongList wrongIds_ = emptyLongList();
-    private void ensureWrongIdsIsMutable() {
+    private com.google.protobuf.Internal.LongList wrongId_ = emptyLongList();
+    private void ensureWrongIdIsMutable() {
       if (!((bitField0_ & 0x00000002) != 0)) {
-        wrongIds_ = mutableCopy(wrongIds_);
+        wrongId_ = mutableCopy(wrongId_);
         bitField0_ |= 0x00000002;
        }
     }
     /**
-     * <code>repeated int64 wrongIds = 2;</code>
-     * @return A list containing the wrongIds.
+     * <code>repeated int64 wrongId = 2;</code>
+     * @return A list containing the wrongId.
      */
     public java.util.List<java.lang.Long>
-        getWrongIdsList() {
+        getWrongIdList() {
       return ((bitField0_ & 0x00000002) != 0) ?
-               java.util.Collections.unmodifiableList(wrongIds_) : wrongIds_;
+               java.util.Collections.unmodifiableList(wrongId_) : wrongId_;
     }
     /**
-     * <code>repeated int64 wrongIds = 2;</code>
-     * @return The count of wrongIds.
+     * <code>repeated int64 wrongId = 2;</code>
+     * @return The count of wrongId.
      */
-    public int getWrongIdsCount() {
-      return wrongIds_.size();
+    public int getWrongIdCount() {
+      return wrongId_.size();
     }
     /**
-     * <code>repeated int64 wrongIds = 2;</code>
+     * <code>repeated int64 wrongId = 2;</code>
      * @param index The index of the element to return.
-     * @return The wrongIds at the given index.
+     * @return The wrongId at the given index.
      */
-    public long getWrongIds(int index) {
-      return wrongIds_.getLong(index);
+    public long getWrongId(int index) {
+      return wrongId_.getLong(index);
     }
     /**
-     * <code>repeated int64 wrongIds = 2;</code>
+     * <code>repeated int64 wrongId = 2;</code>
      * @param index The index to set the value at.
-     * @param value The wrongIds to set.
+     * @param value The wrongId to set.
      * @return This builder for chaining.
      */
-    public Builder setWrongIds(
+    public Builder setWrongId(
         int index, long value) {
-      ensureWrongIdsIsMutable();
-      wrongIds_.setLong(index, value);
+      ensureWrongIdIsMutable();
+      wrongId_.setLong(index, value);
       onChanged();
       return this;
     }
     /**
-     * <code>repeated int64 wrongIds = 2;</code>
-     * @param value The wrongIds to add.
+     * <code>repeated int64 wrongId = 2;</code>
+     * @param value The wrongId to add.
      * @return This builder for chaining.
      */
-    public Builder addWrongIds(long value) {
-      ensureWrongIdsIsMutable();
-      wrongIds_.addLong(value);
+    public Builder addWrongId(long value) {
+      ensureWrongIdIsMutable();
+      wrongId_.addLong(value);
       onChanged();
       return this;
     }
     /**
-     * <code>repeated int64 wrongIds = 2;</code>
-     * @param values The wrongIds to add.
+     * <code>repeated int64 wrongId = 2;</code>
+     * @param values The wrongId to add.
      * @return This builder for chaining.
      */
-    public Builder addAllWrongIds(
+    public Builder addAllWrongId(
         java.lang.Iterable<? extends java.lang.Long> values) {
-      ensureWrongIdsIsMutable();
+      ensureWrongIdIsMutable();
       com.google.protobuf.AbstractMessageLite.Builder.addAll(
-          values, wrongIds_);
+          values, wrongId_);
       onChanged();
       return this;
     }
     /**
-     * <code>repeated int64 wrongIds = 2;</code>
+     * <code>repeated int64 wrongId = 2;</code>
      * @return This builder for chaining.
      */
-    public Builder clearWrongIds() {
-      wrongIds_ = emptyLongList();
+    public Builder clearWrongId() {
+      wrongId_ = emptyLongList();
       bitField0_ = (bitField0_ & ~0x00000002);
       onChanged();
       return this;

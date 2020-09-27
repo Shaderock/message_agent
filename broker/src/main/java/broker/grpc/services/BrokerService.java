@@ -1,27 +1,30 @@
 package broker.grpc.services;
 
-import io.grpc.Grpc;
-import io.grpc.ServerCall;
-import io.grpc.ServerStreamTracer;
-import io.grpc.stub.ServerCalls;
+import broker.grpc.services.executants.GetModulesExecutant;
+import broker.grpc.services.executants.HandshakeExecutant;
+import broker.grpc.services.executants.SubscribeExecutant;
 import io.grpc.stub.StreamObserver;
 import proto.broker.*;
+
 //todo
 public class BrokerService extends BrokerServiceGrpc.BrokerServiceImplBase {
 
     @Override
     public void handshake(HandshakeRequest request, StreamObserver<HandshakeResponse> responseObserver) {
-
+        HandshakeExecutant handshakeExecutant = new HandshakeExecutant(request, responseObserver);
+        handshakeExecutant.execute();
     }
 
     @Override
-    public void getModules(EmptyMessage request, StreamObserver<GetModulesResponse> responseObserver) {
-        super.getModules(request, responseObserver);
+    public void getModules(EmptyIdRequest request, StreamObserver<GetModulesResponse> responseObserver) {
+        GetModulesExecutant getModulesExecutant = new GetModulesExecutant(request, responseObserver);
+        getModulesExecutant.execute();
     }
 
     @Override
     public void subscribe(SubscribeRequest request, StreamObserver<SubscribeResponse> responseObserver) {
-        super.subscribe(request, responseObserver);
+        SubscribeExecutant subscribeExecutant = new SubscribeExecutant(request, responseObserver);
+        subscribeExecutant.execute();
     }
 
     @Override
@@ -30,7 +33,7 @@ public class BrokerService extends BrokerServiceGrpc.BrokerServiceImplBase {
     }
 
     @Override
-    public void close(EmptyMessage request, StreamObserver<EmptyMessage> responseObserver) {
+    public void close(EmptyIdRequest request, StreamObserver<EmptyMessage> responseObserver) {
         super.close(request, responseObserver);
     }
 }

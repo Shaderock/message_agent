@@ -1,6 +1,5 @@
 package broker.grpc.services.executants;
 
-public class Executant
-        extends Thread
+public abstract class Executant
         implements IExecutant {
 }

@@ -2,6 +2,7 @@ package broker.grpc.services.executants;
 
 import broker.Context;
 import broker.grpc.GrpcModule;
+import broker.grpc.utils.ModulesConnectionNotifier;
 import broker.models.payload.Type;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -47,12 +48,16 @@ public class HandshakeExecutant extends Executant {
         }
 
         int nextModuleId = context.getNextModuleId();
-        GrpcModule grpcModule = new GrpcModule(nextModuleId, type);
+        GrpcModule addedModule = new GrpcModule(nextModuleId, type,
+                request.getIp(), (int) request.getPort());
         context.setNextModuleId(nextModuleId + 1);
-        context.getGrpcModules().add(grpcModule);
+        context.getGrpcModules().add(addedModule);
 
         response.setGivenId(nextModuleId);
         responseObserver.onNext(response.build());
         responseObserver.onCompleted();
+
+        ModulesConnectionNotifier modulesConnectionNotifier = new ModulesConnectionNotifier();
+        modulesConnectionNotifier.notifyAboutModuleConnected(addedModule);
     }
 }

@@ -1,12 +1,9 @@
 package broker.grpc.services;
 
-import broker.grpc.services.executants.GetModulesExecutant;
-import broker.grpc.services.executants.HandshakeExecutant;
-import broker.grpc.services.executants.SubscribeExecutant;
+import broker.grpc.services.executants.*;
 import io.grpc.stub.StreamObserver;
 import proto.broker.*;
 
-//todo
 public class BrokerService extends BrokerServiceGrpc.BrokerServiceImplBase {
 
     @Override
@@ -29,11 +26,18 @@ public class BrokerService extends BrokerServiceGrpc.BrokerServiceImplBase {
 
     @Override
     public void sendMessage(MessageRequest request, StreamObserver<EmptyMessage> responseObserver) {
-        super.sendMessage(request, responseObserver);
+        IExecutant executant;
+        if (request.hasIdReceiver()) {
+            executant = new DirectMessageExecutant(request, responseObserver);
+        } else {
+            executant = new NotifyExecutant(request, responseObserver);
+        }
+        executant.execute();
     }
 
     @Override
     public void close(EmptyIdRequest request, StreamObserver<EmptyMessage> responseObserver) {
-        super.close(request, responseObserver);
+        CloseConnectionExecutant closeConnectionExecutant =
+                new CloseConnectionExecutant(request, responseObserver);
     }
 }

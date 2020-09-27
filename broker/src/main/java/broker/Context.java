@@ -2,6 +2,7 @@
 package broker;
 
 import broker.grpc.GrpcModule;
+import broker.grpc.exceptions.ModuleDoesNotExistException;
 import broker.models.PortData;
 import broker.servers.Worker;
 import io.grpc.Server;
@@ -11,14 +12,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 
 public class Context {
-    public static final int MAX_SOCKETS_PER_PORT = 50;
     private static Context instance;
 
     public final int UDP_BROKER_LISTENED_PORT = 16002;
-
     public final int GRPS_SERVER_PORT = 17001;
-    public final int GRPS_COMMUNICATION_PORT = 17002;
-    public final int MAX_COMMUNICATION_PORTS = 1;
 
     public boolean APP_IS_SHUT_DOWN;
 
@@ -51,5 +48,14 @@ public class Context {
         }
 
         return instance;
+    }
+
+    public GrpcModule findModuleById(long id) throws ModuleDoesNotExistException {
+        for (GrpcModule grpcModule : getGrpcModules()) {
+            if (grpcModule.getId() == id) {
+                return grpcModule;
+            }
+        }
+        throw new ModuleDoesNotExistException("No module with id=" + id, id);
     }
 }

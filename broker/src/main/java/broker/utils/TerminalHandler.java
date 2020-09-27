@@ -23,6 +23,8 @@ public class TerminalHandler extends Thread {
         }
         while (!input.equals("stop"));
 
+        System.out.println("Shutting down server");
+
         Context context = Context.getInstance();
         context.APP_IS_SHUT_DOWN = true;
 

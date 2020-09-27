@@ -16,10 +16,11 @@ public class MessageSender {
                                    proto.broker.MessageRequest notifyRequestFromModule) {
         notifyRequestToModule.setMessage(notifyRequestFromModule.getMessage());
         try {
+            MessageRequest request = notifyRequestToModule.build();
             proto.module.EmptyMessage response =
                     moduleServiceStub.withDeadlineAfter(5, TimeUnit.SECONDS)
-                            .receiveMessage(notifyRequestToModule.build());
-            System.out.println("SENT: " + response.toString());
+                            .receiveMessage(request);
+            System.out.println("gRPC SENT: " + request.toString());
         }
         catch (StatusRuntimeException e) {
             System.out.println("Time for response has exceeded");

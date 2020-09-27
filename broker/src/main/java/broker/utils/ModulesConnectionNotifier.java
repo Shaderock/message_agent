@@ -5,6 +5,7 @@ import broker.models.GrpcModule;
 import broker.exceptions.ModuleDoesNotExistException;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.StatusRuntimeException;
 import proto.module.GoodByeRequest;
 import proto.module.ModuleServiceGrpc;
 import proto.module.WelcomeRequest;
@@ -28,11 +29,12 @@ public class ModulesConnectionNotifier {
                 .setId(module.getId())
                 .build());
 
-        proto.module.EmptyMessage response = moduleServiceStub
-                .withDeadlineAfter(5, TimeUnit.SECONDS)
-                .welcome(request.build());
-
-        if (response == null) {
+        try {
+            proto.module.EmptyMessage response = moduleServiceStub
+                    .withDeadlineAfter(15, TimeUnit.SECONDS)
+                    .welcome(request.build());
+        } catch (StatusRuntimeException e) {
+            System.out.println("Time for response has exceeded");
             ModuleRemover.removeModule(module);
         }
     }
@@ -67,8 +69,7 @@ public class ModulesConnectionNotifier {
 
         try {
             context.findModuleById(module.getId());
-        }
-        catch (ModuleDoesNotExistException e) {
+        } catch (ModuleDoesNotExistException e) {
             System.out.println("Can not notify about id=" + module.getId());
             return true;
         }

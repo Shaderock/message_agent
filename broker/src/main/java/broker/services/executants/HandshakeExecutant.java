@@ -54,6 +54,7 @@ public class HandshakeExecutant extends Executant {
         context.getGrpcModules().add(addedModule);
 
         response.setGivenId(nextModuleId);
+        response.setOk(true);
         responseObserver.onNext(response.build());
         responseObserver.onCompleted();
 

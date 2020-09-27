@@ -48,10 +48,9 @@ def send_block():
 
 def search_nonce():
     global has_task
-    global has_task
     if not has_task:
         return
-    if block.nonce == '':  # Check saved nonce
+    if block.nonce == '':  # Check for saved nonce
         block.nonce = get_new_nonce()
     if check_nonce():
         print(f'Block nonce found - {block.nonce}\n\tHash: {get_block_hash()}')
@@ -79,8 +78,8 @@ class ModuleService(module_pb2_grpc.ModuleServiceServicer):
                 has_task = False
                 if nonce_thread.is_alive():
                     nonce_thread.join()
-                new_block = Block(message['info-block']['id-block'], message['info-block']['content'],
-                                  message['info-block']['prev-hash'])
+                new_block = Block(message['info-block']['id_block'], message['info-block']['content'],
+                                  message['info-block']['prev_hash'])
                 if new_block == block:
                     new_block.nonce = block.nonce
                 block = new_block
@@ -98,15 +97,15 @@ class ModuleService(module_pb2_grpc.ModuleServiceServicer):
                 print(f'Untreated command - {message["command"]}')
 
         except Exception:
-            print(f'Или лыжи не едут, или мессэдж неправильный - "{message_json}"')
+            print(f'Invalid message - "{message_json}"')
         return module_pb2.EmptyMessage()
 
     def welcome(self, request, context):
-        print('Smn new - idc')
+        print(f'Welcome #{request.module.id}')
         return module_pb2.EmptyMessage()
 
     def goodBye(self, request, context):
-        print('Smn left - idc')
+        print(f'Good bye #{request.module.id}')
         return module_pb2.EmptyMessage()
 
     def close(self, request, context):
@@ -135,12 +134,14 @@ if __name__ == '__main__':
 
             own_module_service_port = connection.get_listen_port(server)
 
+            print(f'Port ({own_module_service_port}) has been selected')
+
             handshake_response = connection.handshake(broker, own_module_service_port, 'CR')
             if not handshake_response.ok:
                 print('Broker haven\'t permitted connection')
                 break
 
-            print(f'Connection established on port {own_module_service_port}')
+            print(f'Handshake succeed')
 
             own_id = handshake_response.givenId
 

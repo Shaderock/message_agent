@@ -73,4 +73,6 @@ def listen_to_broker_udp() -> str:  # Broadcast to local network for broker
             except Exception:
                 print(f'Invalid json from udp listener {str(address)}:\n\t{data.decode("utf8")}')
 
+    print('Broker has given response')
+
     return address[0]  # Only IP (without port)

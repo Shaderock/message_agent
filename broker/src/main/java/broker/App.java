@@ -1,6 +1,6 @@
 package broker;
 
-import broker.grpc.services.BrokerService;
+import broker.services.BrokerService;
 import broker.servers.UDPCommunicationHandler;
 import broker.utils.TerminalHandler;
 import io.grpc.Server;
@@ -16,7 +16,7 @@ public class App {
                 .addService(new BrokerService()).build();
         context.setServer(server);
 
-        try {// todo check for async
+        try {
             server.start();
         }
         catch (IOException e) {

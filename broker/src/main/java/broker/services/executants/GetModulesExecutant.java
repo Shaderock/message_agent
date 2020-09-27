@@ -1,7 +1,7 @@
-package broker.grpc.services.executants;
+package broker.services.executants;
 
 import broker.Context;
-import broker.grpc.GrpcModule;
+import broker.models.GrpcModule;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import proto.broker.EmptyIdRequest;

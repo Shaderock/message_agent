@@ -1,8 +1,8 @@
-package broker.grpc.utils;
+package broker.utils;
 
 import broker.Context;
-import broker.grpc.GrpcModule;
-import broker.grpc.exceptions.ModuleDoesNotExistException;
+import broker.models.GrpcModule;
+import broker.exceptions.ModuleDoesNotExistException;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import proto.module.GoodByeRequest;

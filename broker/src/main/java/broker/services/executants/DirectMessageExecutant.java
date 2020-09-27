@@ -1,9 +1,9 @@
-package broker.grpc.services.executants;
+package broker.services.executants;
 
 import broker.Context;
-import broker.grpc.GrpcModule;
-import broker.grpc.exceptions.ModuleDoesNotExistException;
-import broker.grpc.utils.ModuleRemover;
+import broker.models.GrpcModule;
+import broker.exceptions.ModuleDoesNotExistException;
+import broker.utils.ModuleRemover;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;

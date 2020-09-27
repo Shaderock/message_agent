@@ -1,7 +1,7 @@
 package broker.utils;
 
 import broker.Context;
-import broker.grpc.GrpcModule;
+import broker.models.GrpcModule;
 import broker.servers.Worker;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class TerminalHandler extends Thread {
 
         ArrayList<GrpcModule> modulesToDisable = new ArrayList<>(context.getGrpcModules());
         for (GrpcModule module : modulesToDisable) {
-            broker.grpc.utils.ModuleRemover.removeModule(module);
+            ModuleRemover.removeModule(module);
         }
     }
 }

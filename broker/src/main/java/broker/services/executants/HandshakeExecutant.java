@@ -1,8 +1,8 @@
-package broker.grpc.services.executants;
+package broker.services.executants;
 
 import broker.Context;
-import broker.grpc.GrpcModule;
-import broker.grpc.utils.ModulesConnectionNotifier;
+import broker.models.GrpcModule;
+import broker.utils.ModulesConnectionNotifier;
 import broker.models.payload.Type;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;

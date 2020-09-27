@@ -1,9 +1,8 @@
 
 package broker;
 
-import broker.grpc.GrpcModule;
-import broker.grpc.exceptions.ModuleDoesNotExistException;
-import broker.models.PortData;
+import broker.models.GrpcModule;
+import broker.exceptions.ModuleDoesNotExistException;
 import broker.servers.Worker;
 import io.grpc.Server;
 import lombok.Getter;
@@ -33,11 +32,7 @@ public class Context {
     @Setter
     private int nextModuleId = 0;
 
-    @Getter
-    private final ArrayList<PortData> portsData;
-
     private Context() {
-        portsData = new ArrayList<>();
         workers = new ArrayList<>();
         grpcModules = new ArrayList<>();
     }

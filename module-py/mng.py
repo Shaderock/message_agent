@@ -1,263 +1,165 @@
+from concurrent import futures
+import threading
+import traceback
 import atexit
 import random
 import string
 import json
-import traceback
-from time import sleep
+import grpc
 
-import hash
+from block import Block
+import module_pb2_grpc
+import module_pb2
 import connection
+import broker_pb2
+import hash
 
-blockchain = []
-cr_list = []
-new_cr_list = []
-has_task = False
-prev_hash = ''
-need_sub = True
+
+# noinspection PyBroadException
+def try_new_block(message_request: module_pb2.MessageRequest):
+    try:
+        message = json.loads(message_request.message)
+        if message['info-block']['id-block'] != blockchain[-1].id_block:
+            return
+        if not hash.check_hash_rule(message['info-block']['hash']):
+            return
+        if message['info-block']['hash'] == get_last_block_hash(message['info-block']['nonce']):
+            send_cr_stop()
+            save_block(message)
+            create_new_block()
+            send_cr_task()
+    except Exception:
+        pass
+
+
+def send_cr_stop():
+    message = {
+        'command': 'stop'
+    }
+    message_string = json.dumps(message)
+    message_request = broker_pb2.MessageRequest(idRequester=own_id, idReceiver=0, message=message_string)
+    for cr in cr_list:
+        message_request.idReceiver = cr
+        broker.sendMessage(message_request)
+
+
+def send_task(module_list: list):
+    # info_block = {
+    #     'id-block': len(blockchain) - 1,
+    #     'prev-hash': blockchain[-1].prev_hash,
+    #     'content': blockchain[-1].content
+    # }
+    message = {
+        'command': 'new-task',
+        'info-block': blockchain[-1]
+    }
+    message_string = json.dumps(message)
+    message_request = broker_pb2.MessageRequest(idRequester=own_id, idReceiver=0, message=message_string)
+    for module_id in module_list:
+        message_request.idReceiver = module_id
+        broker.sendMessage(message_request)
+
+
+def send_cr_task():
+    send_task(cr_list)
+
+
+# noinspection PyBroadException
+def sub_to_new_modules():
+    sub_request = broker_pb2.SubscribeRequest(idSubscriber=own_id, id=cr_list + new_cr_list)
+    sub_response = broker.subscribe(sub_request)
+    if not sub_response.ok:
+        for module in sub_response.wrongId:
+            for possible_list in [new_cr_list, cr_list]:
+                try:
+                    possible_list.remove(module)
+                except Exception:
+                    pass
+    send_task(new_cr_list)
+    cr_list.extend(new_cr_list)
+    new_cr_list.clear()
+
+
+def sub_for_all_modules():
+    get_modules_request = broker_pb2.EmptyIdRequest(idRequester=own_id)
+    get_modules_response = broker.getModules(get_modules_request)
+    for module in get_modules_response.module:
+        if module.type == 'CR':
+            new_cr_list.append(module.id)
+    if len(new_cr_list) != 0:
+        sub_to_new_modules()
+
+
+# noinspection PyBroadException
+class ModuleService(module_pb2_grpc.ModuleServiceServicer):
+    def receiveMessage(self, request, context):
+        global additional_thread
+        try:
+            if json.loads(request.message)['command'] == 'complete-task':
+                if additional_thread.is_alive():
+                    additional_thread.join()
+                additional_thread = threading.Thread(target=try_new_block, args=request.message)
+            else:
+                pass
+        except Exception:
+            print(f'Invalid JSON message has come - "{request.message}"')
+        return module_pb2.EmptyMessage()
+
+    def welcome(self, request, context):
+        global additional_thread
+        if request.module.type == 'CR':
+            new_cr_list.append(request.module.id)
+            if additional_thread.is_alive():
+                additional_thread.join()
+            additional_thread = threading.Thread(target=sub_to_new_modules)
+            additional_thread.start()
+        return module_pb2.EmptyMessage()
+
+    def goodBye(self, request, context):
+        if request.module.type == 'CR':
+            try:
+                cr_list.remove(request.module.id)
+            finally:
+                return module_pb2.EmptyMessage()
+
+    def close(self, request, context):
+        print('Need to close (broker said so)')
+        atexit.unregister(connection.close_connection)
+        threading.Thread(target=server.stop, args=(None,)).start()
+        return module_pb2.EmptyMessage()
+
+
+def save_block(message):
+    global prev_hash
+    blockchain[-1].nonce = message['info-block']['nonce']
+    prev_hash = message['info-block']['hash']
+    print('Block has been saved')
 
 
 # noinspection PyUnusedLocal
-def generate_content():
+def generate_content() -> str:
     length = random.randint(1, 15)
     letters = string.ascii_letters
     return ''.join(random.choice(letters) for i in range(length))
 
 
 def create_new_block():
-    blockchain.append(
-        {'id-block': len(blockchain),
-         'content': generate_content(),
-         'prev-hash': prev_hash})
-
-
-# noinspection PyBroadException
-def close_connection():
-    try:
-        close = {
-            'operation': 'close'
-        }
-        conn.send(json.dumps(close))
-        conn.reset_socket()
-        print('Connection closed (by self)')
-
-    except Exception:
-        pass
-    finally:
-        input('Press enter to exit...')
-
-
-def get_modules_for_sub():
-    get_modules = {
-        'operation': 'get-modules'
-    }
-    conn.send(json.dumps(get_modules))
-    print('Requested all modules')
-
-
-def send_task():
-    info_block = {
-        'id-block': len(blockchain)-1,
-        'prev-hash': prev_hash,
-        'content': blockchain[len(blockchain)-1]['content']
-    }
-    info_block = json.dumps(info_block)
-    for cr in cr_list:
-        payload = {
-            'id-receiver': cr,
-            'command': 'new-task',
-            'info-block': info_block
-        }
-        direct_message = {
-            'operation': 'direct-message',
-            'payload': json.dumps(payload)
-        }
-        conn.send(json.dumps(direct_message))
-        print(f'New task has been sent to {cr}')
-        sleep(0.1)
-    global has_task
-    has_task = False
+    blockchain.append(Block(id_block=len(blockchain), content=generate_content(), prev_hash=prev_hash))
 
 
 def get_last_block_hash(nonce):
-    return hash.get_block_hash(blockchain[len(blockchain)-1]['content'], prev_hash, nonce)
+    return hash.get_block_hash(blockchain[-1].content, blockchain[-1].prev_hash, nonce)
 
 
-def send_all_stop():
-    for cr in cr_list:
-        payload = {
-            "id-receiver": cr,
-            'command': 'stop',
-            'info-block': ''
-        }
-        direct_message = {
-            'operation': 'direct-message',
-            'payload': json.dumps(payload)
-        }
-        conn.send(json.dumps(direct_message))
-        sleep(0.1)
-    print('Stop command has been sent')
-
-
-def save_block(message):
-    global has_task
-    global prev_hash
-    send_all_stop()
-    blockchain[len(blockchain) - 1]['nonce'] = json.loads(json.loads(message['payload'])['info-block'])['nonce']
-    prev_hash = json.loads(json.loads(message['payload'])['info-block'])['hash']
-    has_task = True
-    print('Block has been saved')
-
-
-def send_task_to_cr(new_cr: list):
-    for cr in new_cr:
-        info_block = {
-            'id-block': len(blockchain) - 1,
-            'prev-hash': prev_hash,
-            'content': blockchain[len(blockchain) - 1]['content']
-        }
-        payload = {
-            'id-receiver': cr,
-            'command': 'new-task',
-            'info-block': json.dumps(info_block)
-        }
-        direct_message = {
-            'operation': 'direct-message',
-            'payload': json.dumps(payload)
-        }
-        conn.send(json.dumps(direct_message))
-        print(f'Individual task to {cr} has been sent')
-        sleep(0.1)
-
-
-def sub_to_new_cr():
-    subscribe = {
-        'operation': 'subscribe',
-        'payload': json.dumps({'ids': cr_list + new_cr_list})
-    }
-    conn.send(json.dumps(subscribe))
-    print(f'Requested new sub to {str(cr_list + new_cr_list)}')
-
-
-# noinspection PyBroadException
-def manage_task():
-    global has_task
-    global cr_list
-    global need_sub
-
-    while True:
-
-        if conn.is_socket_resetted():
-            print('Broker force closed connection')
-            break
-
-        if has_task:
-            if len(cr_list) != 0:
-                send_task()
-            else:
-                pass
-
-        if conn.has_messages():
-            message = json.loads(conn.wait_message())
-
-            if message['operation'] == 'get-modules':
-                print('Got all modules')
-                if need_sub:
-                    for module in json.loads(message['payload'])['modules']:
-                        if module['type'] == 'CR':
-                            cr_list.append(module['id'])
-                    print(f'\tThere is/are {len(cr_list)} CR-module(s)')
-                    if len(cr_list) != 0:
-                        subscribe = {
-                            'operation': 'subscribe',
-                            'payload': json.dumps({'ids': cr_list})
-                        }
-                        conn.send(json.dumps(subscribe))
-                        print('\tRequested for sub')
-                    else:
-                        has_task = True
-                        need_sub = False
-
-            elif message['operation'] == 'subscribe':
-                if json.loads(message['payload'])['code'] == 20:                # Success sub
-                    print(f'Subbed successful ({str(cr_list + new_cr_list)})')
-                    if need_sub:                                                # If first sub
-                        has_task = True                                         # Next loop will give them task
-                        need_sub = False
-                    elif len(new_cr_list) != 0:                                 # If not first time and there is smn new
-                        if not has_task:                                        # If other CR are working
-                            send_task_to_cr(new_cr_list)
-                        cr_list += new_cr_list
-                        new_cr_list.clear()
-                elif json.loads(message['payload'])['code'] in [43, 44]:
-                    print(f'Some sub has failed - {json.loads(message["payload"])["ids"]}')
-                    if need_sub:
-                        cr_list.clear()
-                        get_modules_for_sub()                                   # Repeat sub attempt
-                    elif len(new_cr_list) != 0:                                 # If there is someone new
-                        for cr_id in json.loads(message['payload'])["ids"]:
-                            try:
-                                new_cr_list.remove(cr_id)
-                            except Exception:
-                                pass
-                        send_task_to_cr(new_cr_list)
-                        cr_list += new_cr_list
-                        new_cr_list.clear()
-
-            elif message['operation'] == 'notify':
-                try:
-                    if json.loads(message['payload'])['command'] == 'complete-task':
-                        print(f'Someone ({json.loads(message["payload"])["id-sender"]}) attempted to complete task')
-                        if json.loads(json.loads(message['payload'])['info-block'])['id-block'] != (len(blockchain)-1):
-                            pass
-                        if not hash.check_hash_rule(json.loads(json.loads(message['payload'])['info-block'])['hash']):
-                            pass
-                        if json.loads(json.loads(message['payload'])['info-block'])['hash'] == \
-                                get_last_block_hash(json.loads(json.loads(message['payload'])['info-block'])['nonce']):
-                            print(f'Block #{json.loads(json.loads(message["payload"])["info-block"])["id-block"]} has '
-                                  f'been finished\n\t'
-                                  f'by: {json.loads(message["payload"])["id-sender"]}\n\t'
-                                  f'nonce: {json.loads(json.loads(message["payload"])["info-block"])["nonce"]}\n\t'
-                                  f'hash: {json.loads(json.loads(message["payload"])["info-block"])["hash"]}')
-                            save_block(message)
-                            create_new_block()
-                except Exception:
-                    print(f'Invalid notify serialization - {message}')
-
-            elif message['operation'] == 'direct-message':
-                print('Someone dm\'ed me - let\'s just ignore ¯\\_(ツ)_/¯')
-                pass
-
-            elif message['operation'] == 'welcome':
-                if json.loads(message['payload'])['type'] == 'CR':
-                    print('New cr in system')
-                    new_cr_list.append(json.loads(message['payload'])['id'])
-                    sub_to_new_cr()
-
-            elif message['operation'] == 'good-bye':
-                if json.loads(message['payload'])['type'] == 'CR':
-                    print(f'One CR left - {json.loads(message["payload"])["id"]}')
-                    try:
-                        cr_list.remove(json.loads(message['payload'])['id'])
-                    except Exception:
-                        print('\tCan\'t repeat delete')
-                    if len(cr_list) == 0:
-                        has_task = True
-
-            elif message['operation'] == 'close':
-                print('Connection closed (by broker)')
-                conn.reset_socket()
-                break
-
-            elif message['operation'] == 'keep-alive':
-                pass
-
-            else:
-                print(f'Untreated operation - {message["operation"]}')
-                pass
-
+blockchain = []
+cr_list = []
+new_cr_list = []
+prev_hash = ''
+additional_thread = threading.Thread()
 
 if __name__ == '__main__':
     atexit.register(input, 'To exit press Enter...')
+    create_new_block()
 
     # noinspection PyBroadException
     try:  # It will catch KeyboardInterrupt (Ctrl-C) and other Exceptions
@@ -269,16 +171,19 @@ if __name__ == '__main__':
 
             own_module_service_port = connection.get_listen_port(server)
 
-            handshake_response = connection.handshake(broker, own_module_service_port, 'CR')
+            handshake_response = connection.handshake(broker, own_module_service_port, 'MNG')
             if not handshake_response.ok:
                 print('Broker haven\'t permitted connection')
                 break
 
-            print('Connection established')
+            print(f'Connection established on port {own_module_service_port}')
 
             own_id = handshake_response.givenId
 
             atexit.register(connection.close_connection, broker, own_id)
+
+            additional_thread = threading.Thread(target=sub_for_all_modules)
+            additional_thread.start()
 
             server.start()
             server.wait_for_termination()

@@ -1,19 +1,19 @@
+from concurrent import futures
+from threading import Thread
 import threading
 import traceback
-from concurrent import futures
-import json
 import random
 import string
-from threading import Thread
-import grpc
 import atexit
+import json
+import grpc
 
-import hash
-import connection
-import module_pb2
-import module_pb2_grpc
-import broker_pb2
 from block import Block
+import module_pb2_grpc
+import module_pb2
+import broker_pb2
+import connection
+import hash
 
 
 # noinspection PyUnusedLocal
@@ -47,6 +47,7 @@ def send_block():
 
 
 def search_nonce():
+    global has_task
     global has_task
     if not has_task:
         return
@@ -101,11 +102,11 @@ class ModuleService(module_pb2_grpc.ModuleServiceServicer):
         return module_pb2.EmptyMessage()
 
     def welcome(self, request, context):
-        print('Smn new - idk')
+        print('Smn new - idc')
         return module_pb2.EmptyMessage()
 
     def goodBye(self, request, context):
-        print('Smn left - idk')
+        print('Smn left - idc')
         return module_pb2.EmptyMessage()
 
     def close(self, request, context):

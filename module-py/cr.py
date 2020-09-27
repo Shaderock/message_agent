@@ -118,8 +118,8 @@ def search_nonce():
 class ModuleService(module_pb2_grpc.ModuleServiceServicer):
     def receiveMessage(self, request, context):
         print('Received smth')
+        message_json = request.message
         try:
-            message_json = request.message
             message = json.loads(message_json)
             if message['command'] == 'new-task':
                 print('New task')
@@ -131,7 +131,7 @@ class ModuleService(module_pb2_grpc.ModuleServiceServicer):
                 print(f'Untreated command - {message["command"]}')
 
         except Exception:
-            print('Или лыжи не едут, или мессэдж неправильный')
+            print(f'Или лыжи не едут, или мессэдж неправильный - "{message_json}"')
         return module_pb2.EmptyMessage()
 
     def welcome(self, request, context):

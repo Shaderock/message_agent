@@ -15,11 +15,11 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='module.proto',
-  package='',
+  package='module',
   syntax='proto2',
   serialized_options=b'\n\014proto.moduleB\013ModuleProtoP\001',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0cmodule.proto\"\x0e\n\x0c\x45mptyMessage\"3\n\x0eMessageRequest\x12\x10\n\x08idSender\x18\x01 \x02(\x03\x12\x0f\n\x07message\x18\x02 \x02(\t\"\"\n\x06Module\x12\x0c\n\x04type\x18\x01 \x02(\t\x12\n\n\x02id\x18\x02 \x02(\x03\")\n\x0eWelcomeRequest\x12\x17\n\x06module\x18\x01 \x02(\x0b\x32\x07.Module\")\n\x0eGoodByeRequest\x12\x17\n\x06module\x18\x01 \x02(\x0b\x32\x07.Module2\xbe\x01\n\rModuleService\x12\x30\n\x0ereceiveMessage\x12\x0f.MessageRequest\x1a\r.EmptyMessage\x12%\n\x05\x63lose\x12\r.EmptyMessage\x1a\r.EmptyMessage\x12)\n\x07welcome\x12\x0f.WelcomeRequest\x1a\r.EmptyMessage\x12)\n\x07goodBye\x12\x0f.GoodByeRequest\x1a\r.EmptyMessageB\x1d\n\x0cproto.moduleB\x0bModuleProtoP\x01'
+  serialized_pb=b'\n\x0cmodule.proto\x12\x06module\"\x0e\n\x0c\x45mptyMessage\"3\n\x0eMessageRequest\x12\x10\n\x08idSender\x18\x01 \x02(\x03\x12\x0f\n\x07message\x18\x02 \x02(\t\"\"\n\x06Module\x12\x0c\n\x04type\x18\x01 \x02(\t\x12\n\n\x02id\x18\x02 \x02(\x03\"0\n\x0eWelcomeRequest\x12\x1e\n\x06module\x18\x01 \x02(\x0b\x32\x0e.module.Module\"0\n\x0eGoodByeRequest\x12\x1e\n\x06module\x18\x01 \x02(\x0b\x32\x0e.module.Module2\xf6\x01\n\rModuleService\x12>\n\x0ereceiveMessage\x12\x16.module.MessageRequest\x1a\x14.module.EmptyMessage\x12\x33\n\x05\x63lose\x12\x14.module.EmptyMessage\x1a\x14.module.EmptyMessage\x12\x37\n\x07welcome\x12\x16.module.WelcomeRequest\x1a\x14.module.EmptyMessage\x12\x37\n\x07goodBye\x12\x16.module.GoodByeRequest\x1a\x14.module.EmptyMessageB\x1d\n\x0cproto.moduleB\x0bModuleProtoP\x01'
 )
 
 
@@ -27,7 +27,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
 
 _EMPTYMESSAGE = _descriptor.Descriptor(
   name='EmptyMessage',
-  full_name='EmptyMessage',
+  full_name='module.EmptyMessage',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
@@ -45,28 +45,28 @@ _EMPTYMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=16,
-  serialized_end=30,
+  serialized_start=24,
+  serialized_end=38,
 )
 
 
 _MESSAGEREQUEST = _descriptor.Descriptor(
   name='MessageRequest',
-  full_name='MessageRequest',
+  full_name='module.MessageRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='idSender', full_name='MessageRequest.idSender', index=0,
+      name='idSender', full_name='module.MessageRequest.idSender', index=0,
       number=1, type=3, cpp_type=2, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='message', full_name='MessageRequest.message', index=1,
+      name='message', full_name='module.MessageRequest.message', index=1,
       number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -84,28 +84,28 @@ _MESSAGEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=32,
-  serialized_end=83,
+  serialized_start=40,
+  serialized_end=91,
 )
 
 
 _MODULE = _descriptor.Descriptor(
   name='Module',
-  full_name='Module',
+  full_name='module.Module',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='type', full_name='Module.type', index=0,
+      name='type', full_name='module.Module.type', index=0,
       number=1, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='id', full_name='Module.id', index=1,
+      name='id', full_name='module.Module.id', index=1,
       number=2, type=3, cpp_type=2, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -123,21 +123,21 @@ _MODULE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=85,
-  serialized_end=119,
+  serialized_start=93,
+  serialized_end=127,
 )
 
 
 _WELCOMEREQUEST = _descriptor.Descriptor(
   name='WelcomeRequest',
-  full_name='WelcomeRequest',
+  full_name='module.WelcomeRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='module', full_name='WelcomeRequest.module', index=0,
+      name='module', full_name='module.WelcomeRequest.module', index=0,
       number=1, type=11, cpp_type=10, label=2,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -155,21 +155,21 @@ _WELCOMEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=121,
-  serialized_end=162,
+  serialized_start=129,
+  serialized_end=177,
 )
 
 
 _GOODBYEREQUEST = _descriptor.Descriptor(
   name='GoodByeRequest',
-  full_name='GoodByeRequest',
+  full_name='module.GoodByeRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='module', full_name='GoodByeRequest.module', index=0,
+      name='module', full_name='module.GoodByeRequest.module', index=0,
       number=1, type=11, cpp_type=10, label=2,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -187,8 +187,8 @@ _GOODBYEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=164,
-  serialized_end=205,
+  serialized_start=179,
+  serialized_end=227,
 )
 
 _WELCOMEREQUEST.fields_by_name['module'].message_type = _MODULE
@@ -203,35 +203,35 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 EmptyMessage = _reflection.GeneratedProtocolMessageType('EmptyMessage', (_message.Message,), {
   'DESCRIPTOR' : _EMPTYMESSAGE,
   '__module__' : 'module_pb2'
-  # @@protoc_insertion_point(class_scope:EmptyMessage)
+  # @@protoc_insertion_point(class_scope:module.EmptyMessage)
   })
 _sym_db.RegisterMessage(EmptyMessage)
 
 MessageRequest = _reflection.GeneratedProtocolMessageType('MessageRequest', (_message.Message,), {
   'DESCRIPTOR' : _MESSAGEREQUEST,
   '__module__' : 'module_pb2'
-  # @@protoc_insertion_point(class_scope:MessageRequest)
+  # @@protoc_insertion_point(class_scope:module.MessageRequest)
   })
 _sym_db.RegisterMessage(MessageRequest)
 
 Module = _reflection.GeneratedProtocolMessageType('Module', (_message.Message,), {
   'DESCRIPTOR' : _MODULE,
   '__module__' : 'module_pb2'
-  # @@protoc_insertion_point(class_scope:Module)
+  # @@protoc_insertion_point(class_scope:module.Module)
   })
 _sym_db.RegisterMessage(Module)
 
 WelcomeRequest = _reflection.GeneratedProtocolMessageType('WelcomeRequest', (_message.Message,), {
   'DESCRIPTOR' : _WELCOMEREQUEST,
   '__module__' : 'module_pb2'
-  # @@protoc_insertion_point(class_scope:WelcomeRequest)
+  # @@protoc_insertion_point(class_scope:module.WelcomeRequest)
   })
 _sym_db.RegisterMessage(WelcomeRequest)
 
 GoodByeRequest = _reflection.GeneratedProtocolMessageType('GoodByeRequest', (_message.Message,), {
   'DESCRIPTOR' : _GOODBYEREQUEST,
   '__module__' : 'module_pb2'
-  # @@protoc_insertion_point(class_scope:GoodByeRequest)
+  # @@protoc_insertion_point(class_scope:module.GoodByeRequest)
   })
 _sym_db.RegisterMessage(GoodByeRequest)
 
@@ -240,17 +240,17 @@ DESCRIPTOR._options = None
 
 _MODULESERVICE = _descriptor.ServiceDescriptor(
   name='ModuleService',
-  full_name='ModuleService',
+  full_name='module.ModuleService',
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=208,
-  serialized_end=398,
+  serialized_start=230,
+  serialized_end=476,
   methods=[
   _descriptor.MethodDescriptor(
     name='receiveMessage',
-    full_name='ModuleService.receiveMessage',
+    full_name='module.ModuleService.receiveMessage',
     index=0,
     containing_service=None,
     input_type=_MESSAGEREQUEST,
@@ -260,7 +260,7 @@ _MODULESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='close',
-    full_name='ModuleService.close',
+    full_name='module.ModuleService.close',
     index=1,
     containing_service=None,
     input_type=_EMPTYMESSAGE,
@@ -270,7 +270,7 @@ _MODULESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='welcome',
-    full_name='ModuleService.welcome',
+    full_name='module.ModuleService.welcome',
     index=2,
     containing_service=None,
     input_type=_WELCOMEREQUEST,
@@ -280,7 +280,7 @@ _MODULESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='goodBye',
-    full_name='ModuleService.goodBye',
+    full_name='module.ModuleService.goodBye',
     index=3,
     containing_service=None,
     input_type=_GOODBYEREQUEST,

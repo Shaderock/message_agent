@@ -1,3 +1,4 @@
+import traceback
 from concurrent import futures
 import json
 import random
@@ -177,5 +178,5 @@ if __name__ == '__main__':
 
             server.start()
             server.wait_for_termination()
-    except Exception:
-        pass
+    except Exception as e:
+        traceback.print_exc()

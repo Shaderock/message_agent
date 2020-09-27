@@ -1,5 +1,7 @@
 syntax = "proto2";
 
+package module;
+
 option java_multiple_files = true;
 option java_package = "proto.module";
 option java_outer_classname = "ModuleProto";
@@ -19,17 +21,17 @@ message Module{
 }
 
 message WelcomeRequest{
-  required Module module = 1;
+  required module.Module module = 1;
 }
 
 message GoodByeRequest{
-  required Module module = 1;
+  required module.Module module = 1;
 }
 
 service ModuleService{
-  rpc receiveMessage(MessageRequest) returns (EmptyMessage);
-  rpc close(EmptyMessage) returns (EmptyMessage);
-  rpc welcome(WelcomeRequest) returns (EmptyMessage);
-  rpc goodBye(GoodByeRequest) returns (EmptyMessage);
+  rpc receiveMessage(module.MessageRequest) returns (module.EmptyMessage);
+  rpc close(module.EmptyMessage) returns (module.EmptyMessage);
+  rpc welcome(module.WelcomeRequest) returns (module.EmptyMessage);
+  rpc goodBye(module.GoodByeRequest) returns (module.EmptyMessage);
 }
 

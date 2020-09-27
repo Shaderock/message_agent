@@ -15,22 +15,22 @@ class ModuleServiceStub(object):
             channel: A grpc.Channel.
         """
         self.receiveMessage = channel.unary_unary(
-                '/ModuleService/receiveMessage',
+                '/module.ModuleService/receiveMessage',
                 request_serializer=module__pb2.MessageRequest.SerializeToString,
                 response_deserializer=module__pb2.EmptyMessage.FromString,
                 )
         self.close = channel.unary_unary(
-                '/ModuleService/close',
+                '/module.ModuleService/close',
                 request_serializer=module__pb2.EmptyMessage.SerializeToString,
                 response_deserializer=module__pb2.EmptyMessage.FromString,
                 )
         self.welcome = channel.unary_unary(
-                '/ModuleService/welcome',
+                '/module.ModuleService/welcome',
                 request_serializer=module__pb2.WelcomeRequest.SerializeToString,
                 response_deserializer=module__pb2.EmptyMessage.FromString,
                 )
         self.goodBye = channel.unary_unary(
-                '/ModuleService/goodBye',
+                '/module.ModuleService/goodBye',
                 request_serializer=module__pb2.GoodByeRequest.SerializeToString,
                 response_deserializer=module__pb2.EmptyMessage.FromString,
                 )
@@ -88,7 +88,7 @@ def add_ModuleServiceServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'ModuleService', rpc_method_handlers)
+            'module.ModuleService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -107,7 +107,7 @@ class ModuleService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ModuleService/receiveMessage',
+        return grpc.experimental.unary_unary(request, target, '/module.ModuleService/receiveMessage',
             module__pb2.MessageRequest.SerializeToString,
             module__pb2.EmptyMessage.FromString,
             options, channel_credentials,
@@ -124,7 +124,7 @@ class ModuleService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ModuleService/close',
+        return grpc.experimental.unary_unary(request, target, '/module.ModuleService/close',
             module__pb2.EmptyMessage.SerializeToString,
             module__pb2.EmptyMessage.FromString,
             options, channel_credentials,
@@ -141,7 +141,7 @@ class ModuleService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ModuleService/welcome',
+        return grpc.experimental.unary_unary(request, target, '/module.ModuleService/welcome',
             module__pb2.WelcomeRequest.SerializeToString,
             module__pb2.EmptyMessage.FromString,
             options, channel_credentials,
@@ -158,7 +158,7 @@ class ModuleService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ModuleService/goodBye',
+        return grpc.experimental.unary_unary(request, target, '/module.ModuleService/goodBye',
             module__pb2.GoodByeRequest.SerializeToString,
             module__pb2.EmptyMessage.FromString,
             options, channel_credentials,

@@ -1,5 +1,7 @@
 syntax = "proto2";
 
+package broker;
+
 option java_multiple_files = true;
 option java_package = "proto.broker";
 option java_outer_classname = "BrokerProto";
@@ -29,7 +31,7 @@ message Module{
 }
 
 message GetModulesResponse{
-  repeated Module module = 1;
+  repeated broker.Module module = 1;
 }
 
 message SubscribeRequest{
@@ -49,9 +51,9 @@ message MessageRequest{
 }
 
 service BrokerService{
-  rpc handshake(HandshakeRequest) returns (HandshakeResponse);
-  rpc getModules(EmptyIdRequest) returns (GetModulesResponse);
-  rpc subscribe(SubscribeRequest) returns (SubscribeResponse);
-  rpc sendMessage(MessageRequest) returns (EmptyMessage);
-  rpc close(EmptyIdRequest) returns (EmptyMessage);
+  rpc handshake(broker.HandshakeRequest) returns (broker.HandshakeResponse);
+  rpc getModules(broker.EmptyIdRequest) returns (broker.GetModulesResponse);
+  rpc subscribe(broker.SubscribeRequest) returns (broker.SubscribeResponse);
+  rpc sendMessage(broker.MessageRequest) returns (broker.EmptyMessage);
+  rpc close(broker.EmptyIdRequest) returns (broker.EmptyMessage);
 }

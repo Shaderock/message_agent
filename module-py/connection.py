@@ -18,8 +18,8 @@ def init_broker_stub() -> broker_pb2_grpc.BrokerServiceStub:
 
 
 def get_listen_port(server: grpc.Server) -> int:
+    port = 16003
     while True:  # Port detection
-        port = 17001
         # noinspection PyBroadException
         try:
             server.add_insecure_port(f'[::]:{port}')  # Trying to add listen port

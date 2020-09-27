@@ -55,8 +55,7 @@ public class NotifyExecutant extends Executant {
                                     .receiveMessage(request.build());
 
                     if (response == null) {
-                        ModuleRemover moduleRemover = new ModuleRemover();
-                        moduleRemover.removeModule(module);
+                        ModuleRemover.removeModule(module);
                     }
                 }
             }

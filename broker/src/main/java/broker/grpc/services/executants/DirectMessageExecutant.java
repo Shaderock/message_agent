@@ -53,8 +53,7 @@ public class DirectMessageExecutant extends Executant {
                 .receiveMessage(request.build());
 
         if (response == null) {
-            ModuleRemover moduleRemover = new ModuleRemover();
-            moduleRemover.removeModule(idReceiver);
+            ModuleRemover.removeModule(receiver);
         }
 
         responseObserver.onNext(EmptyMessage.newBuilder().build());

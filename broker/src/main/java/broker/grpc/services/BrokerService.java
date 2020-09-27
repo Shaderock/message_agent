@@ -3,9 +3,7 @@ package broker.grpc.services;
 import broker.grpc.services.executants.*;
 import io.grpc.stub.StreamObserver;
 import proto.broker.*;
-import sun.invoke.empty.Empty;
 
-//todo
 public class BrokerService extends BrokerServiceGrpc.BrokerServiceImplBase {
 
     @Override
@@ -29,10 +27,9 @@ public class BrokerService extends BrokerServiceGrpc.BrokerServiceImplBase {
     @Override
     public void sendMessage(MessageRequest request, StreamObserver<EmptyMessage> responseObserver) {
         IExecutant executant;
-        if (request.hasIdReceiver()){
+        if (request.hasIdReceiver()) {
             executant = new DirectMessageExecutant(request, responseObserver);
-        }
-        else {
+        } else {
             executant = new NotifyExecutant(request, responseObserver);
         }
         executant.execute();
@@ -40,6 +37,7 @@ public class BrokerService extends BrokerServiceGrpc.BrokerServiceImplBase {
 
     @Override
     public void close(EmptyIdRequest request, StreamObserver<EmptyMessage> responseObserver) {
-        super.close(request, responseObserver);
+        CloseConnectionExecutant closeConnectionExecutant =
+                new CloseConnectionExecutant(request, responseObserver);
     }
 }

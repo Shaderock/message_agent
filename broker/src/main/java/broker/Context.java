@@ -12,14 +12,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 
 public class Context {
-    public static final int MAX_SOCKETS_PER_PORT = 50;
     private static Context instance;
 
     public final int UDP_BROKER_LISTENED_PORT = 16002;
-
     public final int GRPS_SERVER_PORT = 17001;
-    public final int GRPS_COMMUNICATION_PORT = 17002;
-    public final int MAX_COMMUNICATION_PORTS = 1;
 
     public boolean APP_IS_SHUT_DOWN;
 
@@ -55,7 +51,6 @@ public class Context {
     }
 
     public GrpcModule findModuleById(long id) throws ModuleDoesNotExistException {
-        GrpcModule foundModule;
         for (GrpcModule grpcModule : getGrpcModules()) {
             if (grpcModule.getId() == id) {
                 return grpcModule;

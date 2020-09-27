@@ -3,7 +3,7 @@ package broker.services.executants;
 import broker.Context;
 import broker.models.GrpcModule;
 import broker.utils.ModulesConnectionNotifier;
-import broker.models.payload.Type;
+import broker.models.Type;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import proto.broker.HandshakeRequest;

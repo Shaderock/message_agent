@@ -1,8 +1,8 @@
 package broker.servers;
 
 import broker.communication.MessageGenerator;
-import broker.models.protocols.CommunicationMessageDTO;
-import broker.models.protocols.Operation;
+import broker.models.CommunicationMessageDTO;
+import broker.models.Operation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class UDPReceivedMessageHandler extends Thread {
             CommunicationMessageDTO communicationMessageDTO =
                     objectMapper.readValue(received, CommunicationMessageDTO.class);
             if (communicationMessageDTO.getOperation() == Operation.MODULE_IS_ALIVE) {
-                messageGenerator.sendUDPMessage(Operation.BROKER_IS_ALIVE, null, address, port);
+                messageGenerator.sendUDPMessage(Operation.BROKER_IS_ALIVE, address, port);
             }
         }
         catch (JsonProcessingException e) {

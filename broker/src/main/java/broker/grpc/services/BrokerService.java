@@ -11,12 +11,13 @@ public class BrokerService extends BrokerServiceGrpc.BrokerServiceImplBase {
     @Override
     public void handshake(HandshakeRequest request, StreamObserver<HandshakeResponse> responseObserver) {
         HandshakeExecutant handshakeExecutant = new HandshakeExecutant(request, responseObserver);
-        handshakeExecutant.start();
+        handshakeExecutant.execute();
     }
 
     @Override
     public void getModules(EmptyIdRequest request, StreamObserver<GetModulesResponse> responseObserver) {
-        super.getModules(request, responseObserver);
+        GetModulesExecutant getModulesExecutant = new GetModulesExecutant(request, responseObserver);
+        getModulesExecutant.execute();
     }
 
     @Override

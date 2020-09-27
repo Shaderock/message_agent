@@ -29,7 +29,7 @@ message Module{
 }
 
 message GetModulesResponse{
-  repeated Module modules = 1;
+  repeated Module module = 1;
 }
 
 message SubscribeRequest{

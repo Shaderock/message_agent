@@ -14,7 +14,7 @@ public class HandshakeExecutant extends Executant {
     private final StreamObserver<HandshakeResponse> responseObserver;
 
     @Override
-    public void run() {
+    public void execute() {
         handshake(request, responseObserver);
     }
 
@@ -34,9 +34,24 @@ public class HandshakeExecutant extends Executant {
             return;
         }
 
+        if (type == Type.MANAGER) {
+            for (GrpcModule grpcModule : context.getGrpcModules()) {
+                if (grpcModule.getType() == type) {
+                    response.setOk(false);
+                    responseObserver.onNext(response.build());
+                    responseObserver.onCompleted();
+                    return;
+                }
+            }
+        }
+
         int nextModuleId = context.getNextModuleId();
         GrpcModule grpcModule = new GrpcModule(nextModuleId, type);
-        context.setNextModuleId(nextModuleId);
+        context.setNextModuleId(nextModuleId + 1);
         context.getGrpcModules().add(grpcModule);
+
+        response.setGivenId(nextModuleId);
+        responseObserver.onNext(response.build());
+        responseObserver.onCompleted();
     }
 }

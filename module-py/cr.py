@@ -5,7 +5,6 @@ import json
 import random
 import string
 from threading import Thread
-
 import grpc
 import atexit
 
@@ -14,7 +13,6 @@ import connection
 import module_pb2
 import module_pb2_grpc
 import broker_pb2
-import broker_pb2_grpc
 from block import Block
 
 
@@ -26,107 +24,74 @@ def get_new_nonce() -> str:
 
 
 def get_block_hash() -> str:
-    return hash.get_block_hash(block['content'], block['prev-hash'], block['nonce'])
+    return hash.get_block_hash(block.content, block.prev_hash, block.nonce)
 
 
 def check_nonce() -> bool:
     return hash.check_hash_rule(get_block_hash())
 
 
-def send_task():
+def send_block():
     info_block = {
-        'id-block': block['id-block'],
-        'nonce': block['nonce'],
+        'id-block': block.id_block,
+        'nonce': block.nonce,
         'hash': get_block_hash()
     }
-    payload = {
+    message = {
         'command': 'complete-task',
-        'info-block': json.dumps(info_block)
+        'info-block': info_block
     }
-    notify = {
-        'operation': 'notify',
-        'payload': json.dumps(payload)
-    }
-    conn.send(json.dumps(notify))
+    message_string = json.dumps(message)
 
-
-def wait_task():
-    global has_task
-    global block
-
-    while True:
-
-        if random.choice([True, False]):
-            print('Broker force closed connection')
-            break
-
-        if has_task:
-            if block['nonce'] == '':
-                block['nonce'] = get_new_nonce()
-                # print(f'Random new nonce - {block["nonce"]}')
-                if check_nonce():
-                    print(f'Block nonce found - {block["nonce"]}\n\tHash: {get_block_hash()}')
-                else:
-                    block['nonce'] = ''
-            else:
-                send_task()
-                print('Hash has been sent')
-                has_task = False
-        else:
-            pass
-
-        if True:
-            message = json.loads('')
-
-            if message['operation'] == 'notify':
-                print('Notified (but i\'ve never subscribed)')
-                pass
-
-            elif message['operation'] == 'direct-message':
-                if json.loads(message['payload'])['command'] == 'stop':
-                    print('DM\'ed to stop')
-                    block = {}
-                    has_task = False
-
-                elif json.loads(message['payload'])['command'] == 'new-task':
-                    print('DM\'ed to start new task')
-                    new_block = {
-                        'id-block': json.loads(json.loads(message['payload'])['info-block'])['id-block'],
-                        'prev-hash': json.loads(json.loads(message['payload'])['info-block'])['prev-hash'],
-                        'content': json.loads(json.loads(message['payload'])['info-block'])['content']
-                    }
-
-                    if 'nonce' in block.keys():
-                        nonce = block['nonce']
-                        block = new_block
-                        block['nonce'] = nonce
-                        if block['nonce'] != '':
-                            if not check_nonce():
-                                block['nonce'] = ''
-                    else:
-                        block = new_block
-                        block['nonce'] = ''
-
-                    has_task = True
+    broker.sendMessage(broker_pb2.MessageRequest(idRequester=own_id, message=message_string))
 
 
 def search_nonce():
+    global has_task
     if not has_task:
         return
-    pass  # Search new nonce
+    if block.nonce == '':  # Check saved nonce
+        block.nonce = get_new_nonce()
+    if check_nonce():
+        print(f'Block nonce found - {block.nonce}\n\tHash: {get_block_hash()}')
+        send_block()
+        has_task = False
+    else:
+        block.nonce = ''
 
 
+def re_thread():
+    global nonce_thread
+    nonce_thread = Thread(target=search_nonce)
+
+
+# noinspection PyBroadException
 class ModuleService(module_pb2_grpc.ModuleServiceServicer):
     def receiveMessage(self, request, context):
-        print('Received smth')
+        global has_task
+        global block
         message_json = request.message
         try:
             message = json.loads(message_json)
             if message['command'] == 'new-task':
                 print('New task')
+                has_task = False
+                if nonce_thread.is_alive():
+                    nonce_thread.join()
+                new_block = Block(message['info-block']['id-block'], message['info-block']['content'],
+                                  message['info-block']['prev-hash'])
+                if new_block == block:
+                    new_block.nonce = block.nonce
+                block = new_block
+                has_task = True
+                re_thread()
+                nonce_thread.start()
 
             elif message['command'] == 'stop':
                 print('Stopped')
+                has_task = False
+                if nonce_thread.is_alive():
+                    nonce_thread.join()
 
             else:
                 print(f'Untreated command - {message["command"]}')
@@ -151,13 +116,13 @@ class ModuleService(module_pb2_grpc.ModuleServiceServicer):
 
 
 has_task = False
-block = None
+block = Block(None, None, None)
 nonce_max_len = 20
 nonce_thread = Thread(target=search_nonce)
 
-
 if __name__ == '__main__':
     atexit.register(input, 'To exit press Enter...')
+    re_thread()
 
     # noinspection PyBroadException
     try:  # It will catch KeyboardInterrupt (Ctrl-C) and other Exceptions
@@ -174,7 +139,7 @@ if __name__ == '__main__':
                 print('Broker haven\'t permitted connection')
                 break
 
-            print('Connection established')
+            print(f'Connection established on port {own_module_service_port}')
 
             own_id = handshake_response.givenId
 

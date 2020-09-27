@@ -1,3 +1,4 @@
+import threading
 import traceback
 from concurrent import futures
 import json
@@ -145,8 +146,8 @@ class ModuleService(module_pb2_grpc.ModuleServiceServicer):
     def close(self, request, context):
         print('Need to close (broker said so)')
         atexit.unregister(connection.close_connection)
-        raise KeyboardInterrupt
-        # return module_pb2.EmptyMessage()
+        threading.Thread(target=server.stop, args=(None,)).start()
+        return module_pb2.EmptyMessage()
 
 
 has_task = False

@@ -59,7 +59,7 @@ def send_task(module_list: list):
     # }
     message = {
         'command': 'new-task',
-        'info-block': blockchain[-1]
+        'info-block': blockchain[-1].__dict__
     }
     message_string = json.dumps(message)
     message_request = broker_pb2.MessageRequest(idRequester=own_id, idReceiver=0, message=message_string)
@@ -189,7 +189,8 @@ if __name__ == '__main__':
             server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # Init module service
             module_pb2_grpc.add_ModuleServiceServicer_to_server(ModuleService(), server)
 
-            own_module_service_port = connection.get_listen_port(server)
+            own_module_service_port = connection.get_listen_port()
+            server.add_insecure_port(f'[::]:{own_module_service_port}')
 
             print(f'Port ({own_module_service_port}) has been selected')
 

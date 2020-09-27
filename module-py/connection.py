@@ -17,12 +17,15 @@ def init_broker_stub() -> broker_pb2_grpc.BrokerServiceStub:
     return broker_pb2_grpc.BrokerServiceStub(grpc.insecure_channel(f'{broker_ip}:{broker_tcp_port}'))
 
 
-def get_listen_port(server: grpc.Server) -> int:
+def get_listen_port() -> int:
     port = 16003
     while True:  # Port detection
         # noinspection PyBroadException
         try:
-            server.add_insecure_port(f'[::]:{port}')  # Trying to add listen port
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Trying to add listen port
+            s.bind(('0.0.0.0', port))
+            s.close()
+            del s
         except Exception:  # If port is occupied
             port += 1
             if port > 65535:

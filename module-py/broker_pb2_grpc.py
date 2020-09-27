@@ -21,7 +21,7 @@ class BrokerServiceStub(object):
                 )
         self.getModules = channel.unary_unary(
                 '/BrokerService/getModules',
-                request_serializer=broker__pb2.EmptyMessage.SerializeToString,
+                request_serializer=broker__pb2.EmptyIdRequest.SerializeToString,
                 response_deserializer=broker__pb2.GetModulesResponse.FromString,
                 )
         self.subscribe = channel.unary_unary(
@@ -36,7 +36,7 @@ class BrokerServiceStub(object):
                 )
         self.close = channel.unary_unary(
                 '/BrokerService/close',
-                request_serializer=broker__pb2.EmptyMessage.SerializeToString,
+                request_serializer=broker__pb2.EmptyIdRequest.SerializeToString,
                 response_deserializer=broker__pb2.EmptyMessage.FromString,
                 )
 
@@ -84,7 +84,7 @@ def add_BrokerServiceServicer_to_server(servicer, server):
             ),
             'getModules': grpc.unary_unary_rpc_method_handler(
                     servicer.getModules,
-                    request_deserializer=broker__pb2.EmptyMessage.FromString,
+                    request_deserializer=broker__pb2.EmptyIdRequest.FromString,
                     response_serializer=broker__pb2.GetModulesResponse.SerializeToString,
             ),
             'subscribe': grpc.unary_unary_rpc_method_handler(
@@ -99,7 +99,7 @@ def add_BrokerServiceServicer_to_server(servicer, server):
             ),
             'close': grpc.unary_unary_rpc_method_handler(
                     servicer.close,
-                    request_deserializer=broker__pb2.EmptyMessage.FromString,
+                    request_deserializer=broker__pb2.EmptyIdRequest.FromString,
                     response_serializer=broker__pb2.EmptyMessage.SerializeToString,
             ),
     }
@@ -141,7 +141,7 @@ class BrokerService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/BrokerService/getModules',
-            broker__pb2.EmptyMessage.SerializeToString,
+            broker__pb2.EmptyIdRequest.SerializeToString,
             broker__pb2.GetModulesResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -192,7 +192,7 @@ class BrokerService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/BrokerService/close',
-            broker__pb2.EmptyMessage.SerializeToString,
+            broker__pb2.EmptyIdRequest.SerializeToString,
             broker__pb2.EmptyMessage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

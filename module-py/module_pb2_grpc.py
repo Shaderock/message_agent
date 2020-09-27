@@ -24,6 +24,16 @@ class ModuleServiceStub(object):
                 request_serializer=module__pb2.EmptyMessage.SerializeToString,
                 response_deserializer=module__pb2.EmptyMessage.FromString,
                 )
+        self.welcome = channel.unary_unary(
+                '/ModuleService/welcome',
+                request_serializer=module__pb2.WelcomeRequest.SerializeToString,
+                response_deserializer=module__pb2.EmptyMessage.FromString,
+                )
+        self.goodBye = channel.unary_unary(
+                '/ModuleService/goodBye',
+                request_serializer=module__pb2.GoodByeRequest.SerializeToString,
+                response_deserializer=module__pb2.EmptyMessage.FromString,
+                )
 
 
 class ModuleServiceServicer(object):
@@ -41,6 +51,18 @@ class ModuleServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def welcome(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def goodBye(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ModuleServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -52,6 +74,16 @@ def add_ModuleServiceServicer_to_server(servicer, server):
             'close': grpc.unary_unary_rpc_method_handler(
                     servicer.close,
                     request_deserializer=module__pb2.EmptyMessage.FromString,
+                    response_serializer=module__pb2.EmptyMessage.SerializeToString,
+            ),
+            'welcome': grpc.unary_unary_rpc_method_handler(
+                    servicer.welcome,
+                    request_deserializer=module__pb2.WelcomeRequest.FromString,
+                    response_serializer=module__pb2.EmptyMessage.SerializeToString,
+            ),
+            'goodBye': grpc.unary_unary_rpc_method_handler(
+                    servicer.goodBye,
+                    request_deserializer=module__pb2.GoodByeRequest.FromString,
                     response_serializer=module__pb2.EmptyMessage.SerializeToString,
             ),
     }
@@ -94,6 +126,40 @@ class ModuleService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ModuleService/close',
             module__pb2.EmptyMessage.SerializeToString,
+            module__pb2.EmptyMessage.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def welcome(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ModuleService/welcome',
+            module__pb2.WelcomeRequest.SerializeToString,
+            module__pb2.EmptyMessage.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def goodBye(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ModuleService/goodBye',
+            module__pb2.GoodByeRequest.SerializeToString,
             module__pb2.EmptyMessage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

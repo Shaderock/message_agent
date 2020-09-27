@@ -17,9 +17,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='broker.proto',
   package='',
   syntax='proto2',
-  serialized_options=b'\n\014proto.brokerB\006BrokerP\001',
+  serialized_options=b'\n\014proto.brokerB\013BrokerProtoP\001',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0c\x62roker.proto\"\x0e\n\x0c\x45mptyMessage\":\n\x10HandshakeRequest\x12\x0c\n\x04type\x18\x01 \x02(\t\x12\n\n\x02ip\x18\x02 \x02(\t\x12\x0c\n\x04port\x18\x03 \x02(\x03\"\x1f\n\x11HandshakeResponse\x12\n\n\x02ok\x18\x01 \x02(\x08\"\"\n\x06Module\x12\x0c\n\x04type\x18\x01 \x02(\t\x12\n\n\x02id\x18\x02 \x02(\x03\".\n\x12GetModulesResponse\x12\x18\n\x07modules\x18\x01 \x03(\x0b\x32\x07.Module\"\x1f\n\x10SubscribeRequest\x12\x0b\n\x03ids\x18\x01 \x03(\x03\"1\n\x11SubscribeResponse\x12\n\n\x02ok\x18\x01 \x02(\x08\x12\x10\n\x08wrongIds\x18\x02 \x03(\x03\"5\n\x0eMessageRequest\x12\x12\n\nidReceiver\x18\x01 \x01(\x03\x12\x0f\n\x07message\x18\x02 \x02(\t2\xff\x01\n\rBrokerService\x12\x32\n\thandshake\x12\x11.HandshakeRequest\x1a\x12.HandshakeResponse\x12\x30\n\ngetModules\x12\r.EmptyMessage\x1a\x13.GetModulesResponse\x12\x32\n\tsubscribe\x12\x11.SubscribeRequest\x1a\x12.SubscribeResponse\x12-\n\x0bsendMessage\x12\x0f.MessageRequest\x1a\r.EmptyMessage\x12%\n\x05\x63lose\x12\r.EmptyMessage\x1a\r.EmptyMessageB\x18\n\x0cproto.brokerB\x06\x42rokerP\x01'
+  serialized_pb=b'\n\x0c\x62roker.proto\"\x0e\n\x0c\x45mptyMessage\"%\n\x0e\x45mptyIdRequest\x12\x13\n\x0bidRequester\x18\x01 \x02(\x03\":\n\x10HandshakeRequest\x12\x0c\n\x04type\x18\x01 \x02(\t\x12\n\n\x02ip\x18\x02 \x02(\t\x12\x0c\n\x04port\x18\x03 \x02(\x03\"0\n\x11HandshakeResponse\x12\n\n\x02ok\x18\x01 \x02(\x08\x12\x0f\n\x07givenId\x18\x02 \x01(\x03\"\"\n\x06Module\x12\x0c\n\x04type\x18\x01 \x02(\t\x12\n\n\x02id\x18\x02 \x02(\x03\"-\n\x12GetModulesResponse\x12\x17\n\x06module\x18\x01 \x03(\x0b\x32\x07.Module\"4\n\x10SubscribeRequest\x12\x14\n\x0cidSubscriber\x18\x01 \x02(\x03\x12\n\n\x02id\x18\x02 \x03(\x03\"0\n\x11SubscribeResponse\x12\n\n\x02ok\x18\x01 \x02(\x08\x12\x0f\n\x07wrongId\x18\x02 \x03(\x03\"J\n\x0eMessageRequest\x12\x13\n\x0bidRequester\x18\x01 \x02(\x03\x12\x12\n\nidReceiver\x18\x02 \x01(\x03\x12\x0f\n\x07message\x18\x03 \x02(\t2\x83\x02\n\rBrokerService\x12\x32\n\thandshake\x12\x11.HandshakeRequest\x1a\x12.HandshakeResponse\x12\x32\n\ngetModules\x12\x0f.EmptyIdRequest\x1a\x13.GetModulesResponse\x12\x32\n\tsubscribe\x12\x11.SubscribeRequest\x1a\x12.SubscribeResponse\x12-\n\x0bsendMessage\x12\x0f.MessageRequest\x1a\r.EmptyMessage\x12\'\n\x05\x63lose\x12\x0f.EmptyIdRequest\x1a\r.EmptyMessageB\x1d\n\x0cproto.brokerB\x0b\x42rokerProtoP\x01'
 )
 
 
@@ -47,6 +47,38 @@ _EMPTYMESSAGE = _descriptor.Descriptor(
   ],
   serialized_start=16,
   serialized_end=30,
+)
+
+
+_EMPTYIDREQUEST = _descriptor.Descriptor(
+  name='EmptyIdRequest',
+  full_name='EmptyIdRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='idRequester', full_name='EmptyIdRequest.idRequester', index=0,
+      number=1, type=3, cpp_type=2, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=32,
+  serialized_end=69,
 )
 
 
@@ -91,8 +123,8 @@ _HANDSHAKEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=32,
-  serialized_end=90,
+  serialized_start=71,
+  serialized_end=129,
 )
 
 
@@ -111,6 +143,13 @@ _HANDSHAKERESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='givenId', full_name='HandshakeResponse.givenId', index=1,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -123,8 +162,8 @@ _HANDSHAKERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=92,
-  serialized_end=123,
+  serialized_start=131,
+  serialized_end=179,
 )
 
 
@@ -162,8 +201,8 @@ _MODULE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=125,
-  serialized_end=159,
+  serialized_start=181,
+  serialized_end=215,
 )
 
 
@@ -176,7 +215,7 @@ _GETMODULESRESPONSE = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='modules', full_name='GetModulesResponse.modules', index=0,
+      name='module', full_name='GetModulesResponse.module', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -194,8 +233,8 @@ _GETMODULESRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=161,
-  serialized_end=207,
+  serialized_start=217,
+  serialized_end=262,
 )
 
 
@@ -208,8 +247,15 @@ _SUBSCRIBEREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='ids', full_name='SubscribeRequest.ids', index=0,
-      number=1, type=3, cpp_type=2, label=3,
+      name='idSubscriber', full_name='SubscribeRequest.idSubscriber', index=0,
+      number=1, type=3, cpp_type=2, label=2,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='id', full_name='SubscribeRequest.id', index=1,
+      number=2, type=3, cpp_type=2, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -226,8 +272,8 @@ _SUBSCRIBEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=209,
-  serialized_end=240,
+  serialized_start=264,
+  serialized_end=316,
 )
 
 
@@ -247,7 +293,7 @@ _SUBSCRIBERESPONSE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='wrongIds', full_name='SubscribeResponse.wrongIds', index=1,
+      name='wrongId', full_name='SubscribeResponse.wrongId', index=1,
       number=2, type=3, cpp_type=2, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -265,8 +311,8 @@ _SUBSCRIBERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=242,
-  serialized_end=291,
+  serialized_start=318,
+  serialized_end=366,
 )
 
 
@@ -279,15 +325,22 @@ _MESSAGEREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='idReceiver', full_name='MessageRequest.idReceiver', index=0,
-      number=1, type=3, cpp_type=2, label=1,
+      name='idRequester', full_name='MessageRequest.idRequester', index=0,
+      number=1, type=3, cpp_type=2, label=2,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='message', full_name='MessageRequest.message', index=1,
-      number=2, type=9, cpp_type=9, label=2,
+      name='idReceiver', full_name='MessageRequest.idReceiver', index=1,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='message', full_name='MessageRequest.message', index=2,
+      number=3, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -304,12 +357,13 @@ _MESSAGEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=293,
-  serialized_end=346,
+  serialized_start=368,
+  serialized_end=442,
 )
 
-_GETMODULESRESPONSE.fields_by_name['modules'].message_type = _MODULE
+_GETMODULESRESPONSE.fields_by_name['module'].message_type = _MODULE
 DESCRIPTOR.message_types_by_name['EmptyMessage'] = _EMPTYMESSAGE
+DESCRIPTOR.message_types_by_name['EmptyIdRequest'] = _EMPTYIDREQUEST
 DESCRIPTOR.message_types_by_name['HandshakeRequest'] = _HANDSHAKEREQUEST
 DESCRIPTOR.message_types_by_name['HandshakeResponse'] = _HANDSHAKERESPONSE
 DESCRIPTOR.message_types_by_name['Module'] = _MODULE
@@ -325,6 +379,13 @@ EmptyMessage = _reflection.GeneratedProtocolMessageType('EmptyMessage', (_messag
   # @@protoc_insertion_point(class_scope:EmptyMessage)
   })
 _sym_db.RegisterMessage(EmptyMessage)
+
+EmptyIdRequest = _reflection.GeneratedProtocolMessageType('EmptyIdRequest', (_message.Message,), {
+  'DESCRIPTOR' : _EMPTYIDREQUEST,
+  '__module__' : 'broker_pb2'
+  # @@protoc_insertion_point(class_scope:EmptyIdRequest)
+  })
+_sym_db.RegisterMessage(EmptyIdRequest)
 
 HandshakeRequest = _reflection.GeneratedProtocolMessageType('HandshakeRequest', (_message.Message,), {
   'DESCRIPTOR' : _HANDSHAKEREQUEST,
@@ -385,8 +446,8 @@ _BROKERSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=349,
-  serialized_end=604,
+  serialized_start=445,
+  serialized_end=704,
   methods=[
   _descriptor.MethodDescriptor(
     name='handshake',
@@ -403,7 +464,7 @@ _BROKERSERVICE = _descriptor.ServiceDescriptor(
     full_name='BrokerService.getModules',
     index=1,
     containing_service=None,
-    input_type=_EMPTYMESSAGE,
+    input_type=_EMPTYIDREQUEST,
     output_type=_GETMODULESRESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
@@ -433,7 +494,7 @@ _BROKERSERVICE = _descriptor.ServiceDescriptor(
     full_name='BrokerService.close',
     index=4,
     containing_service=None,
-    input_type=_EMPTYMESSAGE,
+    input_type=_EMPTYIDREQUEST,
     output_type=_EMPTYMESSAGE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,

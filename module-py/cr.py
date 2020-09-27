@@ -2,6 +2,8 @@ from concurrent import futures
 import json
 import random
 import string
+from threading import Thread
+
 import grpc
 import atexit
 
@@ -11,26 +13,7 @@ import module_pb2
 import module_pb2_grpc
 import broker_pb2
 import broker_pb2_grpc
-
-has_task = False
-block = {}
-nonce_max_len = 20
-
-
-# noinspection PyBroadException
-def close_connection():
-    try:
-        close = {
-            'operation': 'close'
-        }
-        conn.send(json.dumps(close))
-        conn.reset_socket()
-        print('Connection closed (by self)')
-
-    except Exception:
-        pass
-    finally:
-        input('Press enter to exit...')
+from block import Block
 
 
 # noinspection PyUnusedLocal
@@ -71,7 +54,7 @@ def wait_task():
 
     while True:
 
-        if conn.is_socket_resetted():
+        if random.choice([True, False]):
             print('Broker force closed connection')
             break
 
@@ -90,8 +73,8 @@ def wait_task():
         else:
             pass
 
-        if conn.has_messages():
-            message = json.loads(conn.wait_message())
+        if True:
+            message = json.loads('')
 
             if message['operation'] == 'notify':
                 print('Notified (but i\'ve never subscribed)')
@@ -124,60 +107,75 @@ def wait_task():
 
                     has_task = True
 
-            elif message['operation'] == 'close':
-                print('Close connection (by broker)')
-                conn.reset_socket()
-                break
 
-            elif message['operation'] == 'keep-alive':
-                pass
+def search_nonce():
+    if not has_task:
+        return
+    pass  # Search new nonce
+
+
+class ModuleService(module_pb2_grpc.ModuleServiceServicer):
+    def receiveMessage(self, request, context):
+        print('Received smth')
+        try:
+            message_json = request.message
+            message = json.loads(message_json)
+            if message['command'] == 'new-task':
+                print('New task')
+
+            elif message['command'] == 'stop':
+                print('Stopped')
 
             else:
-                print(f'Untreated operation - {message["operation"]}')
-        # raise KeyboardInterrupt
+                print(f'Untreated command - {message["command"]}')
+
+        except Exception:
+            print('Или лыжи не едут, или мессэдж неправильный')
+        return module_pb2.EmptyMessage()
+
+    def welcome(self, request, context):
+        print('Smn new - idk')
+        return module_pb2.EmptyMessage()
+
+    def goodBye(self, request, context):
+        print('Smn left - idk')
+        return module_pb2.EmptyMessage()
+
+    def close(self, request, context):
+        print('Need to close (broker said so)')
+        raise KeyboardInterrupt
+        # return module_pb2.EmptyMessage()
 
 
-def init_broker_stub() -> broker_pb2_grpc.BrokerServiceStub:
-    broker_ip = connection.listen_to_broker_udp()
-    return broker_pb2_grpc.BrokerServiceStub(grpc.insecure_channel(f'{broker_ip}:{connection.broker_tcp_port}'))
-
-
-def handshake(broker: broker_pb2_grpc.BrokerServiceStub, own_port):
-    handshake_request = broker_pb2.HandshakeRequest(type = 'CR',
-                                                    ip = connection.get_own_ip(),
-                                                    port = own_port)
-    return broker.handshake(handshake_request)
+has_task = False
+block = None
+nonce_max_len = 20
+nonce_thread = Thread(target=search_nonce)
 
 
 if __name__ == '__main__':
     atexit.register(input, 'To exit press Enter...')
 
     # noinspection PyBroadException
-    try:  # It will catch KeyboardInterrupt and other Exceptions
+    try:  # It will catch KeyboardInterrupt (Ctrl-C) and other Exceptions
         while True:
-
-            broker = init_broker_stub()  # Interface for messaging w/ broker
+            broker = connection.init_broker_stub()  # Interface for messaging w/ broker
 
             server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # Init module service
             module_pb2_grpc.add_ModuleServiceServicer_to_server(module_pb2_grpc.ModuleService(), server)
 
-            while True:  # Port detection
-                own_module_service_port = 17001
-                # noinspection PyBroadException
-                try:
-                    server.add_insecure_port(f'[::]:{own_module_service_port}')  # Trying to add listen port
-                except Exception:  # If port is occupied
-                    own_module_service_port += 1
-                    if own_module_service_port > 65535:
-                        raise Exception('No port available')
-                else:
-                    break
+            own_module_service_port = connection.get_listen_port(server)
 
-            handshake_response = handshake(broker, own_module_service_port)
+            handshake_response = connection.handshake(broker, own_module_service_port, 'CR')
             if not handshake_response.isOK:
                 print('Broker haven\'t permitted connection')
+                break
 
-            atexit.register(close_connection, broker)
+            own_id = handshake_response.givenId
 
+            atexit.register(connection.close_connection, broker, own_id)
+
+            server.start()
+            server.wait_for_termination()
     except Exception:
         pass

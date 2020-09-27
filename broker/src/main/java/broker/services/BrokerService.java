@@ -1,6 +1,6 @@
-package broker.grpc.services;
+package broker.services;
 
-import broker.grpc.services.executants.*;
+import broker.services.executants.*;
 import io.grpc.stub.StreamObserver;
 import proto.broker.*;
 

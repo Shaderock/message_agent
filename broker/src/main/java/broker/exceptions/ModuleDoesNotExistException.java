@@ -1,4 +1,4 @@
-package broker.grpc.exceptions;
+package broker.exceptions;
 
 import lombok.Getter;
 

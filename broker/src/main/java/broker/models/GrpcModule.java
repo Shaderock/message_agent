@@ -1,4 +1,4 @@
-package broker.grpc;
+package broker.models;
 
 import broker.models.payload.Type;
 import lombok.Data;

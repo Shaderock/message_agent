@@ -1,7 +1,7 @@
 
 package broker;
 
-import broker.models.GrpcModule;
+import broker.models.Module;
 import broker.exceptions.ModuleDoesNotExistException;
 import broker.servers.Worker;
 import io.grpc.Server;
@@ -22,7 +22,7 @@ public class Context {
     private final ArrayList<Worker> workers;
 
     @Getter
-    private final ArrayList<GrpcModule> grpcModules;
+    private final ArrayList<Module> modules;
 
     @Getter
     @Setter
@@ -34,7 +34,7 @@ public class Context {
 
     private Context() {
         workers = new ArrayList<>();
-        grpcModules = new ArrayList<>();
+        modules = new ArrayList<>();
     }
 
     public static Context getInstance() {
@@ -45,10 +45,10 @@ public class Context {
         return instance;
     }
 
-    public GrpcModule findModuleById(long id) throws ModuleDoesNotExistException {
-        for (GrpcModule grpcModule : getGrpcModules()) {
-            if (grpcModule.getId() == id) {
-                return grpcModule;
+    public Module findModuleById(long id) throws ModuleDoesNotExistException {
+        for (Module module : getModules()) {
+            if (module.getId() == id) {
+                return module;
             }
         }
         throw new ModuleDoesNotExistException("No module with id=" + id, id);

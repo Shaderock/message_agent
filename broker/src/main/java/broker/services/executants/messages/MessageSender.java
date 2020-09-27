@@ -20,7 +20,7 @@ public class MessageSender {
             proto.module.EmptyMessage response =
                     moduleServiceStub.withDeadlineAfter(5, TimeUnit.SECONDS)
                             .receiveMessage(request);
-            System.out.println("gRPC SENT: " + request.toString());
+            System.out.println("gRPC SENT to id=" + module.getId() + ": " + request.toString());
         }
         catch (StatusRuntimeException e) {
             System.out.println("Time for response has exceeded");

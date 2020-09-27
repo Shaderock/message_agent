@@ -24,7 +24,7 @@ public final class ModuleServiceGrpc {
 
   private ModuleServiceGrpc() {}
 
-  public static final String SERVICE_NAME = "ModuleService";
+  public static final String SERVICE_NAME = "module.ModuleService";
 
   // Static method descriptors that strictly reflect the proto.
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
@@ -46,7 +46,7 @@ public final class ModuleServiceGrpc {
               io.grpc.MethodDescriptor.<proto.module.MessageRequest, proto.module.EmptyMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "ModuleService", "receiveMessage"))
+                  "module.ModuleService", "receiveMessage"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   proto.module.MessageRequest.getDefaultInstance()))
@@ -78,7 +78,7 @@ public final class ModuleServiceGrpc {
               io.grpc.MethodDescriptor.<proto.module.EmptyMessage, proto.module.EmptyMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "ModuleService", "close"))
+                  "module.ModuleService", "close"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   proto.module.EmptyMessage.getDefaultInstance()))
@@ -110,7 +110,7 @@ public final class ModuleServiceGrpc {
               io.grpc.MethodDescriptor.<proto.module.WelcomeRequest, proto.module.EmptyMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "ModuleService", "welcome"))
+                  "module.ModuleService", "welcome"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   proto.module.WelcomeRequest.getDefaultInstance()))
@@ -142,7 +142,7 @@ public final class ModuleServiceGrpc {
               io.grpc.MethodDescriptor.<proto.module.GoodByeRequest, proto.module.EmptyMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "ModuleService", "goodBye"))
+                  "module.ModuleService", "goodBye"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   proto.module.GoodByeRequest.getDefaultInstance()))

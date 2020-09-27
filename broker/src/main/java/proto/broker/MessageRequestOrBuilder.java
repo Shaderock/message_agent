@@ -4,7 +4,7 @@
 package proto.broker;
 
 public interface MessageRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:MessageRequest)
+    // @@protoc_insertion_point(interface_extends:broker.MessageRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**

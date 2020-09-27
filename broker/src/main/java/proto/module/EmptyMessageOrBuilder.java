@@ -4,6 +4,6 @@
 package proto.module;
 
 public interface EmptyMessageOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:EmptyMessage)
+    // @@protoc_insertion_point(interface_extends:module.EmptyMessage)
     com.google.protobuf.MessageOrBuilder {
 }

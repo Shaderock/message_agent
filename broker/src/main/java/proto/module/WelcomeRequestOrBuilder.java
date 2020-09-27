@@ -4,21 +4,21 @@
 package proto.module;
 
 public interface WelcomeRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:WelcomeRequest)
+    // @@protoc_insertion_point(interface_extends:module.WelcomeRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>required .Module module = 1;</code>
+   * <code>required .module.Module module = 1;</code>
    * @return Whether the module field is set.
    */
   boolean hasModule();
   /**
-   * <code>required .Module module = 1;</code>
+   * <code>required .module.Module module = 1;</code>
    * @return The module.
    */
   proto.module.Module getModule();
   /**
-   * <code>required .Module module = 1;</code>
+   * <code>required .module.Module module = 1;</code>
    */
   proto.module.ModuleOrBuilder getModuleOrBuilder();
 }

@@ -4,7 +4,7 @@
 package proto.broker;
 
 public interface EmptyIdRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:EmptyIdRequest)
+    // @@protoc_insertion_point(interface_extends:broker.EmptyIdRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**

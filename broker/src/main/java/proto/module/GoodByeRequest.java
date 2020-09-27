@@ -4,11 +4,11 @@
 package proto.module;
 
 /**
- * Protobuf type {@code GoodByeRequest}
+ * Protobuf type {@code module.GoodByeRequest}
  */
 public  final class GoodByeRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:GoodByeRequest)
+    // @@protoc_insertion_point(message_implements:module.GoodByeRequest)
     GoodByeRequestOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use GoodByeRequest.newBuilder() to construct.
@@ -83,13 +83,13 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return proto.module.ModuleProto.internal_static_GoodByeRequest_descriptor;
+    return proto.module.ModuleProto.internal_static_module_GoodByeRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return proto.module.ModuleProto.internal_static_GoodByeRequest_fieldAccessorTable
+    return proto.module.ModuleProto.internal_static_module_GoodByeRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             proto.module.GoodByeRequest.class, proto.module.GoodByeRequest.Builder.class);
   }
@@ -98,21 +98,21 @@ private static final long serialVersionUID = 0L;
   public static final int MODULE_FIELD_NUMBER = 1;
   private proto.module.Module module_;
   /**
-   * <code>required .Module module = 1;</code>
+   * <code>required .module.Module module = 1;</code>
    * @return Whether the module field is set.
    */
   public boolean hasModule() {
     return ((bitField0_ & 0x00000001) != 0);
   }
   /**
-   * <code>required .Module module = 1;</code>
+   * <code>required .module.Module module = 1;</code>
    * @return The module.
    */
   public proto.module.Module getModule() {
     return module_ == null ? proto.module.Module.getDefaultInstance() : module_;
   }
   /**
-   * <code>required .Module module = 1;</code>
+   * <code>required .module.Module module = 1;</code>
    */
   public proto.module.ModuleOrBuilder getModuleOrBuilder() {
     return module_ == null ? proto.module.Module.getDefaultInstance() : module_;
@@ -287,21 +287,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code GoodByeRequest}
+   * Protobuf type {@code module.GoodByeRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:GoodByeRequest)
+      // @@protoc_insertion_point(builder_implements:module.GoodByeRequest)
       proto.module.GoodByeRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.module.ModuleProto.internal_static_GoodByeRequest_descriptor;
+      return proto.module.ModuleProto.internal_static_module_GoodByeRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.module.ModuleProto.internal_static_GoodByeRequest_fieldAccessorTable
+      return proto.module.ModuleProto.internal_static_module_GoodByeRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               proto.module.GoodByeRequest.class, proto.module.GoodByeRequest.Builder.class);
     }
@@ -337,7 +337,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return proto.module.ModuleProto.internal_static_GoodByeRequest_descriptor;
+      return proto.module.ModuleProto.internal_static_module_GoodByeRequest_descriptor;
     }
 
     @java.lang.Override
@@ -459,14 +459,14 @@ private static final long serialVersionUID = 0L;
     private com.google.protobuf.SingleFieldBuilderV3<
         proto.module.Module, proto.module.Module.Builder, proto.module.ModuleOrBuilder> moduleBuilder_;
     /**
-     * <code>required .Module module = 1;</code>
+     * <code>required .module.Module module = 1;</code>
      * @return Whether the module field is set.
      */
     public boolean hasModule() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>required .Module module = 1;</code>
+     * <code>required .module.Module module = 1;</code>
      * @return The module.
      */
     public proto.module.Module getModule() {
@@ -477,7 +477,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>required .Module module = 1;</code>
+     * <code>required .module.Module module = 1;</code>
      */
     public Builder setModule(proto.module.Module value) {
       if (moduleBuilder_ == null) {
@@ -493,7 +493,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>required .Module module = 1;</code>
+     * <code>required .module.Module module = 1;</code>
      */
     public Builder setModule(
         proto.module.Module.Builder builderForValue) {
@@ -507,7 +507,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>required .Module module = 1;</code>
+     * <code>required .module.Module module = 1;</code>
      */
     public Builder mergeModule(proto.module.Module value) {
       if (moduleBuilder_ == null) {
@@ -527,7 +527,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>required .Module module = 1;</code>
+     * <code>required .module.Module module = 1;</code>
      */
     public Builder clearModule() {
       if (moduleBuilder_ == null) {
@@ -540,7 +540,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>required .Module module = 1;</code>
+     * <code>required .module.Module module = 1;</code>
      */
     public proto.module.Module.Builder getModuleBuilder() {
       bitField0_ |= 0x00000001;
@@ -548,7 +548,7 @@ private static final long serialVersionUID = 0L;
       return getModuleFieldBuilder().getBuilder();
     }
     /**
-     * <code>required .Module module = 1;</code>
+     * <code>required .module.Module module = 1;</code>
      */
     public proto.module.ModuleOrBuilder getModuleOrBuilder() {
       if (moduleBuilder_ != null) {
@@ -559,7 +559,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>required .Module module = 1;</code>
+     * <code>required .module.Module module = 1;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         proto.module.Module, proto.module.Module.Builder, proto.module.ModuleOrBuilder> 
@@ -587,10 +587,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:GoodByeRequest)
+    // @@protoc_insertion_point(builder_scope:module.GoodByeRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:GoodByeRequest)
+  // @@protoc_insertion_point(class_scope:module.GoodByeRequest)
   private static final proto.module.GoodByeRequest DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new proto.module.GoodByeRequest();

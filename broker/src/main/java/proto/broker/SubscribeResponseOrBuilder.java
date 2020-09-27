@@ -4,7 +4,7 @@
 package proto.broker;
 
 public interface SubscribeResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:SubscribeResponse)
+    // @@protoc_insertion_point(interface_extends:broker.SubscribeResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**

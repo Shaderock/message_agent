@@ -4,11 +4,11 @@
 package proto.broker;
 
 /**
- * Protobuf type {@code HandshakeRequest}
+ * Protobuf type {@code broker.HandshakeRequest}
  */
 public  final class HandshakeRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:HandshakeRequest)
+    // @@protoc_insertion_point(message_implements:broker.HandshakeRequest)
     HandshakeRequestOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use HandshakeRequest.newBuilder() to construct.
@@ -89,13 +89,13 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return proto.broker.BrokerProto.internal_static_HandshakeRequest_descriptor;
+    return proto.broker.BrokerProto.internal_static_broker_HandshakeRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return proto.broker.BrokerProto.internal_static_HandshakeRequest_fieldAccessorTable
+    return proto.broker.BrokerProto.internal_static_broker_HandshakeRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             proto.broker.HandshakeRequest.class, proto.broker.HandshakeRequest.Builder.class);
   }
@@ -412,21 +412,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code HandshakeRequest}
+   * Protobuf type {@code broker.HandshakeRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:HandshakeRequest)
+      // @@protoc_insertion_point(builder_implements:broker.HandshakeRequest)
       proto.broker.HandshakeRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.broker.BrokerProto.internal_static_HandshakeRequest_descriptor;
+      return proto.broker.BrokerProto.internal_static_broker_HandshakeRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.broker.BrokerProto.internal_static_HandshakeRequest_fieldAccessorTable
+      return proto.broker.BrokerProto.internal_static_broker_HandshakeRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               proto.broker.HandshakeRequest.class, proto.broker.HandshakeRequest.Builder.class);
     }
@@ -461,7 +461,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return proto.broker.BrokerProto.internal_static_HandshakeRequest_descriptor;
+      return proto.broker.BrokerProto.internal_static_broker_HandshakeRequest_descriptor;
     }
 
     @java.lang.Override
@@ -813,10 +813,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:HandshakeRequest)
+    // @@protoc_insertion_point(builder_scope:broker.HandshakeRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:HandshakeRequest)
+  // @@protoc_insertion_point(class_scope:broker.HandshakeRequest)
   private static final proto.broker.HandshakeRequest DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new proto.broker.HandshakeRequest();

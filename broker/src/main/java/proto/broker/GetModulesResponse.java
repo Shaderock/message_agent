@@ -4,11 +4,11 @@
 package proto.broker;
 
 /**
- * Protobuf type {@code GetModulesResponse}
+ * Protobuf type {@code broker.GetModulesResponse}
  */
 public  final class GetModulesResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:GetModulesResponse)
+    // @@protoc_insertion_point(message_implements:broker.GetModulesResponse)
     GetModulesResponseOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use GetModulesResponse.newBuilder() to construct.
@@ -83,13 +83,13 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return proto.broker.BrokerProto.internal_static_GetModulesResponse_descriptor;
+    return proto.broker.BrokerProto.internal_static_broker_GetModulesResponse_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return proto.broker.BrokerProto.internal_static_GetModulesResponse_fieldAccessorTable
+    return proto.broker.BrokerProto.internal_static_broker_GetModulesResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             proto.broker.GetModulesResponse.class, proto.broker.GetModulesResponse.Builder.class);
   }
@@ -97,32 +97,32 @@ private static final long serialVersionUID = 0L;
   public static final int MODULE_FIELD_NUMBER = 1;
   private java.util.List<proto.broker.Module> module_;
   /**
-   * <code>repeated .Module module = 1;</code>
+   * <code>repeated .broker.Module module = 1;</code>
    */
   public java.util.List<proto.broker.Module> getModuleList() {
     return module_;
   }
   /**
-   * <code>repeated .Module module = 1;</code>
+   * <code>repeated .broker.Module module = 1;</code>
    */
   public java.util.List<? extends proto.broker.ModuleOrBuilder> 
       getModuleOrBuilderList() {
     return module_;
   }
   /**
-   * <code>repeated .Module module = 1;</code>
+   * <code>repeated .broker.Module module = 1;</code>
    */
   public int getModuleCount() {
     return module_.size();
   }
   /**
-   * <code>repeated .Module module = 1;</code>
+   * <code>repeated .broker.Module module = 1;</code>
    */
   public proto.broker.Module getModule(int index) {
     return module_.get(index);
   }
   /**
-   * <code>repeated .Module module = 1;</code>
+   * <code>repeated .broker.Module module = 1;</code>
    */
   public proto.broker.ModuleOrBuilder getModuleOrBuilder(
       int index) {
@@ -293,21 +293,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code GetModulesResponse}
+   * Protobuf type {@code broker.GetModulesResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:GetModulesResponse)
+      // @@protoc_insertion_point(builder_implements:broker.GetModulesResponse)
       proto.broker.GetModulesResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.broker.BrokerProto.internal_static_GetModulesResponse_descriptor;
+      return proto.broker.BrokerProto.internal_static_broker_GetModulesResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.broker.BrokerProto.internal_static_GetModulesResponse_fieldAccessorTable
+      return proto.broker.BrokerProto.internal_static_broker_GetModulesResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               proto.broker.GetModulesResponse.class, proto.broker.GetModulesResponse.Builder.class);
     }
@@ -343,7 +343,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return proto.broker.BrokerProto.internal_static_GetModulesResponse_descriptor;
+      return proto.broker.BrokerProto.internal_static_broker_GetModulesResponse_descriptor;
     }
 
     @java.lang.Override
@@ -495,7 +495,7 @@ private static final long serialVersionUID = 0L;
         proto.broker.Module, proto.broker.Module.Builder, proto.broker.ModuleOrBuilder> moduleBuilder_;
 
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public java.util.List<proto.broker.Module> getModuleList() {
       if (moduleBuilder_ == null) {
@@ -505,7 +505,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public int getModuleCount() {
       if (moduleBuilder_ == null) {
@@ -515,7 +515,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public proto.broker.Module getModule(int index) {
       if (moduleBuilder_ == null) {
@@ -525,7 +525,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public Builder setModule(
         int index, proto.broker.Module value) {
@@ -542,7 +542,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public Builder setModule(
         int index, proto.broker.Module.Builder builderForValue) {
@@ -556,7 +556,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public Builder addModule(proto.broker.Module value) {
       if (moduleBuilder_ == null) {
@@ -572,7 +572,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public Builder addModule(
         int index, proto.broker.Module value) {
@@ -589,7 +589,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public Builder addModule(
         proto.broker.Module.Builder builderForValue) {
@@ -603,7 +603,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public Builder addModule(
         int index, proto.broker.Module.Builder builderForValue) {
@@ -617,7 +617,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public Builder addAllModule(
         java.lang.Iterable<? extends proto.broker.Module> values) {
@@ -632,7 +632,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public Builder clearModule() {
       if (moduleBuilder_ == null) {
@@ -645,7 +645,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public Builder removeModule(int index) {
       if (moduleBuilder_ == null) {
@@ -658,14 +658,14 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public proto.broker.Module.Builder getModuleBuilder(
         int index) {
       return getModuleFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public proto.broker.ModuleOrBuilder getModuleOrBuilder(
         int index) {
@@ -675,7 +675,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public java.util.List<? extends proto.broker.ModuleOrBuilder> 
          getModuleOrBuilderList() {
@@ -686,14 +686,14 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public proto.broker.Module.Builder addModuleBuilder() {
       return getModuleFieldBuilder().addBuilder(
           proto.broker.Module.getDefaultInstance());
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public proto.broker.Module.Builder addModuleBuilder(
         int index) {
@@ -701,7 +701,7 @@ private static final long serialVersionUID = 0L;
           index, proto.broker.Module.getDefaultInstance());
     }
     /**
-     * <code>repeated .Module module = 1;</code>
+     * <code>repeated .broker.Module module = 1;</code>
      */
     public java.util.List<proto.broker.Module.Builder> 
          getModuleBuilderList() {
@@ -734,10 +734,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:GetModulesResponse)
+    // @@protoc_insertion_point(builder_scope:broker.GetModulesResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:GetModulesResponse)
+  // @@protoc_insertion_point(class_scope:broker.GetModulesResponse)
   private static final proto.broker.GetModulesResponse DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new proto.broker.GetModulesResponse();

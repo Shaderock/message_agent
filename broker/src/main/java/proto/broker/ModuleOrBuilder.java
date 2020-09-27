@@ -4,7 +4,7 @@
 package proto.broker;
 
 public interface ModuleOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:Module)
+    // @@protoc_insertion_point(interface_extends:broker.Module)
     com.google.protobuf.MessageOrBuilder {
 
   /**

@@ -24,7 +24,7 @@ public final class BrokerServiceGrpc {
 
   private BrokerServiceGrpc() {}
 
-  public static final String SERVICE_NAME = "BrokerService";
+  public static final String SERVICE_NAME = "broker.BrokerService";
 
   // Static method descriptors that strictly reflect the proto.
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
@@ -46,7 +46,7 @@ public final class BrokerServiceGrpc {
               io.grpc.MethodDescriptor.<proto.broker.HandshakeRequest, proto.broker.HandshakeResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "BrokerService", "handshake"))
+                  "broker.BrokerService", "handshake"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   proto.broker.HandshakeRequest.getDefaultInstance()))
@@ -78,7 +78,7 @@ public final class BrokerServiceGrpc {
               io.grpc.MethodDescriptor.<proto.broker.EmptyIdRequest, proto.broker.GetModulesResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "BrokerService", "getModules"))
+                  "broker.BrokerService", "getModules"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   proto.broker.EmptyIdRequest.getDefaultInstance()))
@@ -110,7 +110,7 @@ public final class BrokerServiceGrpc {
               io.grpc.MethodDescriptor.<proto.broker.SubscribeRequest, proto.broker.SubscribeResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "BrokerService", "subscribe"))
+                  "broker.BrokerService", "subscribe"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   proto.broker.SubscribeRequest.getDefaultInstance()))
@@ -142,7 +142,7 @@ public final class BrokerServiceGrpc {
               io.grpc.MethodDescriptor.<proto.broker.MessageRequest, proto.broker.EmptyMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "BrokerService", "sendMessage"))
+                  "broker.BrokerService", "sendMessage"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   proto.broker.MessageRequest.getDefaultInstance()))
@@ -174,7 +174,7 @@ public final class BrokerServiceGrpc {
               io.grpc.MethodDescriptor.<proto.broker.EmptyIdRequest, proto.broker.EmptyMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "BrokerService", "close"))
+                  "broker.BrokerService", "close"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   proto.broker.EmptyIdRequest.getDefaultInstance()))

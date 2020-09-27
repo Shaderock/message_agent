@@ -4,11 +4,11 @@
 package proto.broker;
 
 /**
- * Protobuf type {@code EmptyIdRequest}
+ * Protobuf type {@code broker.EmptyIdRequest}
  */
 public  final class EmptyIdRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:EmptyIdRequest)
+    // @@protoc_insertion_point(message_implements:broker.EmptyIdRequest)
     EmptyIdRequestOrBuilder {
 private static final long serialVersionUID = 0L;
   // Use EmptyIdRequest.newBuilder() to construct.
@@ -75,13 +75,13 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return proto.broker.BrokerProto.internal_static_EmptyIdRequest_descriptor;
+    return proto.broker.BrokerProto.internal_static_broker_EmptyIdRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return proto.broker.BrokerProto.internal_static_EmptyIdRequest_fieldAccessorTable
+    return proto.broker.BrokerProto.internal_static_broker_EmptyIdRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             proto.broker.EmptyIdRequest.class, proto.broker.EmptyIdRequest.Builder.class);
   }
@@ -270,21 +270,21 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code EmptyIdRequest}
+   * Protobuf type {@code broker.EmptyIdRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:EmptyIdRequest)
+      // @@protoc_insertion_point(builder_implements:broker.EmptyIdRequest)
       proto.broker.EmptyIdRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return proto.broker.BrokerProto.internal_static_EmptyIdRequest_descriptor;
+      return proto.broker.BrokerProto.internal_static_broker_EmptyIdRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return proto.broker.BrokerProto.internal_static_EmptyIdRequest_fieldAccessorTable
+      return proto.broker.BrokerProto.internal_static_broker_EmptyIdRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               proto.broker.EmptyIdRequest.class, proto.broker.EmptyIdRequest.Builder.class);
     }
@@ -315,7 +315,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return proto.broker.BrokerProto.internal_static_EmptyIdRequest_descriptor;
+      return proto.broker.BrokerProto.internal_static_broker_EmptyIdRequest_descriptor;
     }
 
     @java.lang.Override
@@ -475,10 +475,10 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:EmptyIdRequest)
+    // @@protoc_insertion_point(builder_scope:broker.EmptyIdRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:EmptyIdRequest)
+  // @@protoc_insertion_point(class_scope:broker.EmptyIdRequest)
   private static final proto.broker.EmptyIdRequest DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new proto.broker.EmptyIdRequest();

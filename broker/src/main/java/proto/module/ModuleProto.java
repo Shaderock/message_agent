@@ -15,30 +15,30 @@ public final class ModuleProto {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_EmptyMessage_descriptor;
+    internal_static_module_EmptyMessage_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_EmptyMessage_fieldAccessorTable;
+      internal_static_module_EmptyMessage_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_MessageRequest_descriptor;
+    internal_static_module_MessageRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_MessageRequest_fieldAccessorTable;
+      internal_static_module_MessageRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Module_descriptor;
+    internal_static_module_Module_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Module_fieldAccessorTable;
+      internal_static_module_Module_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_WelcomeRequest_descriptor;
+    internal_static_module_WelcomeRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_WelcomeRequest_fieldAccessorTable;
+      internal_static_module_WelcomeRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_GoodByeRequest_descriptor;
+    internal_static_module_GoodByeRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_GoodByeRequest_fieldAccessorTable;
+      internal_static_module_GoodByeRequest_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -48,51 +48,53 @@ public final class ModuleProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014module.proto\"\016\n\014EmptyMessage\"3\n\016Messag" +
-      "eRequest\022\020\n\010idSender\030\001 \002(\003\022\017\n\007message\030\002 " +
-      "\002(\t\"\"\n\006Module\022\014\n\004type\030\001 \002(\t\022\n\n\002id\030\002 \002(\003\"" +
-      ")\n\016WelcomeRequest\022\027\n\006module\030\001 \002(\0132\007.Modu" +
-      "le\")\n\016GoodByeRequest\022\027\n\006module\030\001 \002(\0132\007.M" +
-      "odule2\276\001\n\rModuleService\0220\n\016receiveMessag" +
-      "e\022\017.MessageRequest\032\r.EmptyMessage\022%\n\005clo" +
-      "se\022\r.EmptyMessage\032\r.EmptyMessage\022)\n\007welc" +
-      "ome\022\017.WelcomeRequest\032\r.EmptyMessage\022)\n\007g" +
-      "oodBye\022\017.GoodByeRequest\032\r.EmptyMessageB\035" +
-      "\n\014proto.moduleB\013ModuleProtoP\001"
+      "\n\014module.proto\022\006module\"\016\n\014EmptyMessage\"3" +
+      "\n\016MessageRequest\022\020\n\010idSender\030\001 \002(\003\022\017\n\007me" +
+      "ssage\030\002 \002(\t\"\"\n\006Module\022\014\n\004type\030\001 \002(\t\022\n\n\002i" +
+      "d\030\002 \002(\003\"0\n\016WelcomeRequest\022\036\n\006module\030\001 \002(" +
+      "\0132\016.module.Module\"0\n\016GoodByeRequest\022\036\n\006m" +
+      "odule\030\001 \002(\0132\016.module.Module2\366\001\n\rModuleSe" +
+      "rvice\022>\n\016receiveMessage\022\026.module.Message" +
+      "Request\032\024.module.EmptyMessage\0223\n\005close\022\024" +
+      ".module.EmptyMessage\032\024.module.EmptyMessa" +
+      "ge\0227\n\007welcome\022\026.module.WelcomeRequest\032\024." +
+      "module.EmptyMessage\0227\n\007goodBye\022\026.module." +
+      "GoodByeRequest\032\024.module.EmptyMessageB\035\n\014" +
+      "proto.moduleB\013ModuleProtoP\001"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_EmptyMessage_descriptor =
+    internal_static_module_EmptyMessage_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_EmptyMessage_fieldAccessorTable = new
+    internal_static_module_EmptyMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_EmptyMessage_descriptor,
+        internal_static_module_EmptyMessage_descriptor,
         new java.lang.String[] { });
-    internal_static_MessageRequest_descriptor =
+    internal_static_module_MessageRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_MessageRequest_fieldAccessorTable = new
+    internal_static_module_MessageRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_MessageRequest_descriptor,
+        internal_static_module_MessageRequest_descriptor,
         new java.lang.String[] { "IdSender", "Message", });
-    internal_static_Module_descriptor =
+    internal_static_module_Module_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_Module_fieldAccessorTable = new
+    internal_static_module_Module_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Module_descriptor,
+        internal_static_module_Module_descriptor,
         new java.lang.String[] { "Type", "Id", });
-    internal_static_WelcomeRequest_descriptor =
+    internal_static_module_WelcomeRequest_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_WelcomeRequest_fieldAccessorTable = new
+    internal_static_module_WelcomeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_WelcomeRequest_descriptor,
+        internal_static_module_WelcomeRequest_descriptor,
         new java.lang.String[] { "Module", });
-    internal_static_GoodByeRequest_descriptor =
+    internal_static_module_GoodByeRequest_descriptor =
       getDescriptor().getMessageTypes().get(4);
-    internal_static_GoodByeRequest_fieldAccessorTable = new
+    internal_static_module_GoodByeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_GoodByeRequest_descriptor,
+        internal_static_module_GoodByeRequest_descriptor,
         new java.lang.String[] { "Module", });
   }
 

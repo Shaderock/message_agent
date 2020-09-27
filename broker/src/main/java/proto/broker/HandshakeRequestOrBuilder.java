@@ -4,7 +4,7 @@
 package proto.broker;
 
 public interface HandshakeRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:HandshakeRequest)
+    // @@protoc_insertion_point(interface_extends:broker.HandshakeRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**

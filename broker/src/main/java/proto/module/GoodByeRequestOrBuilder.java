@@ -4,21 +4,21 @@
 package proto.module;
 
 public interface GoodByeRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:GoodByeRequest)
+    // @@protoc_insertion_point(interface_extends:module.GoodByeRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>required .Module module = 1;</code>
+   * <code>required .module.Module module = 1;</code>
    * @return Whether the module field is set.
    */
   boolean hasModule();
   /**
-   * <code>required .Module module = 1;</code>
+   * <code>required .module.Module module = 1;</code>
    * @return The module.
    */
   proto.module.Module getModule();
   /**
-   * <code>required .Module module = 1;</code>
+   * <code>required .module.Module module = 1;</code>
    */
   proto.module.ModuleOrBuilder getModuleOrBuilder();
 }

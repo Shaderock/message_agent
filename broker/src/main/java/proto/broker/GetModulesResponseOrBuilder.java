@@ -4,29 +4,29 @@
 package proto.broker;
 
 public interface GetModulesResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:GetModulesResponse)
+    // @@protoc_insertion_point(interface_extends:broker.GetModulesResponse)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>repeated .Module module = 1;</code>
+   * <code>repeated .broker.Module module = 1;</code>
    */
   java.util.List<proto.broker.Module> 
       getModuleList();
   /**
-   * <code>repeated .Module module = 1;</code>
+   * <code>repeated .broker.Module module = 1;</code>
    */
   proto.broker.Module getModule(int index);
   /**
-   * <code>repeated .Module module = 1;</code>
+   * <code>repeated .broker.Module module = 1;</code>
    */
   int getModuleCount();
   /**
-   * <code>repeated .Module module = 1;</code>
+   * <code>repeated .broker.Module module = 1;</code>
    */
   java.util.List<? extends proto.broker.ModuleOrBuilder> 
       getModuleOrBuilderList();
   /**
-   * <code>repeated .Module module = 1;</code>
+   * <code>repeated .broker.Module module = 1;</code>
    */
   proto.broker.ModuleOrBuilder getModuleOrBuilder(
       int index);

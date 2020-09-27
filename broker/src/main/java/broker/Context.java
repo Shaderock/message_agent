@@ -16,6 +16,9 @@ public class Context {
     public final int UDP_BROKER_LISTENED_PORT = 16002;
     public final int GRPS_SERVER_PORT = 17001;
 
+    public final int DEADLINE_FOR_RESPONSE_SECONDS = 2000;
+    public final int SHUTDOWN_TIMEOUT_SECONDS = 5;
+
     public boolean APP_IS_SHUT_DOWN;
 
     @Getter
@@ -30,7 +33,7 @@ public class Context {
 
     @Getter
     @Setter
-    private int nextModuleId = 0;
+    private int nextModuleId = 1;
 
     private Context() {
         workers = new ArrayList<>();

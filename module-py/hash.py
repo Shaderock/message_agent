@@ -1,6 +1,6 @@
 import hashlib
 
-num_of_zero = 2
+num_of_zero = 5
 
 
 def get_block_hash(content: str, prev_hash: str, nonce: str) -> str:

@@ -31,12 +31,13 @@ public class BrokerService extends BrokerServiceGrpc.BrokerServiceImplBase {
 
     @Override
     public void sendMessage(MessageRequest request, StreamObserver<EmptyMessage> responseObserver) {
-        System.out.println("RECEIVED: DIRECT-MESSAGE\n" + request.toString());
         IExecutant executant;
-        if (request.hasIdReceiver()) {
-            executant = new DirectMessageExecutant(request, responseObserver);
-        } else {
+        if (request.getIdReceiver() == 0) {
+            System.out.println("RECEIVED: NOTIFY\n" + request.toString());
             executant = new NotifyExecutant(request, responseObserver);
+        } else {
+            System.out.println("RECEIVED: DIRECT-MESSAGE\n" + request.toString());
+            executant = new DirectMessageExecutant(request, responseObserver);
         }
         executant.execute();
     }

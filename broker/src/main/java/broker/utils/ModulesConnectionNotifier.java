@@ -13,7 +13,7 @@ import proto.module.WelcomeRequest;
 import java.util.concurrent.TimeUnit;
 
 public class ModulesConnectionNotifier {
-    public void notifyAboutModuleConnected(Module module) {
+    public static synchronized void notifyAboutModuleConnected(Module module) {
         if (moduleDoesNotExist(module)) {
             return;
         }
@@ -32,7 +32,7 @@ public class ModulesConnectionNotifier {
 
                 try {
                     proto.module.EmptyMessage response = moduleServiceStub
-                            .withDeadlineAfter(5, TimeUnit.SECONDS)
+                            .withDeadlineAfter(Context.getInstance().DEADLINE_FOR_RESPONSE_SECONDS, TimeUnit.SECONDS)
                             .welcome(request.build());
                     System.out.println("gRPC SENT to id=" + connectedModule.getId() + ": WELCOME"
                             + "\n" + request.toString());
@@ -45,7 +45,7 @@ public class ModulesConnectionNotifier {
         }
     }
 
-    public void notifyAboutModuleDisconnected(Module module) {
+    public static synchronized void notifyAboutModuleDisconnected(Module module) {
         for (Module connectedModule : Context.getInstance().getModules()) {
             if (connectedModule.getId() != module.getId()) {
                 ManagedChannel channel = ManagedChannelBuilder
@@ -60,7 +60,7 @@ public class ModulesConnectionNotifier {
                         .build());
                 try {
                     proto.module.EmptyMessage response = moduleServiceStub
-                            .withDeadlineAfter(5, TimeUnit.SECONDS)
+                            .withDeadlineAfter(Context.getInstance().DEADLINE_FOR_RESPONSE_SECONDS, TimeUnit.SECONDS)
                             .goodBye(request.build());
                     System.out.println("gRPC SENT to id=" + connectedModule.getId()
                             + ": GOOD-BYE" + "\n" + request.toString());
@@ -73,7 +73,7 @@ public class ModulesConnectionNotifier {
         }
     }
 
-    private boolean moduleDoesNotExist(Module module) {
+    private static synchronized boolean moduleDoesNotExist(Module module) {
         Context context = Context.getInstance();
 
         try {

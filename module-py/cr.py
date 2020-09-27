@@ -31,6 +31,7 @@ def check_nonce() -> bool:
     return hash.check_hash_rule(get_block_hash())
 
 
+# noinspection PyBroadException
 def send_block():
     info_block = {
         'id-block': block.id_block,
@@ -42,8 +43,10 @@ def send_block():
         'info-block': info_block
     }
     message_string = json.dumps(message)
-
-    broker.sendMessage(broker_pb2.MessageRequest(idRequester=own_id, message=message_string))
+    try:
+        broker.sendMessage(broker_pb2.MessageRequest(idRequester=own_id, message=message_string))
+    except Exception:
+        print('Broker is unavailable for messaging\nStoring found nonce until connection w/ mng')
 
 
 def search_nonce():

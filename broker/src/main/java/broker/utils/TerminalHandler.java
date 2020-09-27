@@ -6,6 +6,7 @@ import broker.servers.Worker;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class TerminalHandler extends Thread {
     @Override
@@ -28,7 +29,6 @@ public class TerminalHandler extends Thread {
         Context context = Context.getInstance();
         context.APP_IS_SHUT_DOWN = true;
 
-        context.getServer().shutdownNow();
 
         for (Worker worker : context.getWorkers()) {
             worker.interrupt();
@@ -37,6 +37,13 @@ public class TerminalHandler extends Thread {
         ArrayList<Module> modulesToDisable = new ArrayList<>(context.getModules());
         for (Module module : modulesToDisable) {
             ModuleRemover.removeModule(module);
+        }
+
+        context.getServer().shutdown();
+        try {
+            context.getServer().awaitTermination(context.SHUTDOWN_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            System.out.println("Closing all connections as timeout for shutting down has expired");
         }
     }
 }

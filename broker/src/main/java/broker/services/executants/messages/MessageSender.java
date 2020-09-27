@@ -1,5 +1,6 @@
 package broker.services.executants.messages;
 
+import broker.Context;
 import broker.models.Module;
 import broker.utils.ModuleRemover;
 import io.grpc.StatusRuntimeException;
@@ -17,12 +18,11 @@ public class MessageSender {
         notifyRequestToModule.setMessage(notifyRequestFromModule.getMessage());
         try {
             MessageRequest request = notifyRequestToModule.build();
-            proto.module.EmptyMessage response =
-                    moduleServiceStub.withDeadlineAfter(5, TimeUnit.SECONDS)
+            proto.module.EmptyMessage responseFromModule =
+                    moduleServiceStub.withDeadlineAfter(Context.getInstance().DEADLINE_FOR_RESPONSE_SECONDS, TimeUnit.SECONDS)
                             .receiveMessage(request);
             System.out.println("gRPC SENT to id=" + module.getId() + ": SIMPLE MESSAGE" + "\n" + request.toString());
-        }
-        catch (StatusRuntimeException e) {
+        } catch (StatusRuntimeException e) {
             System.out.println("Time for response has exceeded");
             ModuleRemover.removeModule(module);
         }

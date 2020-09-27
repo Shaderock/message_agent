@@ -38,16 +38,16 @@ public class NotifyExecutant extends Executant {
         }
 
         for (Module module : context.getModules()) {
-            for (Long notifierId : foundModule.getNotifiersId()) {
+            for (Long notifierId : module.getNotifiersId()) {
                 if (notifierId == idRequester) {
                     ManagedChannel channel = ManagedChannelBuilder
                             .forAddress(module.getIp(), module.getPort()).usePlaintext().build();
                     ModuleServiceGrpc.ModuleServiceBlockingStub moduleServiceStub =
                             ModuleServiceGrpc.newBlockingStub(channel);
 
-                    proto.module.MessageRequest.Builder request = proto.module.MessageRequest.newBuilder();
-                    request.setIdSender(module.getId());
-                    MessageSender.sendMessage(module, moduleServiceStub, request, this.requestFromModule);
+                    proto.module.MessageRequest.Builder requestToModule = proto.module.MessageRequest.newBuilder();
+                    requestToModule.setIdSender(foundModule.getId());
+                    MessageSender.sendMessage(module, moduleServiceStub, requestToModule, this.requestFromModule);
                 }
             }
         }

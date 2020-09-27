@@ -25,7 +25,7 @@ public class ModuleRemover {
                 //noinspection ResultOfMethodCallIgnored
                 moduleServiceStub.close(response); // todo handle ignoring?
             } else {
-                new ModulesConnectionNotifier().notifyAboutModuleDisconnected(module);
+                ModulesConnectionNotifier.notifyAboutModuleDisconnected(module);
             }
             System.out.println("Removed id=" + module.getId());
         }

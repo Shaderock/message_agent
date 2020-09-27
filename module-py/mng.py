@@ -117,7 +117,8 @@ class ModuleService(module_pb2_grpc.ModuleServiceServicer):
                 print(f'CR (id = {request.idSender}) attempted to complete task')
                 if additional_thread.is_alive():
                     additional_thread.join()
-                additional_thread = threading.Thread(target=try_new_block, args=request.message)
+                additional_thread = threading.Thread(target=try_new_block, args=(request,))
+                additional_thread.start()
             else:
                 pass
         except Exception:

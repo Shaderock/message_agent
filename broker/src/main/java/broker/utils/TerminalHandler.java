@@ -38,13 +38,6 @@ public class TerminalHandler extends Thread {
             ModuleRemover.removeModule(module);
         }
 
-        try {
-            Thread.sleep(3000);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         context.getServer().shutdown();
         try {
             context.getServer().awaitTermination(context.SHUTDOWN_TIMEOUT_SECONDS, TimeUnit.SECONDS);

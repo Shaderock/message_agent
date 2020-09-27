@@ -34,7 +34,7 @@ public class ModulesConnectionNotifier {
                     proto.module.EmptyMessage response = moduleServiceStub
                             .withDeadlineAfter(5, TimeUnit.SECONDS)
                             .welcome(request.build());
-                    System.out.println("SENT: " + response.toString());
+                    System.out.println("SENT: " + request.toString());
                 }
                 catch (StatusRuntimeException e) {
                     System.out.println("Time for response has exceeded");
@@ -61,7 +61,7 @@ public class ModulesConnectionNotifier {
                     proto.module.EmptyMessage response = moduleServiceStub
                             .withDeadlineAfter(5, TimeUnit.SECONDS)
                             .goodBye(request.build());
-                    System.out.println("SENT: " + response.toString());
+                    System.out.println("SENT: " + request.toString());
                 }
                 catch (StatusRuntimeException e) {
                     System.out.println("Time for response has exceeded");

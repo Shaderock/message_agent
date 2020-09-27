@@ -20,7 +20,7 @@ public class ModuleRemover {
 
                 proto.module.EmptyMessage.Builder request = EmptyMessage.newBuilder();
                 EmptyMessage response = request.build();
-                System.out.println("SENT: " + response.toString());
+                System.out.println("gRPC SENT: empty message" + response.toString());
                 //noinspection ResultOfMethodCallIgnored
                 moduleServiceStub.close(response); // todo handle ignoring?
             } else {

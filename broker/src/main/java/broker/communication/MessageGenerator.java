@@ -31,7 +31,7 @@ public class MessageGenerator {
             DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
             socket.send(packet);
 
-            System.out.println("SENT, message: " + message);
+            System.out.println("UDP SENT, message: " + message);
         }
         catch (JsonProcessingException e) {
             System.out.println("Could not serialize payload");

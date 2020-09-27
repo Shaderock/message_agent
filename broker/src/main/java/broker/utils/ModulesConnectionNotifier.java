@@ -20,7 +20,7 @@ public class ModulesConnectionNotifier {
         for (Module connectedModule : Context.getInstance().getModules()) {
             if (connectedModule.getId() != module.getId()) {
                 ManagedChannel channel = ManagedChannelBuilder
-                        .forAddress(module.getIp(), module.getPort()).usePlaintext().build();
+                        .forAddress(connectedModule.getIp(), connectedModule.getPort()).usePlaintext().build();
                 ModuleServiceGrpc.ModuleServiceBlockingStub moduleServiceStub =
                         ModuleServiceGrpc.newBlockingStub(channel);
 
@@ -38,21 +38,17 @@ public class ModulesConnectionNotifier {
                 }
                 catch (StatusRuntimeException e) {
                     System.out.println("Time for response has exceeded");
-                    ModuleRemover.removeModule(module);
+                    ModuleRemover.removeModule(connectedModule);
                 }
             }
         }
     }
 
     public void notifyAboutModuleDisconnected(Module module) {
-        if (moduleDoesNotExist(module)) {
-            return;
-        }
-
         for (Module connectedModule : Context.getInstance().getModules()) {
             if (connectedModule.getId() != module.getId()) {
                 ManagedChannel channel = ManagedChannelBuilder
-                        .forAddress(module.getIp(), module.getPort()).usePlaintext().build();
+                        .forAddress(connectedModule.getIp(), connectedModule.getPort()).usePlaintext().build();
                 ModuleServiceGrpc.ModuleServiceBlockingStub moduleServiceStub =
                         ModuleServiceGrpc.newBlockingStub(channel);
 
@@ -69,7 +65,7 @@ public class ModulesConnectionNotifier {
                 }
                 catch (StatusRuntimeException e) {
                     System.out.println("Time for response has exceeded");
-                    ModuleRemover.removeModule(module);
+                    ModuleRemover.removeModule(connectedModule);
                 }
             }
         }

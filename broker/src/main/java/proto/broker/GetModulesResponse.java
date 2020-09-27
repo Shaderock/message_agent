@@ -16,7 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private GetModulesResponse() {
-    modules_ = java.util.Collections.emptyList();
+    module_ = java.util.Collections.emptyList();
   }
 
   @java.lang.Override
@@ -52,10 +52,10 @@ private static final long serialVersionUID = 0L;
             break;
           case 10: {
             if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-              modules_ = new java.util.ArrayList<proto.broker.Module>();
+              module_ = new java.util.ArrayList<proto.broker.Module>();
               mutable_bitField0_ |= 0x00000001;
             }
-            modules_.add(
+            module_.add(
                 input.readMessage(proto.broker.Module.PARSER, extensionRegistry));
             break;
           }
@@ -75,7 +75,7 @@ private static final long serialVersionUID = 0L;
           e).setUnfinishedMessage(this);
     } finally {
       if (((mutable_bitField0_ & 0x00000001) != 0)) {
-        modules_ = java.util.Collections.unmodifiableList(modules_);
+        module_ = java.util.Collections.unmodifiableList(module_);
       }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
@@ -94,39 +94,39 @@ private static final long serialVersionUID = 0L;
             proto.broker.GetModulesResponse.class, proto.broker.GetModulesResponse.Builder.class);
   }
 
-  public static final int MODULES_FIELD_NUMBER = 1;
-  private java.util.List<proto.broker.Module> modules_;
+  public static final int MODULE_FIELD_NUMBER = 1;
+  private java.util.List<proto.broker.Module> module_;
   /**
-   * <code>repeated .Module modules = 1;</code>
+   * <code>repeated .Module module = 1;</code>
    */
-  public java.util.List<proto.broker.Module> getModulesList() {
-    return modules_;
+  public java.util.List<proto.broker.Module> getModuleList() {
+    return module_;
   }
   /**
-   * <code>repeated .Module modules = 1;</code>
+   * <code>repeated .Module module = 1;</code>
    */
   public java.util.List<? extends proto.broker.ModuleOrBuilder> 
-      getModulesOrBuilderList() {
-    return modules_;
+      getModuleOrBuilderList() {
+    return module_;
   }
   /**
-   * <code>repeated .Module modules = 1;</code>
+   * <code>repeated .Module module = 1;</code>
    */
-  public int getModulesCount() {
-    return modules_.size();
+  public int getModuleCount() {
+    return module_.size();
   }
   /**
-   * <code>repeated .Module modules = 1;</code>
+   * <code>repeated .Module module = 1;</code>
    */
-  public proto.broker.Module getModules(int index) {
-    return modules_.get(index);
+  public proto.broker.Module getModule(int index) {
+    return module_.get(index);
   }
   /**
-   * <code>repeated .Module modules = 1;</code>
+   * <code>repeated .Module module = 1;</code>
    */
-  public proto.broker.ModuleOrBuilder getModulesOrBuilder(
+  public proto.broker.ModuleOrBuilder getModuleOrBuilder(
       int index) {
-    return modules_.get(index);
+    return module_.get(index);
   }
 
   private byte memoizedIsInitialized = -1;
@@ -136,8 +136,8 @@ private static final long serialVersionUID = 0L;
     if (isInitialized == 1) return true;
     if (isInitialized == 0) return false;
 
-    for (int i = 0; i < getModulesCount(); i++) {
-      if (!getModules(i).isInitialized()) {
+    for (int i = 0; i < getModuleCount(); i++) {
+      if (!getModule(i).isInitialized()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -149,8 +149,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    for (int i = 0; i < modules_.size(); i++) {
-      output.writeMessage(1, modules_.get(i));
+    for (int i = 0; i < module_.size(); i++) {
+      output.writeMessage(1, module_.get(i));
     }
     unknownFields.writeTo(output);
   }
@@ -161,9 +161,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    for (int i = 0; i < modules_.size(); i++) {
+    for (int i = 0; i < module_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, modules_.get(i));
+        .computeMessageSize(1, module_.get(i));
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -180,8 +180,8 @@ private static final long serialVersionUID = 0L;
     }
     proto.broker.GetModulesResponse other = (proto.broker.GetModulesResponse) obj;
 
-    if (!getModulesList()
-        .equals(other.getModulesList())) return false;
+    if (!getModuleList()
+        .equals(other.getModuleList())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -193,9 +193,9 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    if (getModulesCount() > 0) {
-      hash = (37 * hash) + MODULES_FIELD_NUMBER;
-      hash = (53 * hash) + getModulesList().hashCode();
+    if (getModuleCount() > 0) {
+      hash = (37 * hash) + MODULE_FIELD_NUMBER;
+      hash = (53 * hash) + getModuleList().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -325,17 +325,17 @@ private static final long serialVersionUID = 0L;
     private void maybeForceBuilderInitialization() {
       if (com.google.protobuf.GeneratedMessageV3
               .alwaysUseFieldBuilders) {
-        getModulesFieldBuilder();
+        getModuleFieldBuilder();
       }
     }
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      if (modulesBuilder_ == null) {
-        modules_ = java.util.Collections.emptyList();
+      if (moduleBuilder_ == null) {
+        module_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000001);
       } else {
-        modulesBuilder_.clear();
+        moduleBuilder_.clear();
       }
       return this;
     }
@@ -364,14 +364,14 @@ private static final long serialVersionUID = 0L;
     public proto.broker.GetModulesResponse buildPartial() {
       proto.broker.GetModulesResponse result = new proto.broker.GetModulesResponse(this);
       int from_bitField0_ = bitField0_;
-      if (modulesBuilder_ == null) {
+      if (moduleBuilder_ == null) {
         if (((bitField0_ & 0x00000001) != 0)) {
-          modules_ = java.util.Collections.unmodifiableList(modules_);
+          module_ = java.util.Collections.unmodifiableList(module_);
           bitField0_ = (bitField0_ & ~0x00000001);
         }
-        result.modules_ = modules_;
+        result.module_ = module_;
       } else {
-        result.modules_ = modulesBuilder_.build();
+        result.module_ = moduleBuilder_.build();
       }
       onBuilt();
       return result;
@@ -421,29 +421,29 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(proto.broker.GetModulesResponse other) {
       if (other == proto.broker.GetModulesResponse.getDefaultInstance()) return this;
-      if (modulesBuilder_ == null) {
-        if (!other.modules_.isEmpty()) {
-          if (modules_.isEmpty()) {
-            modules_ = other.modules_;
+      if (moduleBuilder_ == null) {
+        if (!other.module_.isEmpty()) {
+          if (module_.isEmpty()) {
+            module_ = other.module_;
             bitField0_ = (bitField0_ & ~0x00000001);
           } else {
-            ensureModulesIsMutable();
-            modules_.addAll(other.modules_);
+            ensureModuleIsMutable();
+            module_.addAll(other.module_);
           }
           onChanged();
         }
       } else {
-        if (!other.modules_.isEmpty()) {
-          if (modulesBuilder_.isEmpty()) {
-            modulesBuilder_.dispose();
-            modulesBuilder_ = null;
-            modules_ = other.modules_;
+        if (!other.module_.isEmpty()) {
+          if (moduleBuilder_.isEmpty()) {
+            moduleBuilder_.dispose();
+            moduleBuilder_ = null;
+            module_ = other.module_;
             bitField0_ = (bitField0_ & ~0x00000001);
-            modulesBuilder_ = 
+            moduleBuilder_ = 
               com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                 getModulesFieldBuilder() : null;
+                 getModuleFieldBuilder() : null;
           } else {
-            modulesBuilder_.addAllMessages(other.modules_);
+            moduleBuilder_.addAllMessages(other.module_);
           }
         }
       }
@@ -454,8 +454,8 @@ private static final long serialVersionUID = 0L;
 
     @java.lang.Override
     public final boolean isInitialized() {
-      for (int i = 0; i < getModulesCount(); i++) {
-        if (!getModules(i).isInitialized()) {
+      for (int i = 0; i < getModuleCount(); i++) {
+        if (!getModule(i).isInitialized()) {
           return false;
         }
       }
@@ -482,244 +482,244 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private java.util.List<proto.broker.Module> modules_ =
+    private java.util.List<proto.broker.Module> module_ =
       java.util.Collections.emptyList();
-    private void ensureModulesIsMutable() {
+    private void ensureModuleIsMutable() {
       if (!((bitField0_ & 0x00000001) != 0)) {
-        modules_ = new java.util.ArrayList<proto.broker.Module>(modules_);
+        module_ = new java.util.ArrayList<proto.broker.Module>(module_);
         bitField0_ |= 0x00000001;
        }
     }
 
     private com.google.protobuf.RepeatedFieldBuilderV3<
-        proto.broker.Module, proto.broker.Module.Builder, proto.broker.ModuleOrBuilder> modulesBuilder_;
+        proto.broker.Module, proto.broker.Module.Builder, proto.broker.ModuleOrBuilder> moduleBuilder_;
 
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public java.util.List<proto.broker.Module> getModulesList() {
-      if (modulesBuilder_ == null) {
-        return java.util.Collections.unmodifiableList(modules_);
+    public java.util.List<proto.broker.Module> getModuleList() {
+      if (moduleBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(module_);
       } else {
-        return modulesBuilder_.getMessageList();
+        return moduleBuilder_.getMessageList();
       }
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public int getModulesCount() {
-      if (modulesBuilder_ == null) {
-        return modules_.size();
+    public int getModuleCount() {
+      if (moduleBuilder_ == null) {
+        return module_.size();
       } else {
-        return modulesBuilder_.getCount();
+        return moduleBuilder_.getCount();
       }
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public proto.broker.Module getModules(int index) {
-      if (modulesBuilder_ == null) {
-        return modules_.get(index);
+    public proto.broker.Module getModule(int index) {
+      if (moduleBuilder_ == null) {
+        return module_.get(index);
       } else {
-        return modulesBuilder_.getMessage(index);
+        return moduleBuilder_.getMessage(index);
       }
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public Builder setModules(
+    public Builder setModule(
         int index, proto.broker.Module value) {
-      if (modulesBuilder_ == null) {
+      if (moduleBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
-        ensureModulesIsMutable();
-        modules_.set(index, value);
+        ensureModuleIsMutable();
+        module_.set(index, value);
         onChanged();
       } else {
-        modulesBuilder_.setMessage(index, value);
+        moduleBuilder_.setMessage(index, value);
       }
       return this;
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public Builder setModules(
+    public Builder setModule(
         int index, proto.broker.Module.Builder builderForValue) {
-      if (modulesBuilder_ == null) {
-        ensureModulesIsMutable();
-        modules_.set(index, builderForValue.build());
+      if (moduleBuilder_ == null) {
+        ensureModuleIsMutable();
+        module_.set(index, builderForValue.build());
         onChanged();
       } else {
-        modulesBuilder_.setMessage(index, builderForValue.build());
+        moduleBuilder_.setMessage(index, builderForValue.build());
       }
       return this;
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public Builder addModules(proto.broker.Module value) {
-      if (modulesBuilder_ == null) {
+    public Builder addModule(proto.broker.Module value) {
+      if (moduleBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
-        ensureModulesIsMutable();
-        modules_.add(value);
+        ensureModuleIsMutable();
+        module_.add(value);
         onChanged();
       } else {
-        modulesBuilder_.addMessage(value);
+        moduleBuilder_.addMessage(value);
       }
       return this;
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public Builder addModules(
+    public Builder addModule(
         int index, proto.broker.Module value) {
-      if (modulesBuilder_ == null) {
+      if (moduleBuilder_ == null) {
         if (value == null) {
           throw new NullPointerException();
         }
-        ensureModulesIsMutable();
-        modules_.add(index, value);
+        ensureModuleIsMutable();
+        module_.add(index, value);
         onChanged();
       } else {
-        modulesBuilder_.addMessage(index, value);
+        moduleBuilder_.addMessage(index, value);
       }
       return this;
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public Builder addModules(
+    public Builder addModule(
         proto.broker.Module.Builder builderForValue) {
-      if (modulesBuilder_ == null) {
-        ensureModulesIsMutable();
-        modules_.add(builderForValue.build());
+      if (moduleBuilder_ == null) {
+        ensureModuleIsMutable();
+        module_.add(builderForValue.build());
         onChanged();
       } else {
-        modulesBuilder_.addMessage(builderForValue.build());
+        moduleBuilder_.addMessage(builderForValue.build());
       }
       return this;
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public Builder addModules(
+    public Builder addModule(
         int index, proto.broker.Module.Builder builderForValue) {
-      if (modulesBuilder_ == null) {
-        ensureModulesIsMutable();
-        modules_.add(index, builderForValue.build());
+      if (moduleBuilder_ == null) {
+        ensureModuleIsMutable();
+        module_.add(index, builderForValue.build());
         onChanged();
       } else {
-        modulesBuilder_.addMessage(index, builderForValue.build());
+        moduleBuilder_.addMessage(index, builderForValue.build());
       }
       return this;
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public Builder addAllModules(
+    public Builder addAllModule(
         java.lang.Iterable<? extends proto.broker.Module> values) {
-      if (modulesBuilder_ == null) {
-        ensureModulesIsMutable();
+      if (moduleBuilder_ == null) {
+        ensureModuleIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, modules_);
+            values, module_);
         onChanged();
       } else {
-        modulesBuilder_.addAllMessages(values);
+        moduleBuilder_.addAllMessages(values);
       }
       return this;
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public Builder clearModules() {
-      if (modulesBuilder_ == null) {
-        modules_ = java.util.Collections.emptyList();
+    public Builder clearModule() {
+      if (moduleBuilder_ == null) {
+        module_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
       } else {
-        modulesBuilder_.clear();
+        moduleBuilder_.clear();
       }
       return this;
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public Builder removeModules(int index) {
-      if (modulesBuilder_ == null) {
-        ensureModulesIsMutable();
-        modules_.remove(index);
+    public Builder removeModule(int index) {
+      if (moduleBuilder_ == null) {
+        ensureModuleIsMutable();
+        module_.remove(index);
         onChanged();
       } else {
-        modulesBuilder_.remove(index);
+        moduleBuilder_.remove(index);
       }
       return this;
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public proto.broker.Module.Builder getModulesBuilder(
+    public proto.broker.Module.Builder getModuleBuilder(
         int index) {
-      return getModulesFieldBuilder().getBuilder(index);
+      return getModuleFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public proto.broker.ModuleOrBuilder getModulesOrBuilder(
+    public proto.broker.ModuleOrBuilder getModuleOrBuilder(
         int index) {
-      if (modulesBuilder_ == null) {
-        return modules_.get(index);  } else {
-        return modulesBuilder_.getMessageOrBuilder(index);
+      if (moduleBuilder_ == null) {
+        return module_.get(index);  } else {
+        return moduleBuilder_.getMessageOrBuilder(index);
       }
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
     public java.util.List<? extends proto.broker.ModuleOrBuilder> 
-         getModulesOrBuilderList() {
-      if (modulesBuilder_ != null) {
-        return modulesBuilder_.getMessageOrBuilderList();
+         getModuleOrBuilderList() {
+      if (moduleBuilder_ != null) {
+        return moduleBuilder_.getMessageOrBuilderList();
       } else {
-        return java.util.Collections.unmodifiableList(modules_);
+        return java.util.Collections.unmodifiableList(module_);
       }
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public proto.broker.Module.Builder addModulesBuilder() {
-      return getModulesFieldBuilder().addBuilder(
+    public proto.broker.Module.Builder addModuleBuilder() {
+      return getModuleFieldBuilder().addBuilder(
           proto.broker.Module.getDefaultInstance());
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
-    public proto.broker.Module.Builder addModulesBuilder(
+    public proto.broker.Module.Builder addModuleBuilder(
         int index) {
-      return getModulesFieldBuilder().addBuilder(
+      return getModuleFieldBuilder().addBuilder(
           index, proto.broker.Module.getDefaultInstance());
     }
     /**
-     * <code>repeated .Module modules = 1;</code>
+     * <code>repeated .Module module = 1;</code>
      */
     public java.util.List<proto.broker.Module.Builder> 
-         getModulesBuilderList() {
-      return getModulesFieldBuilder().getBuilderList();
+         getModuleBuilderList() {
+      return getModuleFieldBuilder().getBuilderList();
     }
     private com.google.protobuf.RepeatedFieldBuilderV3<
         proto.broker.Module, proto.broker.Module.Builder, proto.broker.ModuleOrBuilder> 
-        getModulesFieldBuilder() {
-      if (modulesBuilder_ == null) {
-        modulesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+        getModuleFieldBuilder() {
+      if (moduleBuilder_ == null) {
+        moduleBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             proto.broker.Module, proto.broker.Module.Builder, proto.broker.ModuleOrBuilder>(
-                modules_,
+                module_,
                 ((bitField0_ & 0x00000001) != 0),
                 getParentForChildren(),
                 isClean());
-        modules_ = null;
+        module_ = null;
       }
-      return modulesBuilder_;
+      return moduleBuilder_;
     }
     @java.lang.Override
     public final Builder setUnknownFields(

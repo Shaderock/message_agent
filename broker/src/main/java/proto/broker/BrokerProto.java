@@ -73,20 +73,20 @@ public final class BrokerProto {
       "keRequest\022\014\n\004type\030\001 \002(\t\022\n\n\002ip\030\002 \002(\t\022\014\n\004p" +
       "ort\030\003 \002(\003\"0\n\021HandshakeResponse\022\n\n\002ok\030\001 \002" +
       "(\010\022\017\n\007givenId\030\002 \001(\003\"\"\n\006Module\022\014\n\004type\030\001 " +
-      "\002(\t\022\n\n\002id\030\002 \002(\003\".\n\022GetModulesResponse\022\030\n" +
-      "\007modules\030\001 \003(\0132\007.Module\"5\n\020SubscribeRequ" +
-      "est\022\024\n\014idSubscriber\030\001 \002(\003\022\013\n\003ids\030\002 \003(\003\"1" +
-      "\n\021SubscribeResponse\022\n\n\002ok\030\001 \002(\010\022\020\n\010wrong" +
-      "Ids\030\002 \003(\003\"J\n\016MessageRequest\022\023\n\013idRequest" +
-      "er\030\001 \002(\003\022\022\n\nidReceiver\030\002 \001(\003\022\017\n\007message\030" +
-      "\003 \002(\t2\203\002\n\rBrokerService\0222\n\thandshake\022\021.H" +
-      "andshakeRequest\032\022.HandshakeResponse\0222\n\ng" +
-      "etModules\022\017.EmptyIdRequest\032\023.GetModulesR" +
-      "esponse\0222\n\tsubscribe\022\021.SubscribeRequest\032" +
-      "\022.SubscribeResponse\022-\n\013sendMessage\022\017.Mes" +
-      "sageRequest\032\r.EmptyMessage\022\'\n\005close\022\017.Em" +
-      "ptyIdRequest\032\r.EmptyMessageB\035\n\014proto.bro" +
-      "kerB\013BrokerProtoP\001"
+      "\002(\t\022\n\n\002id\030\002 \002(\003\"-\n\022GetModulesResponse\022\027\n" +
+      "\006module\030\001 \003(\0132\007.Module\"5\n\020SubscribeReque" +
+      "st\022\024\n\014idSubscriber\030\001 \002(\003\022\013\n\003ids\030\002 \003(\003\"1\n" +
+      "\021SubscribeResponse\022\n\n\002ok\030\001 \002(\010\022\020\n\010wrongI" +
+      "ds\030\002 \003(\003\"J\n\016MessageRequest\022\023\n\013idRequeste" +
+      "r\030\001 \002(\003\022\022\n\nidReceiver\030\002 \001(\003\022\017\n\007message\030\003" +
+      " \002(\t2\203\002\n\rBrokerService\0222\n\thandshake\022\021.Ha" +
+      "ndshakeRequest\032\022.HandshakeResponse\0222\n\nge" +
+      "tModules\022\017.EmptyIdRequest\032\023.GetModulesRe" +
+      "sponse\0222\n\tsubscribe\022\021.SubscribeRequest\032\022" +
+      ".SubscribeResponse\022-\n\013sendMessage\022\017.Mess" +
+      "ageRequest\032\r.EmptyMessage\022\'\n\005close\022\017.Emp" +
+      "tyIdRequest\032\r.EmptyMessageB\035\n\014proto.brok" +
+      "erB\013BrokerProtoP\001"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -127,7 +127,7 @@ public final class BrokerProto {
     internal_static_GetModulesResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetModulesResponse_descriptor,
-        new java.lang.String[] { "Modules", });
+        new java.lang.String[] { "Module", });
     internal_static_SubscribeRequest_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_SubscribeRequest_fieldAccessorTable = new

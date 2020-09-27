@@ -1,6 +1,8 @@
+import atexit
 import random
 import string
 import json
+import traceback
 from time import sleep
 
 import hash
@@ -255,17 +257,32 @@ def manage_task():
 
 
 if __name__ == '__main__':
-    conn = None
-    try:
+    atexit.register(input, 'To exit press Enter...')
+
+    # noinspection PyBroadException
+    try:  # It will catch KeyboardInterrupt (Ctrl-C) and other Exceptions
         while True:
-            conn = connection.Connection('MNG')
+            broker = connection.init_broker_stub()  # Interface for messaging w/ broker
 
-            if len(blockchain) == 0:
-                create_new_block()
+            server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # Init module service
+            module_pb2_grpc.add_ModuleServiceServicer_to_server(ModuleService(), server)
 
-            cr_list.clear()
-            new_cr_list.clear()
-            get_modules_for_sub()
-            manage_task()
-    finally:
-        close_connection()
+            own_module_service_port = connection.get_listen_port(server)
+
+            handshake_response = connection.handshake(broker, own_module_service_port, 'CR')
+            if not handshake_response.ok:
+                print('Broker haven\'t permitted connection')
+                break
+
+            print('Connection established')
+
+            own_id = handshake_response.givenId
+
+            atexit.register(connection.close_connection, broker, own_id)
+
+            server.start()
+            server.wait_for_termination()
+    except KeyboardInterrupt:
+        pass
+    except Exception as e:
+        traceback.print_exc()

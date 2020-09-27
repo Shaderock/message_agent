@@ -144,6 +144,7 @@ class ModuleService(module_pb2_grpc.ModuleServiceServicer):
 
     def close(self, request, context):
         print('Need to close (broker said so)')
+        atexit.unregister(connection.close_connection)
         raise KeyboardInterrupt
         # return module_pb2.EmptyMessage()
 

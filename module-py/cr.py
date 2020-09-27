@@ -48,16 +48,17 @@ def send_block():
 
 def search_nonce():
     global has_task
-    if not has_task:
-        return
-    if block.nonce == '':  # Check for saved nonce
-        block.nonce = get_new_nonce()
-    if check_nonce():
-        print(f'Block nonce found - {block.nonce}\n\tHash: {get_block_hash()}')
-        send_block()
-        has_task = False
-    else:
-        block.nonce = ''
+    while True:
+        if not has_task:
+            return
+        if block.nonce == '':  # Check for saved nonce
+            block.nonce = get_new_nonce()
+        if check_nonce():
+            print(f'Block nonce found - {block.nonce}\n\tHash: {get_block_hash()}')
+            send_block()
+            has_task = False
+        else:
+            block.nonce = ''
 
 
 def re_thread():
@@ -132,8 +133,7 @@ if __name__ == '__main__':
             server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # Init module service
             module_pb2_grpc.add_ModuleServiceServicer_to_server(ModuleService(), server)
 
-            own_module_service_port = connection.get_listen_port()
-            server.add_insecure_port(f'[::]:{own_module_service_port}')
+            own_module_service_port = connection.get_listen_port(server)
 
             print(f'Port ({own_module_service_port}) has been selected')
 

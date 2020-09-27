@@ -1,6 +1,9 @@
+import os
+import random
 import select
 import socket
 import json
+import sys
 
 import grpc
 import netifaces
@@ -17,20 +20,24 @@ def init_broker_stub() -> broker_pb2_grpc.BrokerServiceStub:
     return broker_pb2_grpc.BrokerServiceStub(grpc.insecure_channel(f'{broker_ip}:{broker_tcp_port}'))
 
 
-def get_listen_port() -> int:
-    port = 16003
+def get_listen_port(server: grpc.Server) -> int:
+    port = random.randrange(16000, 30000, 1)
+    orig = sys.stdout
+    sys.stdout = open(os.devnull, 'w')
     while True:  # Port detection
         # noinspection PyBroadException
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Trying to add listen port
-            s.bind(('0.0.0.0', port))
-            s.close()
-            del s
+            # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Trying to add listen port
+            # s.bind(('0.0.0.0', port))
+            # s.close()
+            # del s
+            server.add_insecure_port(f'[::]:{port}')
         except Exception:  # If port is occupied
-            port += 1
+            port = random.randrange(16000, 30000, 1)
             if port > 65535:
                 raise Exception('No port available')
         else:
+            sys.stdout = orig
             return port
 
 

@@ -189,8 +189,8 @@ if __name__ == '__main__':
             server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # Init module service
             module_pb2_grpc.add_ModuleServiceServicer_to_server(ModuleService(), server)
 
-            own_module_service_port = connection.get_listen_port()
-            server.add_insecure_port(f'[::]:{own_module_service_port}')
+            own_module_service_port = connection.get_listen_port(server)
+            # server.add_insecure_port(f'[::]:{own_module_service_port}')
 
             print(f'Port ({own_module_service_port}) has been selected')
 

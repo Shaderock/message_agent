@@ -1,4 +1,5 @@
 package broker.servers;
 
-public class Worker extends Thread {
+public class Worker
+        extends Thread {
 }

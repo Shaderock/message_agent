@@ -17,6 +17,7 @@ private static final long serialVersionUID = 0L;
   }
   private HandshakeRequest() {
     type_ = "";
+    ip_ = "";
   }
 
   @java.lang.Override
@@ -54,6 +55,17 @@ private static final long serialVersionUID = 0L;
             com.google.protobuf.ByteString bs = input.readBytes();
             bitField0_ |= 0x00000001;
             type_ = bs;
+            break;
+          }
+          case 18: {
+            com.google.protobuf.ByteString bs = input.readBytes();
+            bitField0_ |= 0x00000002;
+            ip_ = bs;
+            break;
+          }
+          case 24: {
+            bitField0_ |= 0x00000004;
+            port_ = input.readInt64();
             break;
           }
           default: {
@@ -134,6 +146,68 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int IP_FIELD_NUMBER = 2;
+  private volatile java.lang.Object ip_;
+  /**
+   * <code>required string ip = 2;</code>
+   * @return Whether the ip field is set.
+   */
+  public boolean hasIp() {
+    return ((bitField0_ & 0x00000002) != 0);
+  }
+  /**
+   * <code>required string ip = 2;</code>
+   * @return The ip.
+   */
+  public java.lang.String getIp() {
+    java.lang.Object ref = ip_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      if (bs.isValidUtf8()) {
+        ip_ = s;
+      }
+      return s;
+    }
+  }
+  /**
+   * <code>required string ip = 2;</code>
+   * @return The bytes for ip.
+   */
+  public com.google.protobuf.ByteString
+      getIpBytes() {
+    java.lang.Object ref = ip_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      ip_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int PORT_FIELD_NUMBER = 3;
+  private long port_;
+  /**
+   * <code>required int64 port = 3;</code>
+   * @return Whether the port field is set.
+   */
+  public boolean hasPort() {
+    return ((bitField0_ & 0x00000004) != 0);
+  }
+  /**
+   * <code>required int64 port = 3;</code>
+   * @return The port.
+   */
+  public long getPort() {
+    return port_;
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -142,6 +216,14 @@ private static final long serialVersionUID = 0L;
     if (isInitialized == 0) return false;
 
     if (!hasType()) {
+      memoizedIsInitialized = 0;
+      return false;
+    }
+    if (!hasIp()) {
+      memoizedIsInitialized = 0;
+      return false;
+    }
+    if (!hasPort()) {
       memoizedIsInitialized = 0;
       return false;
     }
@@ -155,6 +237,12 @@ private static final long serialVersionUID = 0L;
     if (((bitField0_ & 0x00000001) != 0)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
     }
+    if (((bitField0_ & 0x00000002) != 0)) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, ip_);
+    }
+    if (((bitField0_ & 0x00000004) != 0)) {
+      output.writeInt64(3, port_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -166,6 +254,13 @@ private static final long serialVersionUID = 0L;
     size = 0;
     if (((bitField0_ & 0x00000001) != 0)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
+    }
+    if (((bitField0_ & 0x00000002) != 0)) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, ip_);
+    }
+    if (((bitField0_ & 0x00000004) != 0)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt64Size(3, port_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -187,6 +282,16 @@ private static final long serialVersionUID = 0L;
       if (!getType()
           .equals(other.getType())) return false;
     }
+    if (hasIp() != other.hasIp()) return false;
+    if (hasIp()) {
+      if (!getIp()
+          .equals(other.getIp())) return false;
+    }
+    if (hasPort() != other.hasPort()) return false;
+    if (hasPort()) {
+      if (getPort()
+          != other.getPort()) return false;
+    }
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -201,6 +306,15 @@ private static final long serialVersionUID = 0L;
     if (hasType()) {
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
+    }
+    if (hasIp()) {
+      hash = (37 * hash) + IP_FIELD_NUMBER;
+      hash = (53 * hash) + getIp().hashCode();
+    }
+    if (hasPort()) {
+      hash = (37 * hash) + PORT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getPort());
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -337,6 +451,10 @@ private static final long serialVersionUID = 0L;
       super.clear();
       type_ = "";
       bitField0_ = (bitField0_ & ~0x00000001);
+      ip_ = "";
+      bitField0_ = (bitField0_ & ~0x00000002);
+      port_ = 0L;
+      bitField0_ = (bitField0_ & ~0x00000004);
       return this;
     }
 
@@ -369,6 +487,14 @@ private static final long serialVersionUID = 0L;
         to_bitField0_ |= 0x00000001;
       }
       result.type_ = type_;
+      if (((from_bitField0_ & 0x00000002) != 0)) {
+        to_bitField0_ |= 0x00000002;
+      }
+      result.ip_ = ip_;
+      if (((from_bitField0_ & 0x00000004) != 0)) {
+        result.port_ = port_;
+        to_bitField0_ |= 0x00000004;
+      }
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -423,6 +549,14 @@ private static final long serialVersionUID = 0L;
         type_ = other.type_;
         onChanged();
       }
+      if (other.hasIp()) {
+        bitField0_ |= 0x00000002;
+        ip_ = other.ip_;
+        onChanged();
+      }
+      if (other.hasPort()) {
+        setPort(other.getPort());
+      }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
       return this;
@@ -431,6 +565,12 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public final boolean isInitialized() {
       if (!hasType()) {
+        return false;
+      }
+      if (!hasIp()) {
+        return false;
+      }
+      if (!hasPort()) {
         return false;
       }
       return true;
@@ -536,6 +676,127 @@ private static final long serialVersionUID = 0L;
   }
   bitField0_ |= 0x00000001;
       type_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object ip_ = "";
+    /**
+     * <code>required string ip = 2;</code>
+     * @return Whether the ip field is set.
+     */
+    public boolean hasIp() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>required string ip = 2;</code>
+     * @return The ip.
+     */
+    public java.lang.String getIp() {
+      java.lang.Object ref = ip_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          ip_ = s;
+        }
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>required string ip = 2;</code>
+     * @return The bytes for ip.
+     */
+    public com.google.protobuf.ByteString
+        getIpBytes() {
+      java.lang.Object ref = ip_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        ip_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>required string ip = 2;</code>
+     * @param value The ip to set.
+     * @return This builder for chaining.
+     */
+    public Builder setIp(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+      ip_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>required string ip = 2;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearIp() {
+      bitField0_ = (bitField0_ & ~0x00000002);
+      ip_ = getDefaultInstance().getIp();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>required string ip = 2;</code>
+     * @param value The bytes for ip to set.
+     * @return This builder for chaining.
+     */
+    public Builder setIpBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+      ip_ = value;
+      onChanged();
+      return this;
+    }
+
+    private long port_ ;
+    /**
+     * <code>required int64 port = 3;</code>
+     * @return Whether the port field is set.
+     */
+    public boolean hasPort() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>required int64 port = 3;</code>
+     * @return The port.
+     */
+    public long getPort() {
+      return port_;
+    }
+    /**
+     * <code>required int64 port = 3;</code>
+     * @param value The port to set.
+     * @return This builder for chaining.
+     */
+    public Builder setPort(long value) {
+      bitField0_ |= 0x00000004;
+      port_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>required int64 port = 3;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearPort() {
+      bitField0_ = (bitField0_ & ~0x00000004);
+      port_ = 0L;
       onChanged();
       return this;
     }

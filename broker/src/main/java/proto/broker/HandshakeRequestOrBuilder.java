@@ -23,4 +23,32 @@ public interface HandshakeRequestOrBuilder extends
    */
   com.google.protobuf.ByteString
       getTypeBytes();
+
+  /**
+   * <code>required string ip = 2;</code>
+   * @return Whether the ip field is set.
+   */
+  boolean hasIp();
+  /**
+   * <code>required string ip = 2;</code>
+   * @return The ip.
+   */
+  java.lang.String getIp();
+  /**
+   * <code>required string ip = 2;</code>
+   * @return The bytes for ip.
+   */
+  com.google.protobuf.ByteString
+      getIpBytes();
+
+  /**
+   * <code>required int64 port = 3;</code>
+   * @return Whether the port field is set.
+   */
+  boolean hasPort();
+  /**
+   * <code>required int64 port = 3;</code>
+   * @return The port.
+   */
+  long getPort();
 }

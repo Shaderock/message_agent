@@ -12,6 +12,7 @@ broker\servers\Worker.class
 proto\broker\MessageRequest$Builder.class
 broker\actions\not_requests\ModulesConnectionNotifier.class
 proto\broker\GetModulesResponseOrBuilder.class
+broker\grpc\services\executants\HandshakeExecutant.class
 broker\actions\requests\ModuleListExecutor.class
 proto\broker\GetModulesResponse$1.class
 broker\actions\requests\ProtocolTaskExecutorFactory.class
@@ -22,13 +23,16 @@ proto\broker\SubscribeRequest$Builder.class
 broker\models\protocols\Operation.class
 proto\broker\HandshakeRequest$1.class
 broker\models\payload\NotifyRequestPayload.class
+broker\grpc\services\executants\IExecutant.class
 proto\broker\SubscribeResponseOrBuilder.class
 proto\broker\HandshakeResponse.class
 broker\models\payload\Payload.class
+broker\grpc\services\BrokerService.class
 proto\broker\BrokerServiceGrpc$BrokerServiceFutureStub.class
 proto\module\MessageRequestOrBuilder.class
 proto\broker\BrokerServiceGrpc.class
 proto\broker\SubscribeResponse$1.class
+broker\grpc\GrpcModule.class
 proto\broker\HandshakeResponse$1.class
 proto\module\MessageRequest$Builder.class
 broker\exceptions\WrongPayloadSchemeException.class
@@ -101,6 +105,7 @@ broker\models\payload\CodePayload.class
 proto\broker\BrokerServiceGrpc$BrokerServiceImplBase.class
 proto\broker\Module$1.class
 proto\broker\BrokerServiceGrpc$BrokerServiceBaseDescriptorSupplier.class
+broker\grpc\services\executants\Executant.class
 broker\actions\requests\ProtocolTaskExecutor.class
 proto\module\MessageRequest.class
 broker\models\Module.class

@@ -4,6 +4,7 @@ F:\University\tmp projects\message_agent\broker\src\main\java\broker\actions\not
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\exceptions\WrongPayloadSchemeException.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\actions\requests\HandshakeExecutor.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\models\payload\ModuleListPayload.java
+F:\University\tmp projects\message_agent\broker\src\main\java\broker\grpc\services\executants\HandshakeExecutant.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\EmptyMessageOrBuilder.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\module\EmptyMessageOrBuilder.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\MessageRequestOrBuilder.java
@@ -45,6 +46,7 @@ F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\Modul
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\SubscribeRequest.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\HandshakeResponseOrBuilder.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\HandshakeResponse.java
+F:\University\tmp projects\message_agent\broker\src\main\java\broker\grpc\services\executants\Executant.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\utils\ConnectionKeeper.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\module\ModuleServiceGrpc.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\exceptions\UnsupportableOperationException.java
@@ -55,14 +57,17 @@ F:\University\tmp projects\message_agent\broker\src\main\java\broker\actions\req
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\actions\requests\ProtocolTaskExecutorFactory.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\models\payload\CodePayload.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\module\MessageRequestOrBuilder.java
+F:\University\tmp projects\message_agent\broker\src\main\java\broker\grpc\services\executants\IExecutant.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\ModuleOrBuilder.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\actions\not_requests\ModulesConnectionNotifier.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\communication\MessageListener.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\servers\TCPReceivedMessageHandler.java
+F:\University\tmp projects\message_agent\broker\src\main\java\broker\grpc\GrpcModule.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\BrokerServiceGrpc.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\models\payload\MessagePayload.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\servers\TCPCommunicationHandler.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\actions\requests\ProtocolTaskExecutor.java
+F:\University\tmp projects\message_agent\broker\src\main\java\broker\grpc\services\BrokerService.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\SubscribeResponse.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\SubscribeRequestOrBuilder.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\Broker.java

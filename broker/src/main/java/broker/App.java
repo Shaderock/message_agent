@@ -1,21 +1,30 @@
 package broker;
 
-import broker.servers.HandshakeServer;
+import broker.grpc.services.BrokerService;
 import broker.servers.UDPCommunicationHandler;
-import broker.utils.ConnectionKeeper;
 import broker.utils.TerminalHandler;
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
+
+import java.io.IOException;
+import java.net.SocketAddress;
 
 public class App {
     public static void main(String[] args) {
         Context context = Context.getInstance();
 
-        HandshakeServer handshakeServer = new HandshakeServer(context.TCP_HANDSHAKE_PORT);
-        context.getWorkers().add(handshakeServer);
-        handshakeServer.start();
+        Server server = ServerBuilder.forPort(context.GRPS_SERVER_PORT)
+                .addService(new BrokerService()).build();
+        int size = server.getListenSockets().size();
+        SocketAddress socketAddress = server.getListenSockets().get(size);
+        context.setServer(server);
 
-        ConnectionKeeper connectionKeeper = new ConnectionKeeper();
-        context.getWorkers().add(connectionKeeper);
-        connectionKeeper.start();
+        try {// todo check for async
+            server.start();
+        }
+        catch (IOException e) {
+            System.out.println("Server finished its work");
+        }
 
         TerminalHandler terminalHandler = new TerminalHandler();
         terminalHandler.start();

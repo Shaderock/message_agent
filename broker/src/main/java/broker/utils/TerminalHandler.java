@@ -28,6 +28,8 @@ public class TerminalHandler extends Thread {
         Context context = Context.getInstance();
         context.APP_IS_SHUT_DOWN = true;
 
+        // todo shut down server
+
         for (Worker worker : context.getWorkers()) {
             worker.interrupt();
         }

@@ -10,6 +10,8 @@ message EmptyMessage{
 
 message HandshakeRequest{
   required string type = 1;
+  required string ip = 2;
+  required int64 port = 3;
 }
 
 message HandshakeResponse{

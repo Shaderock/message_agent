@@ -96,7 +96,7 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
         }
 
         for (PortData portsDatum : context.getPortsData()) {
-            if (connectedPort != context.TCP_HANDSHAKE_PORT &&
+            if (connectedPort != context.GRPS_SERVER_PORT &&
                     portsDatum.getPort() == connectedPort &&
                     portsDatum.getModules().size() < context.MAX_SOCKETS_PER_PORT) {
                 Module moduleToConnect = Module
@@ -165,8 +165,8 @@ public class HandshakeExecutor extends ProtocolTaskExecutor {
 
     private static synchronized int startHandshakeServer() throws TooManyConnectionsException {
         final Context context = Context.getInstance();
-        for (int freePort = context.TCP_COMMUNICATION_PORT;
-             freePort < context.TCP_COMMUNICATION_PORT + context.MAX_COMMUNICATION_PORTS; freePort++) {
+        for (int freePort = context.GRPS_COMMUNICATION_PORT;
+             freePort < context.GRPS_COMMUNICATION_PORT + context.MAX_COMMUNICATION_PORTS; freePort++) {
 
             boolean isFoundFreePort = true;
             for (PortData portsDatum : context.getPortsData()) {

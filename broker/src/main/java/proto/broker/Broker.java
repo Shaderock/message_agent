@@ -63,22 +63,22 @@ public final class Broker {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014broker.proto\"\016\n\014EmptyMessage\" \n\020Handsh" +
-      "akeRequest\022\014\n\004type\030\001 \002(\t\"\037\n\021HandshakeRes" +
-      "ponse\022\n\n\002ok\030\001 \002(\010\"\"\n\006Module\022\014\n\004type\030\001 \002(" +
-      "\t\022\n\n\002id\030\002 \002(\003\".\n\022GetModulesResponse\022\030\n\007m" +
-      "odules\030\001 \003(\0132\007.Module\"\037\n\020SubscribeReques" +
-      "t\022\013\n\003ids\030\001 \003(\003\"1\n\021SubscribeResponse\022\n\n\002o" +
-      "k\030\001 \002(\010\022\020\n\010wrongIds\030\002 \003(\003\"5\n\016MessageRequ" +
-      "est\022\022\n\nidReceiver\030\001 \001(\003\022\017\n\007message\030\002 \002(\t" +
-      "2\377\001\n\rBrokerService\0222\n\thandshake\022\021.Handsh" +
-      "akeRequest\032\022.HandshakeResponse\0220\n\ngetMod" +
-      "ules\022\r.EmptyMessage\032\023.GetModulesResponse" +
-      "\0222\n\tsubscribe\022\021.SubscribeRequest\032\022.Subsc" +
-      "ribeResponse\022-\n\013sendMessage\022\017.MessageReq" +
-      "uest\032\r.EmptyMessage\022%\n\005close\022\r.EmptyMess" +
-      "age\032\r.EmptyMessageB\030\n\014proto.brokerB\006Brok" +
-      "erP\001"
+      "\n\014broker.proto\"\016\n\014EmptyMessage\":\n\020Handsh" +
+      "akeRequest\022\014\n\004type\030\001 \002(\t\022\n\n\002ip\030\002 \002(\t\022\014\n\004" +
+      "port\030\003 \002(\003\"\037\n\021HandshakeResponse\022\n\n\002ok\030\001 " +
+      "\002(\010\"\"\n\006Module\022\014\n\004type\030\001 \002(\t\022\n\n\002id\030\002 \002(\003\"" +
+      ".\n\022GetModulesResponse\022\030\n\007modules\030\001 \003(\0132\007" +
+      ".Module\"\037\n\020SubscribeRequest\022\013\n\003ids\030\001 \003(\003" +
+      "\"1\n\021SubscribeResponse\022\n\n\002ok\030\001 \002(\010\022\020\n\010wro" +
+      "ngIds\030\002 \003(\003\"5\n\016MessageRequest\022\022\n\nidRecei" +
+      "ver\030\001 \001(\003\022\017\n\007message\030\002 \002(\t2\377\001\n\rBrokerSer" +
+      "vice\0222\n\thandshake\022\021.HandshakeRequest\032\022.H" +
+      "andshakeResponse\0220\n\ngetModules\022\r.EmptyMe" +
+      "ssage\032\023.GetModulesResponse\0222\n\tsubscribe\022" +
+      "\021.SubscribeRequest\032\022.SubscribeResponse\022-" +
+      "\n\013sendMessage\022\017.MessageRequest\032\r.EmptyMe" +
+      "ssage\022%\n\005close\022\r.EmptyMessage\032\r.EmptyMes" +
+      "sageB\030\n\014proto.brokerB\006BrokerP\001"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -95,7 +95,7 @@ public final class Broker {
     internal_static_HandshakeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_HandshakeRequest_descriptor,
-        new java.lang.String[] { "Type", });
+        new java.lang.String[] { "Type", "Ip", "Port", });
     internal_static_HandshakeResponse_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_HandshakeResponse_fieldAccessorTable = new

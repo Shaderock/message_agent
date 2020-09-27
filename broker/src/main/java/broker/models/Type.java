@@ -1,4 +1,4 @@
-package broker.models.payload;
+package broker.models;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

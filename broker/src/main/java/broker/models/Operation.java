@@ -1,4 +1,4 @@
-package broker.models.protocols;
+package broker.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

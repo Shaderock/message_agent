@@ -1,7 +1,7 @@
 package broker.communication;
 
-import broker.models.protocols.CommunicationMessageDTO;
-import broker.models.protocols.Operation;
+import broker.models.CommunicationMessageDTO;
+import broker.models.Operation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

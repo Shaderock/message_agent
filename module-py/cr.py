@@ -1,9 +1,16 @@
+from concurrent import futures
 import json
 import random
 import string
+import grpc
+import atexit
 
 import hash
 import connection
+import module_pb2
+import module_pb2_grpc
+import broker_pb2
+import broker_pb2_grpc
 
 has_task = False
 block = {}
@@ -130,12 +137,47 @@ def wait_task():
         # raise KeyboardInterrupt
 
 
-if __name__ == '__main__':
-    conn = None
-    try:
-        while True:
-            conn = connection.Connection("CR")
+def init_broker_stub() -> broker_pb2_grpc.BrokerServiceStub:
+    broker_ip = connection.listen_to_broker_udp()
+    return broker_pb2_grpc.BrokerServiceStub(grpc.insecure_channel(f'{broker_ip}:{connection.broker_tcp_port}'))
 
-            wait_task()
-    finally:
-        close_connection()
+
+def handshake(broker: broker_pb2_grpc.BrokerServiceStub, own_port):
+    handshake_request = broker_pb2.HandshakeRequest(type = 'CR',
+                                                    ip = connection.get_own_ip(),
+                                                    port = own_port)
+    return broker.handshake(handshake_request)
+
+
+if __name__ == '__main__':
+    atexit.register(input, 'To exit press Enter...')
+
+    # noinspection PyBroadException
+    try:  # It will catch KeyboardInterrupt and other Exceptions
+        while True:
+
+            broker = init_broker_stub()  # Interface for messaging w/ broker
+
+            server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # Init module service
+            module_pb2_grpc.add_ModuleServiceServicer_to_server(module_pb2_grpc.ModuleService(), server)
+
+            while True:  # Port detection
+                own_module_service_port = 17001
+                # noinspection PyBroadException
+                try:
+                    server.add_insecure_port(f'[::]:{own_module_service_port}')  # Trying to add listen port
+                except Exception:  # If port is occupied
+                    own_module_service_port += 1
+                    if own_module_service_port > 65535:
+                        raise Exception('No port available')
+                else:
+                    break
+
+            handshake_response = handshake(broker, own_module_service_port)
+            if not handshake_response.isOK:
+                print('Broker haven\'t permitted connection')
+
+            atexit.register(close_connection, broker)
+
+    except Exception:
+        pass

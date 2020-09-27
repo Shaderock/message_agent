@@ -34,7 +34,7 @@ public class ModulesConnectionNotifier {
                     proto.module.EmptyMessage response = moduleServiceStub
                             .withDeadlineAfter(5, TimeUnit.SECONDS)
                             .welcome(request.build());
-                    System.out.println("SENT: " + request.toString());
+                    System.out.println("gRPC SENT: " + request.toString());
                 }
                 catch (StatusRuntimeException e) {
                     System.out.println("Time for response has exceeded");

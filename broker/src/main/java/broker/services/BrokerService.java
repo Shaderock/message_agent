@@ -39,5 +39,6 @@ public class BrokerService extends BrokerServiceGrpc.BrokerServiceImplBase {
     public void close(EmptyIdRequest request, StreamObserver<EmptyMessage> responseObserver) {
         CloseConnectionExecutant closeConnectionExecutant =
                 new CloseConnectionExecutant(request, responseObserver);
+        closeConnectionExecutant.execute();
     }
 }

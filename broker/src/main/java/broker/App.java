@@ -12,7 +12,7 @@ public class App {
     public static void main(String[] args) {
         Context context = Context.getInstance();
 
-        Server server = ServerBuilder.forPort(context.GRPS_SERVER_PORT)
+        Server server = ServerBuilder.forPort(context.GRPC_SERVER_PORT)
                 .addService(new BrokerService()).build();
         context.setServer(server);
 

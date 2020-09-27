@@ -29,7 +29,6 @@ public class TerminalHandler extends Thread {
         Context context = Context.getInstance();
         context.APP_IS_SHUT_DOWN = true;
 
-
         for (Worker worker : context.getWorkers()) {
             worker.interrupt();
         }
@@ -37,6 +36,13 @@ public class TerminalHandler extends Thread {
         ArrayList<Module> modulesToDisable = new ArrayList<>(context.getModules());
         for (Module module : modulesToDisable) {
             ModuleRemover.removeModule(module);
+        }
+
+        try {
+            Thread.sleep(3000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         context.getServer().shutdown();

@@ -43,7 +43,7 @@ public class BrokerService extends BrokerServiceGrpc.BrokerServiceImplBase {
 
     @Override
     public void close(EmptyIdRequest request, StreamObserver<EmptyMessage> responseObserver) {
-        System.out.println("RECEIVED: " + request.toString());
+        System.out.println("RECEIVED: CLOSE" + request.toString());
         CloseConnectionExecutant closeConnectionExecutant =
                 new CloseConnectionExecutant(request, responseObserver);
         closeConnectionExecutant.execute();

@@ -15,10 +15,10 @@ public class GetModulesExecutant extends Executant {
 
     @Override
     public void execute() {
-        sendModulesList(request, responseObserver);
+        sendModulesList();
     }
 
-    private void sendModulesList(EmptyIdRequest request, StreamObserver<GetModulesResponse> responseObserver) {
+    private void sendModulesList() {
         Context context = Context.getInstance();
         int idRequester = (int) request.getIdRequester();
 

@@ -47,7 +47,8 @@ public class HandshakeExecutant extends Executant {
         }
 
         int nextModuleId = context.getNextModuleId();
-        GrpcModule grpcModule = new GrpcModule(nextModuleId, type);
+        GrpcModule grpcModule = new GrpcModule(nextModuleId, type,
+                request.getIp(), (int) request.getPort());
         context.setNextModuleId(nextModuleId + 1);
         context.getGrpcModules().add(grpcModule);
 

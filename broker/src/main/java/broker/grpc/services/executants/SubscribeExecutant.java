@@ -43,7 +43,7 @@ public class SubscribeExecutant extends Executant {
 
         if (idsToCheckTmp.size() > 0) {
             response.setOk(false);
-            response.addAllWrongId(idsToCheck);
+            response.addAllWrongId(idsToCheckTmp);
         } else {
             response.setOk(true);
             for (GrpcModule grpcModule : context.getGrpcModules()) {

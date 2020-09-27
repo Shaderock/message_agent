@@ -2,6 +2,7 @@
 package broker;
 
 import broker.grpc.GrpcModule;
+import broker.grpc.exceptions.ModuleDoesNotExistException;
 import broker.models.PortData;
 import broker.servers.Worker;
 import io.grpc.Server;
@@ -51,5 +52,15 @@ public class Context {
         }
 
         return instance;
+    }
+
+    public GrpcModule findModuleById(long id) throws ModuleDoesNotExistException {
+        GrpcModule foundModule;
+        for (GrpcModule grpcModule : getGrpcModules()) {
+            if (grpcModule.getId() == id) {
+                return grpcModule;
+            }
+        }
+        throw new ModuleDoesNotExistException("No module with id=" + id, id);
     }
 }

@@ -34,15 +34,16 @@ public class HandshakeExecutant extends Executant {
             return;
         }
 
-        if (type == Type.MANAGER) {
-            for (GrpcModule grpcModule : context.getGrpcModules()) {
-                if (grpcModule.getType() == type) {
-                    response.setOk(false);
-                    responseObserver.onNext(response.build());
-                    responseObserver.onCompleted();
-                    return;
-                }
+        int connections = 0;
+        for (GrpcModule grpcModule : context.getGrpcModules()) {
+            if (grpcModule.getType() == type) {
+                connections++;
             }
+        }
+        if (connections >= type.getMaxConnections()) {
+            response.setOk(false);
+            responseObserver.onNext(response.build());
+            responseObserver.onCompleted();
         }
 
         int nextModuleId = context.getNextModuleId();

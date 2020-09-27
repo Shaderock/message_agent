@@ -34,7 +34,7 @@ message GetModulesResponse{
 
 message SubscribeRequest{
   required int64 idSubscriber = 1;
-  repeated int64 ids = 2;
+  repeated int64 id = 2;
 }
 
 message SubscribeResponse{

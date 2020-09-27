@@ -6,6 +6,7 @@ import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import proto.broker.EmptyIdRequest;
 import proto.broker.GetModulesResponse;
+import proto.broker.Module;
 
 @RequiredArgsConstructor
 public class GetModulesExecutant extends Executant {
@@ -25,8 +26,14 @@ public class GetModulesExecutant extends Executant {
 
         for (GrpcModule grpcModule : context.getGrpcModules()) {
             if (grpcModule.getId() != idRequester) {
-
+                Module.Builder module = Module.newBuilder();
+                module.setType(grpcModule.getType().getName());
+                module.setId(grpcModule.getId());
+                response.addModule(module.build());
             }
         }
+
+        responseObserver.onNext(response.build());
+        responseObserver.onCompleted();
     }
 }

@@ -19,19 +19,19 @@ public interface SubscribeRequestOrBuilder extends
   long getIdSubscriber();
 
   /**
-   * <code>repeated int64 ids = 2;</code>
-   * @return A list containing the ids.
+   * <code>repeated int64 id = 2;</code>
+   * @return A list containing the id.
    */
-  java.util.List<java.lang.Long> getIdsList();
+  java.util.List<java.lang.Long> getIdList();
   /**
-   * <code>repeated int64 ids = 2;</code>
-   * @return The count of ids.
+   * <code>repeated int64 id = 2;</code>
+   * @return The count of id.
    */
-  int getIdsCount();
+  int getIdCount();
   /**
-   * <code>repeated int64 ids = 2;</code>
+   * <code>repeated int64 id = 2;</code>
    * @param index The index of the element to return.
-   * @return The ids at the given index.
+   * @return The id at the given index.
    */
-  long getIds(int index);
+  long getId(int index);
 }

@@ -73,6 +73,7 @@ broker\models\Module$ModuleBuilder.class
 proto\module\ModuleServiceGrpc$ModuleServiceImplBase.class
 proto\module\ModuleServiceGrpc$ModuleServiceBlockingStub.class
 broker\actions\not_requests\ModuleRemover.class
+broker\grpc\services\executants\SubscribeExecutant.class
 broker\models\payload\CodeIdsPayload.class
 Models$EmptyMessage$1.class
 proto\broker\BrokerServiceGrpc$MethodHandlers.class

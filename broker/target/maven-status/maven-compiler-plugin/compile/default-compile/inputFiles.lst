@@ -81,6 +81,7 @@ F:\University\tmp projects\message_agent\broker\src\main\java\broker\grpc\servic
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\SubscribeResponse.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\EmptyIdRequest.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\broker\SubscribeRequestOrBuilder.java
+F:\University\tmp projects\message_agent\broker\src\main\java\broker\grpc\services\executants\SubscribeExecutant.java
 F:\University\tmp projects\message_agent\broker\src\main\java\proto\module\EmptyMessage.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\exceptions\TooManyConnectionsException.java
 F:\University\tmp projects\message_agent\broker\src\main\java\broker\models\payload\NotifyRequestPayload.java

@@ -2,6 +2,7 @@ package broker.grpc.services;
 
 import broker.grpc.services.executants.GetModulesExecutant;
 import broker.grpc.services.executants.HandshakeExecutant;
+import broker.grpc.services.executants.SubscribeExecutant;
 import io.grpc.stub.StreamObserver;
 import proto.broker.*;
 
@@ -22,7 +23,8 @@ public class BrokerService extends BrokerServiceGrpc.BrokerServiceImplBase {
 
     @Override
     public void subscribe(SubscribeRequest request, StreamObserver<SubscribeResponse> responseObserver) {
-        super.subscribe(request, responseObserver);
+        SubscribeExecutant subscribeExecutant = new SubscribeExecutant(request, responseObserver);
+        subscribeExecutant.execute();
     }
 
     @Override

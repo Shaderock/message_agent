@@ -15,17 +15,15 @@ public class ModuleRemover {
             if (context.APP_IS_SHUT_DOWN) {
                 ManagedChannel channel = ManagedChannelBuilder
                         .forAddress(module.getIp(), module.getPort()).usePlaintext().build();
-//                ModuleServiceGrpc.ModuleServiceBlockingStub moduleServiceStub =
-//                        ModuleServiceGrpc.newBlockingStub(channel);
-                ModuleServiceGrpc.ModuleServiceStub moduleServiceStub =
-                        ModuleServiceGrpc.newStub(channel);
+                ModuleServiceGrpc.ModuleServiceBlockingStub moduleServiceStub =
+                        ModuleServiceGrpc.newBlockingStub(channel);
 
                 proto.module.EmptyMessage.Builder request = EmptyMessage.newBuilder();
                 EmptyMessage response = request.build();
                 System.out.println("gRPC SENT to id=" + module.getId() +
                         ": empty message");
                 //noinspection ResultOfMethodCallIgnored
-                moduleServiceStub.close(response, null); // todo handle ignoring?
+                moduleServiceStub.close(response); // todo handle ignoring?
             } else {
                 new ModulesConnectionNotifier().notifyAboutModuleDisconnected(module);
             }

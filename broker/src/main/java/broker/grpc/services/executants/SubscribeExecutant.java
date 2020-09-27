@@ -1,12 +1,7 @@
 package broker.grpc.services.executants;
 
-import broker.exceptions.SelfSubscribeException;
-import broker.models.Module;
-import broker.models.PortData;
-import broker.models.payload.Code;
-import broker.models.payload.CodeIdsPayload;
-import broker.models.payload.CodePayload;
-import broker.models.protocols.Operation;
+import broker.Context;
+import broker.grpc.GrpcModule;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import proto.broker.SubscribeRequest;
@@ -25,45 +20,40 @@ public class SubscribeExecutant extends Executant {
     }
 
     private void subscribe(SubscribeRequest request, StreamObserver<SubscribeResponse> responseObserver) {
-        ArrayList<Integer> idsToCheck = new ArrayList<>();
+        long idRequester = request.getIdSubscriber();
 
-//        for (int id : idsPayload.getIds()) {
-//            idsToCheck.add(id);
-//        }
-//        ArrayList<Integer> idsToCheckTmp = new ArrayList<>(idsToCheck);
-//
-//        ArrayList<Integer> checkedIds = new ArrayList<>();
-//
-//        try {
-//            for (PortData portsDatum : context.getPortsData()) {
-//                for (Module portsDatumModule : portsDatum.getModules()) {
-//                    for (Integer id : idsToCheck) {
-//                        if (id == module.getId()) {
-//                            throw new SelfSubscribeException("selfSubscribeDetected");
-//                        } else {
-//                            if (portsDatumModule.getId() == id) {
-//                                checkedIds.add(id);
-//                                idsToCheckTmp.remove(id);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        catch (SelfSubscribeException e) {
-//            messageGenerator.sendTCPMessage(Operation.SUBSCRIBE,
-//                    new CodePayload(Code.SELF_SUBSCRIBE), module);
-//            return;
-//        }
-//
-//        module.setNotifiersIds(checkedIds);
-//
-//        if (idsToCheckTmp.size() > 0) {
-//            messageGenerator.sendTCPMessage(Operation.SUBSCRIBE,
-//                    new CodeIdsPayload(Code.MODULE_DOES_NOT_EXIST, idsToCheck),
-//                    module);
-//        } else {
-//            messageGenerator.sendTCPMessage(Operation.SUBSCRIBE, new CodePayload(Code.OK), module);
-//        }
+        ArrayList<Long> idsToCheck = new ArrayList<>(request.getIdList());
+        ArrayList<Long> idsToCheckTmp = new ArrayList<>(idsToCheck);
+        ArrayList<Long> checkedIds = new ArrayList<>();
+
+        Context context = Context.getInstance();
+
+        for (GrpcModule grpcModule : context.getGrpcModules()) {
+            for (Long id : idsToCheck) {
+                if (id != idRequester) {
+                    if (grpcModule.getId() == id) {
+                        checkedIds.add(id);
+                        idsToCheckTmp.remove(id);
+                    }
+                }
+            }
+        }
+
+        SubscribeResponse.Builder response = SubscribeResponse.newBuilder();
+
+        if (idsToCheckTmp.size() > 0) {
+            response.setOk(false);
+            response.addAllWrongId(idsToCheck);
+        } else {
+            response.setOk(true);
+            for (GrpcModule grpcModule : context.getGrpcModules()) {
+                if (grpcModule.getId() == idRequester) {
+                    grpcModule.setNotifiersId(checkedIds);
+                }
+            }
+        }
+
+        responseObserver.onNext(response.build());
+        responseObserver.onCompleted();
     }
 }

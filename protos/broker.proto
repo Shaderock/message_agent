@@ -39,7 +39,7 @@ message SubscribeRequest{
 
 message SubscribeResponse{
   required bool ok = 1;
-  repeated int64 wrongIds = 2;
+  repeated int64 wrongId = 2;
 }
 
 message MessageRequest{

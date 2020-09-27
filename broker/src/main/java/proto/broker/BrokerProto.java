@@ -75,18 +75,18 @@ public final class BrokerProto {
       "(\010\022\017\n\007givenId\030\002 \001(\003\"\"\n\006Module\022\014\n\004type\030\001 " +
       "\002(\t\022\n\n\002id\030\002 \002(\003\"-\n\022GetModulesResponse\022\027\n" +
       "\006module\030\001 \003(\0132\007.Module\"4\n\020SubscribeReque" +
-      "st\022\024\n\014idSubscriber\030\001 \002(\003\022\n\n\002id\030\002 \003(\003\"1\n\021" +
-      "SubscribeResponse\022\n\n\002ok\030\001 \002(\010\022\020\n\010wrongId" +
-      "s\030\002 \003(\003\"J\n\016MessageRequest\022\023\n\013idRequester" +
-      "\030\001 \002(\003\022\022\n\nidReceiver\030\002 \001(\003\022\017\n\007message\030\003 " +
-      "\002(\t2\203\002\n\rBrokerService\0222\n\thandshake\022\021.Han" +
-      "dshakeRequest\032\022.HandshakeResponse\0222\n\nget" +
-      "Modules\022\017.EmptyIdRequest\032\023.GetModulesRes" +
-      "ponse\0222\n\tsubscribe\022\021.SubscribeRequest\032\022." +
-      "SubscribeResponse\022-\n\013sendMessage\022\017.Messa" +
-      "geRequest\032\r.EmptyMessage\022\'\n\005close\022\017.Empt" +
-      "yIdRequest\032\r.EmptyMessageB\035\n\014proto.broke" +
-      "rB\013BrokerProtoP\001"
+      "st\022\024\n\014idSubscriber\030\001 \002(\003\022\n\n\002id\030\002 \003(\003\"0\n\021" +
+      "SubscribeResponse\022\n\n\002ok\030\001 \002(\010\022\017\n\007wrongId" +
+      "\030\002 \003(\003\"J\n\016MessageRequest\022\023\n\013idRequester\030" +
+      "\001 \002(\003\022\022\n\nidReceiver\030\002 \001(\003\022\017\n\007message\030\003 \002" +
+      "(\t2\203\002\n\rBrokerService\0222\n\thandshake\022\021.Hand" +
+      "shakeRequest\032\022.HandshakeResponse\0222\n\ngetM" +
+      "odules\022\017.EmptyIdRequest\032\023.GetModulesResp" +
+      "onse\0222\n\tsubscribe\022\021.SubscribeRequest\032\022.S" +
+      "ubscribeResponse\022-\n\013sendMessage\022\017.Messag" +
+      "eRequest\032\r.EmptyMessage\022\'\n\005close\022\017.Empty" +
+      "IdRequest\032\r.EmptyMessageB\035\n\014proto.broker" +
+      "B\013BrokerProtoP\001"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -139,7 +139,7 @@ public final class BrokerProto {
     internal_static_SubscribeResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SubscribeResponse_descriptor,
-        new java.lang.String[] { "Ok", "WrongIds", });
+        new java.lang.String[] { "Ok", "WrongId", });
     internal_static_MessageRequest_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_MessageRequest_fieldAccessorTable = new

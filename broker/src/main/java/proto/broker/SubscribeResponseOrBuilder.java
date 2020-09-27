@@ -19,19 +19,19 @@ public interface SubscribeResponseOrBuilder extends
   boolean getOk();
 
   /**
-   * <code>repeated int64 wrongIds = 2;</code>
-   * @return A list containing the wrongIds.
+   * <code>repeated int64 wrongId = 2;</code>
+   * @return A list containing the wrongId.
    */
-  java.util.List<java.lang.Long> getWrongIdsList();
+  java.util.List<java.lang.Long> getWrongIdList();
   /**
-   * <code>repeated int64 wrongIds = 2;</code>
-   * @return The count of wrongIds.
+   * <code>repeated int64 wrongId = 2;</code>
+   * @return The count of wrongId.
    */
-  int getWrongIdsCount();
+  int getWrongIdCount();
   /**
-   * <code>repeated int64 wrongIds = 2;</code>
+   * <code>repeated int64 wrongId = 2;</code>
    * @param index The index of the element to return.
-   * @return The wrongIds at the given index.
+   * @return The wrongId at the given index.
    */
-  long getWrongIds(int index);
+  long getWrongId(int index);
 }

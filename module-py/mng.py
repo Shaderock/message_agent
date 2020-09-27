@@ -111,6 +111,7 @@ def sub_for_all_modules():
 # noinspection PyBroadException
 class ModuleService(module_pb2_grpc.ModuleServiceServicer):
     def receiveMessage(self, request, context):
+        # TODO - add syncronization
         global additional_thread
         try:
             if json.loads(request.message)['command'] == 'complete-task':
@@ -185,6 +186,7 @@ if __name__ == '__main__':
     # noinspection PyBroadException
     try:  # It will catch KeyboardInterrupt (Ctrl-C) and other Exceptions
         while True:
+            cr_list = []
             broker = connection.init_broker_stub()  # Interface for messaging w/ broker
 
             server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # Init module service

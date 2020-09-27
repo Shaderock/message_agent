@@ -172,11 +172,15 @@ if __name__ == '__main__':
                 print('Broker haven\'t permitted connection')
                 break
 
+            print('Connection established')
+
             own_id = handshake_response.givenId
 
             atexit.register(connection.close_connection, broker, own_id)
 
             server.start()
             server.wait_for_termination()
+    except KeyboardInterrupt:
+        pass
     except Exception as e:
         traceback.print_exc()

@@ -163,12 +163,12 @@ if __name__ == '__main__':
             broker = connection.init_broker_stub()  # Interface for messaging w/ broker
 
             server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # Init module service
-            module_pb2_grpc.add_ModuleServiceServicer_to_server(module_pb2_grpc.ModuleService(), server)
+            module_pb2_grpc.add_ModuleServiceServicer_to_server(ModuleService(), server)
 
             own_module_service_port = connection.get_listen_port(server)
 
             handshake_response = connection.handshake(broker, own_module_service_port, 'CR')
-            if not handshake_response.isOK:
+            if not handshake_response.ok:
                 print('Broker haven\'t permitted connection')
                 break
 
